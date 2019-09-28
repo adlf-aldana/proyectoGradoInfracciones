@@ -1,0 +1,67 @@
+<div class="modal fade" id="listPersonal">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">GESTIONAR PERSONAL DE TRANSITO</h4>
+          <button
+            type="button"
+            class="close"
+            data-dismiss="modal"
+            aria-hidden="true"
+          >
+            &times;
+          </button>
+        </div>
+  
+        <div class="modal-body">
+           AGREGANDO PERSONAL DE TRANSITO 
+          <app-add-personal-transito></app-add-personal-transito>
+          <input type="search" name="" id="" placeholder="Busqueda">
+          <div class="mt-3 ml-auto">
+            <div class="card">
+              <div class="card-body">
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <th>Nombre</th>
+                      <th>Apellido Paterno</th>
+                      <th>Apellido Materno</th>
+                      <th>Cedula de identidad</th>
+                      <th>Sexo</th>
+                      <th>Fecha de Nacimiento</th>
+                      <th>Celular</th>
+                      <th>Dirección</th>
+                    </tr>
+                  </thead>
+  
+                  <tbody>
+                    <tr *ngFor="let personal of listaPersonal">
+                      <td scope="row">{{ personal.nombrePersonal }}</td>
+                      <td scope="row">{{ personal.apPaternoPersonal }}</td>
+                      <td scope="row">{{ personal.apMaternoPersonal }}</td>
+                      <td scope="row">{{ personal.ciPersonal }}</td>
+                      <td scope="row">{{ personal.sexoPersonal }}</td>
+                      <td scope="row">{{ personal.fechaNacimientoPersonal }}</td>
+                      <td scope="row">{{ personal.celularPersonal }}</td>
+                      <td scope="row">{{ personal.direccionPersonal }}</td>
+                      <td>
+                        <a class="btn btn-secondary text-white" (click)="onEdit(personal)">
+                          <i class="far fa-edit" ></i>
+                        </a>
+                        <a class="btn btn-danger text-white" (click)="onDelete(personal.$key)">
+                          <i
+                            class="fas fa-trash-alt"
+                          ></i>
+                        </a>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+  <!-- <simple-notifications></simple-notifications> -->
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div> 

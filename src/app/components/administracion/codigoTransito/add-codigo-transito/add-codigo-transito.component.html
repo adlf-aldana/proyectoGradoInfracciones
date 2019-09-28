@@ -1,0 +1,32 @@
+<div class="mt-3 ml-auto">
+    <form
+      #codigoTransito="ngForm"
+      (ngSubmit)="addCodigoTransito(codigoTransito)">
+  <div class="form-group">
+  
+    <input
+        type="hidden"
+        name="$key"
+        #$key="ngModel"
+        [(ngModel)]="servicioServices.seleccionarCodigoTransito.$key"
+      />
+      
+      <input
+        type="text"
+        class="form-control"
+        name="codigo"
+        #codigo="ngModel"
+        [(ngModel)]="servicioServices.seleccionarCodigoTransito.codigo"
+        placeholder="Código de Tránsito"
+      />
+  
+      <textarea class="form-control" cols="40" rows="10" 
+        name="descripcion"
+        #descripcion="ngModel"
+        [(ngModel)]="servicioServices.seleccionarCodigoTransito.descripcion"
+        placeholder="Descripción del Código de Tránsito"></textarea>
+  
+    </div>
+      
+    </form>
+  </div>

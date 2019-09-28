@@ -1,0 +1,28 @@
+<div class="mt-3 ml-auto">
+  <form
+    class="form-group w-100"
+    #colorVehiculo="ngForm"
+    (ngSubmit)="agregaColorVehiculo(colorVehiculo)"
+  >
+    <input
+      type="hidden"
+      name="$key"
+      #$key="ngModel"
+      [(ngModel)]="servicioServices.seleccionarColorVehiculo.$key"
+    />
+    <input
+      type="text"
+      class="form-control"
+      id=""
+      placeholder="Color de Vehiculo"
+      name="nombreColorVehiculo"
+      #nombreColorVehiculo="ngModel"
+      [(ngModel)]="
+      servicioServices.seleccionarColorVehiculo.nombreColorVehiculo
+      "
+    />
+
+    <input class="btn btn-success m-2" type="submit" value="Guardar" />
+    <input class="btn btn-secondary" type="button" value="Limpiar" (click)="resetForm(colorVehiculo)"/>
+  </form>
+</div>
