@@ -122,7 +122,7 @@ export class ServiciosService {
   }
 
 
-  getCodigoCargo() {
+  getCargo() {
     return this.listaCargos = this.firebase.list('cargosTransito');
   }
   insertCargos(cargoTransito: Cargos) {

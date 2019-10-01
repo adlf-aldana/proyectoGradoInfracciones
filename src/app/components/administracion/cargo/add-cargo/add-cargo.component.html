@@ -1,31 +1,36 @@
 <div class="mt-3 ml-auto">
-        <form
-          class="form-group w-100"
-          #nuevoCargo="ngForm"
-          (ngSubmit)="agregarCargo(nuevoCargo)"
-        >
-          <input
-            type="hidden"
-            name="$key"
-            #$key="ngModel"
-            [(ngModel)]="servicioServices.seleccionarCargo.$key"
-          />
-          <input
-            type="text"
-            class="form-control"
-            name="cargo"
-            #cargo="ngModel"
-            [(ngModel)]="
-            servicioServices.seleccionarCargo.cargo
-            "
-            placeholder="Nuevo cargo"
-          />
-      
-          <input class="btn btn-success m-2" type="submit" value="Guardar" />
-          <input class="btn btn-secondary" type="button" value="Limpiar" (click)="resetForm(cargo)"/>
-      
-        </form>
-        
-      </div>
-      
-      
+      <form class="form-group w-100" [formGroup]="validando" (ngSubmit)="agregarCargo(validando)" >
+    
+    <p align="left">
+      <font size=2>(*) Datos obligatorios </font>
+    </p>
+
+    <input
+    type="hidden"
+      name="$key"
+      formControlName="$key"
+      [(ngModel)]="
+      servicioServices.seleccionarCargo.$key
+      "
+      >
+
+    <mat-form-field>
+      <input
+      matInput
+      name="cargo"
+      formControlName="cargo"
+      [(ngModel)]="
+      servicioServices.seleccionarCargo.cargo" 
+      placeholder="* Nuevo cargo"
+      #message maxlength="50"
+      >
+      <mat-hint align="end">{{message.value.length}} / 50</mat-hint>
+    </mat-form-field>
+
+    
+    <input [disabled]="validando.invalid" class="btn btn-success m-2" type="submit" value="Guardar" />
+    <input class="btn btn-secondary" type="button" value="Limpiar" (click)="resetForm(validando)" />
+
+  </form>
+
+</div>

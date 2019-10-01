@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { TipoVehiculo } from 'src/app/models/tipoVehiculo/tipo-vehiculo';
 import { ServiciosService } from 'src/app/services/servicios.service';
-// import { NotificationsService } from 'angular2-notifications';
+import { NotificationsService } from 'angular2-notifications';
 
 @Component({
   selector: 'app-list-tipo-vehiculo',
@@ -11,8 +11,8 @@ import { ServiciosService } from 'src/app/services/servicios.service';
 export class ListTipoVehiculoComponent implements OnInit {
 
   listaTipoVehiculos: TipoVehiculo[];
-  // constructor(public servicioServices:ServiciosService, public notification: NotificationsService) { }
-  constructor(public servicioServices:ServiciosService) { }
+
+  constructor(public servicioServices:ServiciosService, public notificaciones: NotificationsService) { }
 
   ngOnInit() {
     this.servicioServices.getTipoVehiculo()
@@ -35,14 +35,11 @@ export class ListTipoVehiculoComponent implements OnInit {
   {
     if(confirm('¿Esta seguro de querer eliminarlo?')){
     this.servicioServices.deleteTipoVehiculo($key);
-    // this.notification.success('¡Correcto!', 'El item fue eliminado correctamente', {
-    //   position: ['bottom','right'],
-    //   timeOut: 3000,
-    //   showProgressBar: true,
-    //   pauseOnHover: true,
-    //   clickToClose: true,
-    //   show: true
-    // });
+    this.notificaciones.success('Exitosamente','Tipo de servicio eliminado correctamente',
+        {
+          timeOut: 3000,
+          showProgressBar:true
+        })
     }
   }
 

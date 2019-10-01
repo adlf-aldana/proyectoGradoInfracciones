@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ServiciosService } from 'src/app/services/servicios.service';
 import { NgForm } from '@angular/forms';
 import { ColorVehiculos } from 'src/app/models/colorVehiculos/color-vehiculos';
+import { NotificationsService } from 'angular2-notifications';
 
 @Component({
   selector: 'app-add-color-vehiculo',
@@ -10,7 +11,7 @@ import { ColorVehiculos } from 'src/app/models/colorVehiculos/color-vehiculos';
 })
 export class AddColorVehiculoComponent implements OnInit {
 
-  constructor(public servicioServices: ServiciosService) { }
+  constructor(public servicioServices: ServiciosService, public notificaciones:NotificationsService) { }
 
   ngOnInit() {
     this.servicioServices.getColorVehiculo();
@@ -18,10 +19,22 @@ export class AddColorVehiculoComponent implements OnInit {
   }
 
   agregaColorVehiculo(colorVehicular: NgForm) {
-    if (colorVehicular.value.$key == null)
+    if (colorVehicular.value.$key == null){
       this.servicioServices.insertColorVehiculo(colorVehicular.value)
-    else
+      this.notificaciones.success('Exitosamente','Color guardado correctamente',
+        {
+          timeOut: 3000,
+          showProgressBar:true
+        })
+    }
+    else{
       this.servicioServices.updateColorVehiculo(colorVehicular.value)
+      this.notificaciones.success('Exitosamente','Color actualizado correctamente',
+        {
+          timeOut: 3000,
+          showProgressBar:true
+        })
+    }
     this.resetForm(colorVehicular)
   }
 

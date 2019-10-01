@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ServiciosService } from 'src/app/services/servicios.service';
 import { NgForm } from '@angular/forms';
 import { TipoVehiculo } from 'src/app/models/tipoVehiculo/tipo-vehiculo';
+import { NotificationsService } from 'angular2-notifications';
 
 @Component({
   selector: 'app-add-tipo-vehiculo',
@@ -10,7 +11,7 @@ import { TipoVehiculo } from 'src/app/models/tipoVehiculo/tipo-vehiculo';
 })
 export class AddTipoVehiculoComponent implements OnInit {
 
-  constructor(public servicioServices:ServiciosService) {}
+  constructor(public servicioServices:ServiciosService,public notificaciones:NotificationsService) {}
 
   ngOnInit() {
     this.servicioServices.getTipoVehiculo()
@@ -18,10 +19,22 @@ export class AddTipoVehiculoComponent implements OnInit {
   }
 
   agregarTipoVehiculo(tipoVehicular: NgForm) {
-    if (tipoVehicular.value.$key == null)
+    if (tipoVehicular.value.$key == null){
       this.servicioServices.insertTipoVehiculo(tipoVehicular.value)
-    else
+      this.notificaciones.success('Exitosamente','Tipo de servicio agregado correctamente',
+        {
+          timeOut: 3000,
+          showProgressBar:true
+        })
+    }
+    else{
       this.servicioServices.updateTipoVehiculo(tipoVehicular.value)
+      this.notificaciones.success('Exitosamente','Tipo de Servicio actualizado correctamente',
+        {
+          timeOut: 3000,
+          showProgressBar:true
+        })
+    }
     this.resetForm(tipoVehicular)
   }
 

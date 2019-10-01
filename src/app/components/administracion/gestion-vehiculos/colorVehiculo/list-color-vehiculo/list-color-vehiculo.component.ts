@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ColorVehiculos } from 'src/app/models/colorVehiculos/color-vehiculos';
 import { ServiciosService } from 'src/app/services/servicios.service';
-// import { NotificationsService } from 'angular2-notifications';
+import { NotificationsService } from 'angular2-notifications';
 
 @Component({
   selector: 'app-list-color-vehiculo',
@@ -12,8 +12,8 @@ export class ListColorVehiculoComponent implements OnInit {
 
   listaColorVehiculos: ColorVehiculos[];
 
-  // constructor(public servicioServices:ServiciosService, public notification: NotificationsService) { }
-  constructor(public servicioServices:ServiciosService) { }
+
+  constructor(public servicioServices:ServiciosService, public notificaciones:NotificationsService) { }
 
 
   ngOnInit() {
@@ -37,14 +37,11 @@ export class ListColorVehiculoComponent implements OnInit {
   {
     if(confirm('¿Esta seguro de querer eliminarlo?')){
     this.servicioServices.deleteColorVehiculo($key);
-    // this.notification.success('¡Correcto!', 'El item fue eliminado correctamente', {
-    //   position: ['bottom','right'],
-    //   timeOut: 3000,
-    //   showProgressBar: true,
-    //   pauseOnHover: true,
-    //   clickToClose: true,
-    //   show: true
-    // });
+    this.notificaciones.success('Exitosamente','Color eliminado correctamente',
+        {
+          timeOut: 3000,
+          showProgressBar:true
+        })
     }
   }
 

@@ -4,18 +4,24 @@ import { NgModule } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
+import {MatFormFieldModule, MatInputModule, MatTableModule, MatPaginatorModule} from '@angular/material/'
+
+//Norificaciones
+import {SimpleNotificationsModule} from 'angular2-notifications'
+
 // Firebase
 import {AngularFireDatabaseModule} from 'angularfire2/database'
 import { AngularFireModule } from '@angular/fire';
 import { environment } from 'src/environments/environment';
 
 // Servicios
+import { ServiciosService } from './services/servicios.service';
 
 
 // Rutas
 import { RouterModule,Routes} from '@angular/router'
 // Forms
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 
 import { AddCodigoTransitoComponent } from './components/administracion/codigoTransito/add-codigo-transito/add-codigo-transito.component';
@@ -35,13 +41,13 @@ import { MultasRegistradasComponent } from './components/multas-registradas/mult
 import { ListaMultasComponent } from './components/multasRegistradas/lista-multas/lista-multas.component';
 import { AdministracionComponent } from './components/administracion/administracion.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-// import { SimpleNotificationsModule } from "angular2-notifications";
 import { AddPersonalTransitoComponent } from './components/administracion/personalTransito/add-personal-transito/add-personal-transito.component';
 import { ListPersonalTransitoComponent } from './components/administracion/personalTransito/list-personal-transito/list-personal-transito.component';
 import { AddCargoComponent } from './components/administracion/cargo/add-cargo/add-cargo.component';
 import { ListCargoComponent } from './components/administracion/cargo/list-cargo/list-cargo.component';
 import { GestionVehiculosComponent } from './components/administracion/gestion-vehiculos/gestion-vehiculos.component';
-import { ServiciosService } from './services/servicios.service';
+import { AddGestionUsuarioComponent } from './components/administracion/gestionUsuario/add-gestion-usuario/add-gestion-usuario.component';
+import { ListGestionUsuarioComponent } from './components/administracion/gestionUsuario/list-gestion-usuario/list-gestion-usuario.component';
 
 
 //Crea variable donde estarán todas las rutas
@@ -77,6 +83,8 @@ const misRutas: Routes = [
     MultasRegistradasComponent,
     ListaMultasComponent,
     AdministracionComponent,
+    AddGestionUsuarioComponent,
+    ListGestionUsuarioComponent,
   ],
   imports: [
     AngularFireDatabaseModule,
@@ -84,9 +92,14 @@ const misRutas: Routes = [
     RouterModule.forRoot(misRutas),
     FormsModule,
     BrowserAnimationsModule,
-    // SimpleNotificationsModule.forRoot(),
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    SimpleNotificationsModule.forRoot(),
+    MatFormFieldModule,
+    MatInputModule,
+    ReactiveFormsModule,
+    MatTableModule,
+    MatPaginatorModule
   ],
   providers: [ServiciosService],
   bootstrap: [AppComponent]

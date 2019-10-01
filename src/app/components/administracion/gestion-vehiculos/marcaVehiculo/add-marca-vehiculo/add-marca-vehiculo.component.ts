@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ServiciosService } from 'src/app/services/servicios.service';
 import { NgForm } from '@angular/forms';
 import { MarcaVehiculos } from 'src/app/models/marcaVehiculos/marca-vehiculos';
+import { NotificationsService } from 'angular2-notifications';
 
 @Component({
   selector: 'app-add-marca-vehiculo',
@@ -10,7 +11,7 @@ import { MarcaVehiculos } from 'src/app/models/marcaVehiculos/marca-vehiculos';
 })
 export class AddMarcaVehiculoComponent implements OnInit {
 
-  constructor(public servicioServices:ServiciosService) {}
+  constructor(public servicioServices:ServiciosService,public notificaciones:NotificationsService) {}
 
   ngOnInit() {
     this.servicioServices.getMarcaVehiculo();
@@ -18,10 +19,22 @@ export class AddMarcaVehiculoComponent implements OnInit {
   }
 
   agregarMarcaVehiculo(marcaVehicular: NgForm) {
-    if (marcaVehicular.value.$key == null)
+    if (marcaVehicular.value.$key == null){
       this.servicioServices.insertMarcaVehiculo(marcaVehicular.value)
-    else
+      this.notificaciones.success('Exitosamente','Marca guardado correctamente',
+        {
+          timeOut: 3000,
+          showProgressBar:true
+        })
+    }
+    else{
       this.servicioServices.updateMarcaVehiculo(marcaVehicular.value)
+      this.notificaciones.success('Exitosamente','Marca actualizado correctamente',
+        {
+          timeOut: 3000,
+          showProgressBar:true
+        })
+    }
     this.resetForm(marcaVehicular)
   }
 

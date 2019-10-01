@@ -1,7 +1,18 @@
-import { Component, OnInit } from '@angular/core';
-import { NgForm } from '@angular/forms';
-import { Cargos } from 'src/app/models/cargoPersonal/cargos';
-import { ServiciosService } from 'src/app/services/servicios.service';
+import {
+  Component,
+  OnInit
+} from '@angular/core';
+import {
+  NgForm, FormGroup, FormBuilder, Validators
+} from '@angular/forms';
+import {
+  Cargos
+} from 'src/app/models/cargoPersonal/cargos';
+import {
+  ServiciosService
+} from 'src/app/services/servicios.service';
+import { NotificationsService } from 'angular2-notifications';
+import { timeout } from 'q';
 
 @Component({
   selector: 'app-add-cargo',
@@ -10,19 +21,42 @@ import { ServiciosService } from 'src/app/services/servicios.service';
 })
 export class AddCargoComponent implements OnInit {
 
-  constructor(public servicioServices:ServiciosService) { }
+  validando: FormGroup
+
+  constructor(public servicioServices: ServiciosService, public notificaciones:NotificationsService,public builder:FormBuilder)
+     {
+       this.validando = this.builder.group({
+        cargo: ['', Validators.required],
+        $key: [],
+        busqueda: []
+       })
+     }
 
   ngOnInit() {
-    this.servicioServices.getCodigoCargo();
+    this.servicioServices.getCargo();
     this.resetForm();
   }
 
-   agregarCargo(cargo: NgForm) {     
-    if (cargo.value.$key == null)
-      this.servicioServices.insertCargos(cargo.value)
-    else
-      this.servicioServices.updateCargos(cargo.value)
-    this.resetForm(cargo)
+
+
+  agregarCargo(cargo: NgForm) {
+      if (cargo.value.$key == null){
+        this.servicioServices.insertCargos(cargo.value)
+        this.notificaciones.success('Exitosamente','Cargo guardado correctamente',
+        {
+          timeOut:3000,
+          showProgressBar:true
+        })
+      }
+      else{
+        this.servicioServices.updateCargos(cargo.value)
+        this.notificaciones.success('Exitosamente','Cargo actualizado correctamente',
+        {
+          timeOut: 3000,
+          showProgressBar:true
+        })
+      }
+      this.resetForm(cargo)
   }
 
   resetForm(cargo ? : NgForm) {

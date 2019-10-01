@@ -4,6 +4,7 @@ import {
   NgForm
 } from '@angular/forms';
 import { ServiciosService } from 'src/app/services/servicios.service';
+import { NotificationsService } from 'angular2-notifications';
  
 
 
@@ -14,7 +15,7 @@ import { ServiciosService } from 'src/app/services/servicios.service';
 })
 export class AddCodigoTransitoComponent implements OnInit {
 
-  constructor(public servicioServices:ServiciosService) {}
+  constructor(public servicioServices:ServiciosService, public notificaciones:NotificationsService) {}
 
   ngOnInit() {
     this.servicioServices.getCodigoTransito();
@@ -22,10 +23,23 @@ export class AddCodigoTransitoComponent implements OnInit {
   }
 
 addCodigoTransito(servicioCodigoTransito: NgForm) {
-    if (servicioCodigoTransito.value.$key == null)
+    if (servicioCodigoTransito.value.$key == null){
       this.servicioServices.insertCodigosTransito(servicioCodigoTransito.value)
+      this.notificaciones.success('Exitosamente','Item guardado correctamente',
+        {
+          timeOut: 3000,
+          showProgressBar:true
+        })
+    }
     else
+    {
       this.servicioServices.updateCodigosTransito(servicioCodigoTransito.value)
+      this.notificaciones.success('Exitosamente','Item actualizado correctamente',
+        {
+          timeOut: 3000,
+          showProgressBar:true
+        })
+    }
     this.resetForm(servicioCodigoTransito)
   }
 

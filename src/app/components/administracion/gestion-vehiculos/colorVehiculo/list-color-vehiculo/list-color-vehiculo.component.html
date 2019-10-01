@@ -1,55 +1,23 @@
-<!-- <div class="modal fade" id="listServices">
-        <div class="modal-dialog">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h4 class="modal-title">GESTIONAR SERVICIOS</h4>
-              <button
-                type="button"
-                class="close"
-                data-dismiss="modal"
-                aria-hidden="true"
-              >
-                &times;
-              </button>
-            </div>
-      
-            <div class="modal-body">
-              AGREGANDO SERVICIOS -->
-              <!-- <app-add-services></app-add-services>
-      
-              <div class="mt-3 ml-auto">
-                <div class="card">
-                  <div class="card-body"> -->
-                    <table class="table">
-                        <thead>
-                          <tr>
-                            <th>Color de Vehículos</th>
-                          </tr>
-                        </thead>
-        
-                        <tbody>
-                          <tr *ngFor="let colorVehiculos of listaColorVehiculos">
-                            <td scope="row">{{ colorVehiculos.nombreColorVehiculo }}</td>
-                            <td>
-                              <a class="btn btn-secondary text-white" (click)="onEdit(colorVehiculos)">
-                                <i class="far fa-edit" ></i>
-                              </a>
-                              <a class="btn btn-danger text-white" (click)="onDelete(colorVehiculos.$key)">
-                                <i
-                                  class="fas fa-trash-alt"
-                                ></i>
-                              </a>
-                            </td>
-                          </tr>
-                        </tbody>
+<table class="table">
+  <thead>
+    <tr>
+      <th>Color de Vehículos</th>
+    </tr>
+  </thead>
 
-                      </table>
-        <!-- <simple-notifications></simple-notifications> -->
-                    <!-- </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div> -->
-  
+  <tbody>
+    <tr *ngFor="let colorVehiculos of listaColorVehiculos">
+      <td scope="row">{{ colorVehiculos.nombreColorVehiculo }}</td>
+      <td>
+        <a class="btn btn-secondary text-white" (click)="onEdit(colorVehiculos)">
+          <i class="far fa-edit"></i>
+        </a>
+        <a class="btn btn-danger text-white" (click)="onDelete(colorVehiculos.$key)">
+          <i class="fas fa-trash-alt"></i>
+        </a>
+      </td>
+    </tr>
+  </tbody>
+
+</table>
+<simple-notifications></simple-notifications>

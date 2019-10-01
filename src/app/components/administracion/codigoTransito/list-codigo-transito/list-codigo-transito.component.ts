@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ServiciosService } from 'src/app/services/servicios.service';
-// import { NotificationsService } from 'angular2-notifications';
 import { CodigoTransito } from 'src/app/models/codigoTransito/codigo-transito';
+import { NotificationsService } from 'angular2-notifications';
 
 @Component({
   selector: 'app-list-codigo-transito',
@@ -11,8 +11,7 @@ import { CodigoTransito } from 'src/app/models/codigoTransito/codigo-transito';
 export class ListCodigoTransitoComponent implements OnInit {
 listaCodigos: CodigoTransito[];
 
-  // constructor(public servicioServices: ServiciosService, public notification:NotificationsService) { }
-  constructor(public servicioServices: ServiciosService) { }
+  constructor(public servicioServices: ServiciosService,public notificacion: NotificationsService) { }
 
 
   ngOnInit() {
@@ -29,6 +28,8 @@ listaCodigos: CodigoTransito[];
   }
 
   onEdit(codigoTransito: CodigoTransito){
+    console.log(codigoTransito);
+    
     this.servicioServices.seleccionarCodigoTransito = Object.assign({},codigoTransito)
   }
 
@@ -36,13 +37,11 @@ listaCodigos: CodigoTransito[];
   {
     if(confirm('¿Esta seguro de querer eliminarlo?')){
     this.servicioServices.deleteCodigoTransito($key);
-    // this.notification.success('¡Correcto!', 'El item fue eliminado correctamente', {
-    //   timeOut: 3000,
-    //   showProgressBar: true,
-    //   pauseOnHover: true,
-    //   clickToClose: true,
-    //   show: true
-    // });
-    }
+    this.notificacion.success('Exitosamente','Item eliminado correctamente',
+        {
+          timeOut: 3000,
+          showProgressBar:true
+        })
   }
+}
 }
