@@ -1,16 +1,31 @@
 <div class="mt-3 ml-auto">
     <form
-      class="form-group w-100"
-      #servicioVehicular="ngForm"
+      [formGroup]="servicioVehicular"
       (ngSubmit)="agregarServicioVehiculo(servicioVehicular)"
     >
       <input
         type="hidden"
         name="$key"
-        #$key="ngModel"
+        formControlName="$key"
         [(ngModel)]="serviciosService.seleccionarServicioVehicular.$key"
+                     
       />
-      <input
+
+      
+          <mat-form-field>
+        <input
+        matInput
+          #tamNombreServicio maxlength="50"
+          placeholder="Tipo de servicio del vehículo"
+          name="nombreTipoServicio"
+          formControlName="nombreTipoServicio"
+          [(ngModel)]="serviciosService.seleccionarServicioVehicular.nombreTipoServicio"
+        />
+        <mat-hint align="end"> {{tamNombreServicio.value.length}}/50 </mat-hint>
+      </mat-form-field>
+      
+
+      <!-- <input
         type="text"
         class="form-control"
         id=""
@@ -20,9 +35,14 @@
         [(ngModel)]="
           serviciosService.seleccionarServicioVehicular.nombreTipoServicio
         "
-      />
+      /> -->
   
-      <input class="btn btn-success m-2" type="submit" value="Guardar" />
+      <!-- <input class="btn btn-success m-2" type="submit" value="Guardar" />
+      <input class="btn btn-secondary" type="button" value="Limpiar" (click)="resetForm(servicioVehicular)"/> -->
+      
+      <input [disabled]="servicioVehicular.invalid" class="btn btn-primary m-1" type="submit" value="Guardar">
       <input class="btn btn-secondary" type="button" value="Limpiar" (click)="resetForm(servicioVehicular)"/>
+    
+        
     </form>
   </div>

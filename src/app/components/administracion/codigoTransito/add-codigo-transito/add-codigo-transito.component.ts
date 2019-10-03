@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
  import { CodigoTransito } from 'src/app/models/codigoTransito/codigo-transito';
 import {
-  NgForm
+  NgForm, FormBuilder, FormGroup, Validators
 } from '@angular/forms';
 import { ServiciosService } from 'src/app/services/servicios.service';
 import { NotificationsService } from 'angular2-notifications';
@@ -15,7 +15,19 @@ import { NotificationsService } from 'angular2-notifications';
 })
 export class AddCodigoTransitoComponent implements OnInit {
 
-  constructor(public servicioServices:ServiciosService, public notificaciones:NotificationsService) {}
+  codigoTransito: FormGroup
+
+  constructor(
+    public servicioServices:ServiciosService, 
+    public notificaciones:NotificationsService, 
+    public builder:FormBuilder) 
+  {
+    this.codigoTransito = this.builder.group({
+      $key: [],
+      codigo: ['', Validators.required],
+      descripcion: ['', Validators.required]
+    })
+  }
 
   ngOnInit() {
     this.servicioServices.getCodigoTransito();

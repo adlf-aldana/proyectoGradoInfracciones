@@ -4,7 +4,18 @@ import { NgModule } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
-import {MatFormFieldModule, MatInputModule, MatTableModule, MatPaginatorModule} from '@angular/material/'
+import {MatFormFieldModule,
+  MatInputModule,
+  MatTableModule,
+  MatPaginatorModule,
+  MatSelectModule,
+  MatDatepickerModule,
+  MatNativeDateModule,
+  MAT_DATE_LOCALE,
+  DateAdapter,
+  MAT_DATE_FORMATS} from '@angular/material/'
+
+  import   {MomentDateModule, MomentDateAdapter} from '@angular/material-moment-adapter';
 
 //Norificaciones
 import {SimpleNotificationsModule} from 'angular2-notifications'
@@ -48,7 +59,20 @@ import { ListCargoComponent } from './components/administracion/cargo/list-cargo
 import { GestionVehiculosComponent } from './components/administracion/gestion-vehiculos/gestion-vehiculos.component';
 import { AddGestionUsuarioComponent } from './components/administracion/gestionUsuario/add-gestion-usuario/add-gestion-usuario.component';
 import { ListGestionUsuarioComponent } from './components/administracion/gestionUsuario/list-gestion-usuario/list-gestion-usuario.component';
+import { ScrollingModule } from '@angular/cdk/scrolling';
 
+//create our cost var with the information about the format that we want 
+export  const   MY_FORMATS   =   { 
+  parse :   { 
+    dateInput :   'DD/MM/YYYY' , 
+  } , 
+  display :   { 
+    // dateInput :   'DD/MM/YYYY' , 
+    monthYearLabel :   'MM YYYY' , 
+    dateA11yLabel :   'DD/MM/YYYY' , 
+    monthYearA11yLabel :   'MM YYYY' , 
+  } , 
+} ; 
 
 //Crea variable donde estarán todas las rutas
 const misRutas: Routes = [
@@ -99,9 +123,18 @@ const misRutas: Routes = [
     MatInputModule,
     ReactiveFormsModule,
     MatTableModule,
-    MatPaginatorModule
+    MatPaginatorModule,
+    MatSelectModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    ScrollingModule
   ],
-  providers: [ServiciosService],
+  providers: [ServiciosService,
+    {   provide :   MAT_DATE_LOCALE ,   useValue :   'es'   } ,   //you can change useValue 
+    //  {   provide :   DateAdapter ,   useClass :   MomentDateAdapter ,   deps :   [ MAT_DATE_LOCALE ]   } , 
+    //  {   provide :   MAT_DATE_FORMATS ,   useValue :   MY_FORMATS  }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
+

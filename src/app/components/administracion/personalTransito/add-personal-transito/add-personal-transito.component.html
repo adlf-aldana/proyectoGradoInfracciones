@@ -1,68 +1,75 @@
 <div class="mt-3 ml-auto">
     <form
-      class="form-group w-100"
-      #personalTransito="ngForm"
+      class="form-inline"
+      [formGroup]="personalTransito"
       (ngSubmit)="addPersonalTransito(personalTransito)"
     >
       <input
         type="hidden"
         name="$key"
-        #$key="ngModel"
+        formControlName=$key
         [(ngModel)]="servicioServices.seleccionarPersonal.$key"
       />
-  <!-- 
-       <input
-        type="text"
-        class="form-control"
-        id=""
-        placeholder="Servicio de vehiculo"
-        name="nombrePersonal"
-        #nombrePersonal="ngModel"
-        [(ngModel)]="
-          serviciosService.seleccionarServicioVehicular.nombreTipoServicio
-        "
-      />  -->
   
+      <div>
+        <mat-form-field>
       <input
-        type="text"
-        class="form-control"
+      matInput
+        #tamNombre maxlength="50"
         placeholder="Nombre"
         name="nombrePersonal"
-        #nombrePersonal="ngModel"
+        formControlName="nombrePersonal"
         [(ngModel)]="servicioServices.seleccionarPersonal.nombrePersonal"
       />
+      <mat-hint align="end"> {{tamNombre.value.length}}/50 </mat-hint>
+    </mat-form-field>
+    </div>
   
+    <div>
+      <mat-form-field>
   <input
-        type="text"
-        class="form-control"
-        id=""
+  matInput
+  #tamApPaterno maxlength="50"
         placeholder="Apellido Paterno"
         name="apPaternoPersonal"
-        #apPaternoPersonal="ngModel"
+        formControlName="apPaternoPersonal"
         [(ngModel)]="servicioServices.seleccionarPersonal.apPaternoPersonal"
       />
-  
+      <mat-hint align="end">{{tamApPaterno.value.length}}/50</mat-hint>
+    </mat-form-field>
+    </div>
+
+
+    <div>
+      <mat-form-field>
       <input
-        type="text"
-        class="form-control"
-        id=""
+      matInput
+        #tamApMaterno maxlength="50"
         placeholder="Apellido Materno"
         name="apMaternoPersonal"
-        #apMaternoPersonal="ngModel"
+        formControlName="apMaternoPersonal"
         [(ngModel)]="servicioServices.seleccionarPersonal.apMaternoPersonal"
       />
+      <mat-hint align="end">{{tamApMaterno.value.length}}/50</mat-hint>
+    </mat-form-field>
+    </div>
+
   
+    <div>
+      <mat-form-field>
       <input
-        type="text"
-        class="form-control"
-        id=""
+        matInput
+        #tamCi maxlength="10"
         placeholder="Cedula de identidad"
         name="ciPersonal"
-        #ciPersonal="ngModel"
+        formControlName="ciPersonal"
         [(ngModel)]="servicioServices.seleccionarPersonal.ciPersonal"
       />
+      <mat-hint align="end">{{tamCi.value.length}}/10</mat-hint>
+    </mat-form-field>
+    </div>
   
-      Sexo:
+      <!-- Sexo:
       <select class="form-control" name="" id="" 
       name="sexoPersonal"
       #sexoPersonal="ngModel"
@@ -70,40 +77,106 @@
           <option value="">Elegir</option>
           <option value="Masculino">Masculino</option>
           <option value="Femenino">Femenino</option>
-      </select>
+      </select> -->
+
+
+<div>
+      <mat-form-field>
+          <mat-label>Sexo</mat-label>
+          
+          <mat-select
+      name="sexoPersonal"
+      formControlName="sexoPersonal"
+      [(ngModel)]="servicioServices.seleccionarPersonal.sexoPersonal" >
+            <mat-option value="Masculino">
+              Masculino
+            </mat-option>
+
+            <mat-option value="Femenino">
+                Femenino
+              </mat-option>
+
+          </mat-select>
+
+        </mat-form-field>
+      </div>
   
+      <div>
+        
+        <mat-form-field>
       <input
-        type="text"
-        class="form-control"
-        id=""
+        matInput
+        #tamCelular maxlength="8"
         placeholder="Celular"
         name="celularPersonal"
-        #celularPersonal="ngModel"
+        formControlName="celularPersonal"
         [(ngModel)]="servicioServices.seleccionarPersonal.celularPersonal"
       />
+      <mat-hint align="end">{{tamCelular.value.length}}/8</mat-hint>
+    </mat-form-field>
+    </div>
   
+    <mat-form-field>
       <input
+      matInput
         type="date"
-        class="form-control"
-        id=""
         placeholder="Fecha de nacimiento"
         name="fechaNacimientoPersonal"
-        #fechaNacimientoPersonal="ngModel"
+        formControlName="fechaNacimientoPersonal"
         [(ngModel)]="servicioServices.seleccionarPersonal.fechaNacimientoPersonal"
       />
+    </mat-form-field>
+
+
+      <!-- <p>
+          <mat-form-field>
+            <input
+            name="fechaNacimientoPersonal"
+            formControlName="fechaNacimientoPersonal"
+            [(ngModel)]="servicioServices.seleccionarPersonal.fechaNacimientoPersonal"
+            matInput
+            [matDatepicker]="dp3"
+            placeholder="Fecha de nacimiento"
+            >
+            <mat-datepicker-toggle matSuffix [for]="dp3"></mat-datepicker-toggle>
+            <mat-datepicker #dp3></mat-datepicker>
+          </mat-form-field>
+        </!--> 
+        
+
+        <!-- <mat-form-field>
+            <input 
+            name="fechaNacimientoPersonal"
+            formControlName="fechaNacimientoPersonal"
+            [(ngModel)]="servicioServices.seleccionarPersonal.fechaNacimientoPersonal"
+            matInput
+            [matDatepicker]="dp"
+            placeholder="Different locale">
+            <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
+            <mat-datepicker #dp></mat-datepicker>
+          </mat-form-field> -->
+          <!-- <button mat-button (click)="french()">Dynamically switch to French</button> -->
+
+
   
+      <div>
+        <mat-form-field>
       <input
-        type="text"
-        class="form-control"
-        id=""
+        matInput
+        #tamDireccion maxlength="200"
         placeholder="Direccion"
         name="direccionPersonal"
-        #direccionPersonal="ngModel"
+        formControlName="direccionPersonal"
         [(ngModel)]="servicioServices.seleccionarPersonal.direccionPersonal"
       />
+      <mat-hint align="end">{{tamDireccion.value.length}}/200</mat-hint>
+    </mat-form-field>
+    </div>
   
-      <input class="btn btn-success m-2" type="submit" value="Guardar" />
-      <input class="btn btn-secondary" type="button" value="Limpiar" (click)="resetForm(personalTransito)"/>
+    <div class="d-flex flex-row bd-highlight">
+      <input class="btn btn-success p-2 bd-highlight m-1" type="submit" value="Guardar" />
+      <input class="btn btn-secondary p-2 bd-highlight m-1" type="button" value="Limpiar" (click)="resetForm(personalTransito)"/>
+    </div>
       
     </form>
   </div>

@@ -13,26 +13,20 @@ import { AngularFireDatabase } from 'angularfire2/database';
 
 export class ListCargoComponent implements OnInit {
   listaCargos: Cargos[];
-  public result: Cargos[];
 
   displayedColumns: string[] = ['cargo','evento'];
-  
-  
+
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
 
   constructor(
     public servicioServices:ServiciosService,
     public notificaciones: NotificationsService
-    ) {
-    }
+    ) {}
     
     dataSource = new MatTableDataSource(this.listaCargos)
 
-
-    public contador: number[]=[1,2,3,4,5];
-
   ngOnInit() {
-    this.paginator._intl.itemsPerPageLabel = 'Registros por paginación';
+    this.paginator._intl.itemsPerPageLabel = '';
 
     this.servicioServices.getCargo()
     .snapshotChanges()
@@ -47,18 +41,16 @@ export class ListCargoComponent implements OnInit {
       })
     })
   }
-
+  
+  applyFilter(filterValue: string) {
+    this.dataSource.filter = filterValue.trim().toLowerCase();
+  }
 
   onEdit(cargo: Cargos){
-    console.log(cargo);
-    
     this.servicioServices.seleccionarCargo = Object.assign({},cargo)
   }
 
-  applyFilter(filterValue: string) {
-    this.dataSource.filter = filterValue.trim().toLowerCase();
-  } 
-  
+
   onDelete($key: string)
   {
     if(confirm('¿Esta seguro de querer eliminarlo?')){

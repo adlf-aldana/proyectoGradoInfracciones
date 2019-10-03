@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ServiciosService } from 'src/app/services/servicios.service';
-import { NgForm } from '@angular/forms';
+import { NgForm, FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { MarcaVehiculos } from 'src/app/models/marcaVehiculos/marca-vehiculos';
 import { NotificationsService } from 'angular2-notifications';
 
@@ -11,7 +11,18 @@ import { NotificationsService } from 'angular2-notifications';
 })
 export class AddMarcaVehiculoComponent implements OnInit {
 
-  constructor(public servicioServices:ServiciosService,public notificaciones:NotificationsService) {}
+  marcaVehiculo: FormGroup
+
+  constructor(
+    public servicioServices:ServiciosService,
+    public notificaciones:NotificationsService,
+    public builder:FormBuilder) 
+    {
+      this.marcaVehiculo = this.builder.group({
+        $key: [],
+        nombreMarcaVehiculos: ['', Validators.required]
+      })
+    }
 
   ngOnInit() {
     this.servicioServices.getMarcaVehiculo();

@@ -39,7 +39,7 @@ export class AddCargoComponent implements OnInit {
 
 
 
-  agregarCargo(cargo: NgForm) {
+  agregarCargo(cargo) {
       if (cargo.value.$key == null){
         this.servicioServices.insertCargos(cargo.value)
         this.notificaciones.success('Exitosamente','Cargo guardado correctamente',

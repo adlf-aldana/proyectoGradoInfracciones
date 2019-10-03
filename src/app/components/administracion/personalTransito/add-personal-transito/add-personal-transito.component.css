@@ -1,0 +1,16 @@
+/* Style the form - display items horizontally */
+.form-inline {
+    display: flex;
+    flex-flow: row wrap;
+    /* align-items: center; */
+    /* margin: auto; */
+    justify-content: center;
+  }
+  
+  /* Style the input fields */
+  .form-inline mat-form-field {
+    /* vertical-align: middle; */
+    margin: 5px 10px 5px 0;
+    padding: 10px;
+    align-items: center;
+  }

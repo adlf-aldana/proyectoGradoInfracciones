@@ -100,6 +100,7 @@ export class ServiciosService {
       apMaternoPersonal: personalTransito.apMaternoPersonal,
       ciPersonal: personalTransito.ciPersonal,
       sexoPersonal: personalTransito.sexoPersonal,
+      // fechaNacimientoPersonal: this.formatDate(personalTransito.fechaNacimientoPersonal),
       fechaNacimientoPersonal: personalTransito.fechaNacimientoPersonal,
       celularPersonal: personalTransito.celularPersonal,
       direccionPersonal: personalTransito.direccionPersonal
@@ -210,6 +211,26 @@ export class ServiciosService {
   }
   deleteInfraccion($key: string) {
     this.listaInfracciones.remove($key);
+  }
+
+  formatDate(date: Date): string{
+    const day = date.getDate();
+    var dia;
+    if(day<9)
+      dia = ("0"+day).toString();
+    else
+      dia = day
+    
+    var month = date.getMonth()+1;
+    var mes;
+    if(month<=9)
+      mes = ("0"+month).toString();
+    else
+      mes = month
+
+    
+    const year = date.getFullYear();
+    return (mes+"-"+dia+"-"+year);
   }
 
 }

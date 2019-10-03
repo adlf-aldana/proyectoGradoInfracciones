@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ServiciosService } from 'src/app/services/servicios.service';
-import { NgForm } from '@angular/forms';
+import { NgForm, FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ColorVehiculos } from 'src/app/models/colorVehiculos/color-vehiculos';
 import { NotificationsService } from 'angular2-notifications';
 
@@ -11,7 +11,18 @@ import { NotificationsService } from 'angular2-notifications';
 })
 export class AddColorVehiculoComponent implements OnInit {
 
-  constructor(public servicioServices: ServiciosService, public notificaciones:NotificationsService) { }
+  colorVehiculo: FormGroup
+
+  constructor(
+    public servicioServices: ServiciosService, 
+    public notificaciones:NotificationsService,
+    public  builder:FormBuilder) 
+    {
+      this.colorVehiculo=this.builder.group({
+        $key: [],
+        nombreColorVehiculo: ['', Validators.required]
+      })
+     }
 
   ngOnInit() {
     this.servicioServices.getColorVehiculo();

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ServiciosService } from 'src/app/services/servicios.service';
-import { NgForm } from '@angular/forms';
+import { NgForm, FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { TipoVehiculo } from 'src/app/models/tipoVehiculo/tipo-vehiculo';
 import { NotificationsService } from 'angular2-notifications';
 
@@ -11,7 +11,18 @@ import { NotificationsService } from 'angular2-notifications';
 })
 export class AddTipoVehiculoComponent implements OnInit {
 
-  constructor(public servicioServices:ServiciosService,public notificaciones:NotificationsService) {}
+  tipoVehiculo: FormGroup
+
+  constructor(
+    public servicioServices:ServiciosService,
+    public notificaciones:NotificationsService,
+    public builder:FormBuilder) 
+    {
+      this.tipoVehiculo = this.builder.group({
+        $key: [],
+        nombreTipoVehiculo: ['', Validators.required]
+      })
+    }
 
   ngOnInit() {
     this.servicioServices.getTipoVehiculo()

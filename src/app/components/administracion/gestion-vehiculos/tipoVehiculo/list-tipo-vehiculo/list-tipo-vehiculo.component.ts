@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { TipoVehiculo } from 'src/app/models/tipoVehiculo/tipo-vehiculo';
 import { ServiciosService } from 'src/app/services/servicios.service';
 import { NotificationsService } from 'angular2-notifications';
+import { MatPaginator, MatTableDataSource } from '@angular/material';
 
 @Component({
   selector: 'app-list-tipo-vehiculo',
@@ -12,7 +13,15 @@ export class ListTipoVehiculoComponent implements OnInit {
 
   listaTipoVehiculos: TipoVehiculo[];
 
-  constructor(public servicioServices:ServiciosService, public notificaciones: NotificationsService) { }
+  displayedColumns: string[] = ['tipo','evento']
+  @ViewChild(MatPaginator, {static:true}) paginator: MatPaginator;
+
+  constructor(
+    public servicioServices:ServiciosService,
+    public notificaciones: NotificationsService
+    ) { }
+
+    dataSource = new MatTableDataSource(this.listaTipoVehiculos)
 
   ngOnInit() {
     this.servicioServices.getTipoVehiculo()
@@ -23,8 +32,14 @@ export class ListTipoVehiculoComponent implements OnInit {
         let x = element.payload.toJSON();
         x["$key"]=element.key;
         this.listaTipoVehiculos.push(x as TipoVehiculo);
+        this.dataSource = new MatTableDataSource(this.listaTipoVehiculos)
+        this.dataSource.paginator = this.paginator
       })
     })
+  }
+
+  applyFilter(filterValue: string){
+    this.dataSource.filter = filterValue.trim().toLocaleLowerCase();
   }
 
   onEdit(sv: TipoVehiculo){

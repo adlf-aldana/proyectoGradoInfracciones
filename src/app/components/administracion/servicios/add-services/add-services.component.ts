@@ -6,11 +6,12 @@ import {
   ServiciosService
 } from 'src/app/services/servicios.service';
 import {
-  NgForm
+  NgForm, FormGroup, FormBuilder, Validators
 } from '@angular/forms';
 import {
   Tipo
 } from 'src/app/models/tipoServicioVehiculo/tipo';
+import { NotificationsService } from 'angular2-notifications';
 
 @Component({
   selector: 'app-add-services',
@@ -19,7 +20,19 @@ import {
 })
 export class AddServicesComponent implements OnInit {
 
-  constructor(public serviciosService: ServiciosService) {}
+  servicioVehicular: FormGroup
+
+  constructor(
+    public serviciosService: ServiciosService,
+    public notificaciones: NotificationsService,
+    public builder: FormBuilder
+    )
+    {
+      this.servicioVehicular = this.builder.group({
+        $key: [],
+        nombreTipoServicio:['', Validators.required]
+      })
+    }
 
   ngOnInit() {
     this.serviciosService.getServiciosVehiculares()
@@ -27,10 +40,22 @@ export class AddServicesComponent implements OnInit {
   }
 
   agregarServicioVehiculo(servicioVehicular: NgForm) {
-    if (servicioVehicular.value.$key == null)
+    if (servicioVehicular.value.$key == null){
       this.serviciosService.insertTipoServicioVehicular(servicioVehicular.value)
-    else
+      this.notificaciones.success('Exitosamente','Servicio guardado correctamente',
+        {
+          timeOut: 3000,
+          showProgressBar:true
+        })
+    }
+    else{
       this.serviciosService.updateTipoServicioVehicular(servicioVehicular.value)
+      this.notificaciones.success('Exitosamente','Servicio actualizado correctamente',
+        {
+          timeOut: 3000,
+          showProgressBar:true
+        })
+    }
     this.resetForm(servicioVehicular)
   }
 

@@ -1,6 +1,8 @@
-import { Component, OnInit, ViewContainerRef } from '@angular/core';
+import { Component, OnInit, ViewContainerRef, ViewChild } from '@angular/core';
 import { ServiciosService } from 'src/app/services/servicios.service';
 import { Tipo } from 'src/app/models/tipoServicioVehiculo/tipo';
+import { NotificationsService } from 'angular2-notifications';
+import { MatTableDataSource, MatPaginator } from '@angular/material';
 // import { NotificationsService } from 'angular2-notifications';
 
 @Component({
@@ -11,9 +13,16 @@ import { Tipo } from 'src/app/models/tipoServicioVehiculo/tipo';
 export class ListaServiciosComponent implements OnInit {
 
   listaServicios: Tipo[];
+
+  displayedColumns: string[] = ['nombreTipoServicio','evento']
+  @ViewChild(MatPaginator,{static:true}) paginator: MatPaginator;
+
   constructor(
-    public serviciosServices: ServiciosService) {     }
-    // public serviciosServices: ServiciosService, public notificacionServicios: NotificationsService) {     }
+    public serviciosServices: ServiciosService,
+    public notificaciones: NotificationsService
+    ) {}
+
+    dataSource = new MatTableDataSource(this.listaServicios)
 
 
   ngOnInit() {
@@ -25,8 +34,14 @@ export class ListaServiciosComponent implements OnInit {
         let x = element.payload.toJSON();
         x["$key"]=element.key;
         this.listaServicios.push(x as Tipo);
+        this.dataSource = new MatTableDataSource(this.listaServicios)
+        this.dataSource.paginator = this.paginator
       })
     })
+  }
+
+  applyFilter(filterValue: string) {
+    this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 
   onEdit(sv: Tipo){
@@ -37,14 +52,14 @@ export class ListaServiciosComponent implements OnInit {
   {
     if(confirm('¿Esta seguro de querer eliminarlo?')){
     this.serviciosServices.deleteTipoServicioVehicular($key);
-    // this.notificacionServicios.success('¡Correcto!', 'El item fue eliminado correctamente', {
-    //   position: ['bottom','right'],
-    //   timeOut: 3000,
-    //   showProgressBar: true,
-    //   pauseOnHover: true,
-    //   clickToClose: true,
-    //   show: true
-    // });
+    this.notificaciones.success('¡Correcto!', 'El item fue eliminado correctamente', {
+      position: ['bottom','right'],
+      timeOut: 3000,
+      showProgressBar: true,
+      pauseOnHover: true,
+      clickToClose: true,
+      show: true
+    });
     }
   }
 

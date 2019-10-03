@@ -1,5 +1,5 @@
 <div class="modal fade" id="listPersonal">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-lg">
       <div class="modal-content">
         <div class="modal-header">
           <h4 class="modal-title">GESTIONAR PERSONAL DE TRANSITO</h4>
@@ -16,11 +16,100 @@
         <div class="modal-body">
            AGREGANDO PERSONAL DE TRANSITO 
           <app-add-personal-transito></app-add-personal-transito>
-          <input type="search" name="" id="" placeholder="Busqueda">
+
+          
           <div class="mt-3 ml-auto">
             <div class="card">
-              <div class="card-body">
-                <table class="table">
+
+              <!-- <div class="card-body"> -->
+                
+
+
+
+                  <div class="example-container mat-elevation-z8">
+                    <mat-form-field>
+                      <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Buscar Personal">
+                    </mat-form-field>
+                    
+                    <table mat-table [dataSource]="dataSource" mdbTableScroll scrollX="true" maxWidth="200">
+                        <!-- Columna Nombre -->
+                        <ng-container matColumnDef="nombrePersonal" class="text-center">
+                          <th mat-header-cell *matHeaderCellDef class="text-center">Nombre</th>
+                          <td mat-cell *matCellDef="let element"> {{element.nombrePersonal}} </td>
+                        </ng-container>
+  
+                        <!-- Columna apPaternoPersonal -->
+                        <ng-container matColumnDef="apPaternoPersonal">
+                            <th mat-header-cell *matHeaderCellDef class="text-center">Apellido Paterno</th>
+                            <td mat-cell *matCellDef="let element"> {{element.apPaternoPersonal}} </td>
+                          </ng-container>
+
+                          <!-- Columna apMaternoPersonal -->
+                        <ng-container matColumnDef="apMaternoPersonal">
+                            <th mat-header-cell *matHeaderCellDef class="text-center">Apellido Materno</th>
+                            <td mat-cell *matCellDef="let element"> {{element.apMaternoPersonal}} </td>
+                          </ng-container>
+
+                          <!-- Columna ciPersonal -->
+                        <ng-container matColumnDef="ciPersonal">
+                            <th mat-header-cell *matHeaderCellDef class="text-center">Ci Personal</th>
+                            <td mat-cell *matCellDef="let element"> {{element.ciPersonal}} </td>
+                          </ng-container>
+
+                          <!-- Columna sexoPersonal -->
+                        <ng-container matColumnDef="sexoPersonal">
+                            <th mat-header-cell *matHeaderCellDef class="text-center">Sexo</th>
+                            <td mat-cell *matCellDef="let element"> {{element.sexoPersonal}} </td>
+                          </ng-container>
+
+                          <!-- Columna celularPersonal -->
+                        <ng-container matColumnDef="celularPersonal">
+                            <th mat-header-cell *matHeaderCellDef class="text-center">N° Celular</th>
+                            <td mat-cell *matCellDef="let element"> {{element.celularPersonal}} </td>
+                          </ng-container>
+
+                          <!-- Columna fechaNacimientoPersonal -->
+                        <ng-container matColumnDef="fechaNacimientoPersonal">
+                            <th mat-header-cell *matHeaderCellDef class="text-center">Fecha de Nacimiento</th>
+                            <td mat-cell *matCellDef="let element"> {{element.fechaNacimientoPersonal}} </td>
+                          </ng-container>
+
+
+                          <!-- Columna direccionPersonal -->
+                        <ng-container matColumnDef="direccionPersonal">
+                            <th mat-header-cell *matHeaderCellDef class="text-center">Direccion</th>
+                            <td mat-cell *matCellDef="let element"> {{element.direccionPersonal}} </td>
+                          </ng-container>
+      
+                          
+                        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      
+                        <div class="d-flex flex-row bd-highlight">
+                        <!-- COLUMNA EVENTOS -->
+                        <ng-container matColumnDef="evento">
+                          <th mat-header-cell *matHeaderCellDef class="text-center"> EVENTO </th>
+                          <td mat-cell *matCellDef="let element">
+                            <a class="btn btn-secondary text-white bd-highlight m-1" (click)="onEdit(element)">
+                              <i class="far fa-edit"></i>
+                            </a>
+                            <a class="btn btn-danger text-white bd-highlight m-1" (click)="onDelete(element.$key)">
+                              <i class="fas fa-trash-alt"></i>
+                            </a>
+                          </td>
+                        </ng-container>
+                      </div>
+
+                      </table>
+                      <mat-paginator [pageSizeOptions]="[4]" showFirstLastButtons></mat-paginator>
+                    </div>
+
+
+
+
+
+                
+                <!-- <table class="table">
                   <thead>
                     <tr>
                       <th>Nombre</th>
@@ -56,9 +145,15 @@
                       </td>
                     </tr>
                   </tbody>
-                </table>
-  <!-- <simple-notifications></simple-notifications> -->
-              </div>
+                </table> -->
+
+
+
+
+
+
+  <simple-notifications></simple-notifications>
+              <!-- </div> -->
             </div>
           </div>
         </div>
