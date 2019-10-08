@@ -28,9 +28,10 @@
       <mat-hint align="end">{{message.value.length}} / 50</mat-hint>
     </mat-form-field>
 
-
+<div>
     <input [disabled]="validando.invalid" class="btn btn-success m-2" type="submit" value="Guardar" />
     <input class="btn btn-secondary" type="button" value="Limpiar" (click)="resetForm(validando)" />
+  </div>
 
   </form>
 

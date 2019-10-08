@@ -100,7 +100,6 @@ export class ServiciosService {
       apMaternoPersonal: personalTransito.apMaternoPersonal,
       ciPersonal: personalTransito.ciPersonal,
       sexoPersonal: personalTransito.sexoPersonal,
-      // fechaNacimientoPersonal: this.formatDate(personalTransito.fechaNacimientoPersonal),
       fechaNacimientoPersonal: personalTransito.fechaNacimientoPersonal,
       celularPersonal: personalTransito.celularPersonal,
       direccionPersonal: personalTransito.direccionPersonal
@@ -109,9 +108,9 @@ export class ServiciosService {
   updatePersonal(personalTransito: Personal) {
     this.listaPersonal.update(personalTransito.$key, {
       nombrePersonal: personalTransito.nombrePersonal,
-      apPaternoConductor: personalTransito.apPaternoPersonal,
-      apMaternoConductor: personalTransito.apMaternoPersonal,
-      ciPersona: personalTransito.ciPersonal,
+      apPaternoPersonal: personalTransito.apPaternoPersonal,
+      apMaternoPersonal: personalTransito.apMaternoPersonal,
+      ciPersonal: personalTransito.ciPersonal,
       sexoPersonal: personalTransito.sexoPersonal,
       fechaNacimientoPersonal: personalTransito.fechaNacimientoPersonal,
       celularPersonal: personalTransito.celularPersonal,

@@ -12,9 +12,21 @@ import { MAT_MOMENT_DATE_FORMATS, MomentDateAdapter } from '@angular/material-mo
   styleUrls: ['./add-personal-transito.component.css']
 })
 export class AddPersonalTransitoComponent implements OnInit {
+
   
   personalTransito: FormGroup
   
+  get nombrePersonal() {return this.personalTransito.get('nombrePersonal')}
+  get apPaternoPersonal() {return this.personalTransito.get('apPaternoPersonal')}
+  get apMaternoPersonal() {return this.personalTransito.get('apMaternoPersonal')}
+  get ciPersonal() {return this.personalTransito.get('ciPersonal')}
+  get sexoPersonal() {return this.personalTransito.get('sexoPersonal')}
+  get celularPersonal() {return this.personalTransito.get('celularPersonal')}
+  get fechaNacimientoPersonal() {return this.personalTransito.get('fechaNacimientoPersonal')}
+  get direccionPersonal() {return this.personalTransito.get('direccionPersonal')}
+
+  num: any = /^(?:\+|-)?\d+$/;
+
   constructor(
     public servicioServices:ServiciosService,
     public notificaciones: NotificationsService,
@@ -26,9 +38,9 @@ export class AddPersonalTransitoComponent implements OnInit {
         nombrePersonal: ['', Validators.required],
         apPaternoPersonal: ['', Validators.required],
         apMaternoPersonal: ['', Validators.required],
-        ciPersonal: ['', Validators.required],
+        ciPersonal: ['', [Validators.required, Validators.maxLength(11),Validators.minLength(7)]],
         sexoPersonal: [''],
-        celularPersonal: ['', Validators.required],
+        celularPersonal: ['', [Validators.required, Validators.minLength(8), Validators.maxLength(8), Validators.pattern(this.num)]],
         fechaNacimientoPersonal: [''],
         direccionPersonal: ['', Validators.required]
       })
@@ -39,6 +51,7 @@ export class AddPersonalTransitoComponent implements OnInit {
   }
 
   addPersonalTransito(servicioPersonalTransito: NgForm) {
+    if(servicioPersonalTransito.valid){
     if (servicioPersonalTransito.value.$key == null){
       this.servicioServices.insertPersonal(servicioPersonalTransito.value)
       this.notificaciones.success('Exitosamente','Datos guardados correctamente',{
@@ -54,6 +67,10 @@ export class AddPersonalTransitoComponent implements OnInit {
       })
     }
     this.resetForm(servicioPersonalTransito)
+  }else{
+    console.log('Error no valido');
+    
+  }
   }
   
   resetForm(servicioPersonalTransito ? : NgForm) {

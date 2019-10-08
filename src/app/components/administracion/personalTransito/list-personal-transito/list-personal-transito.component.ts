@@ -60,13 +60,13 @@ export class ListPersonalTransitoComponent implements OnInit {
   {
     if(confirm('¿Esta seguro de querer eliminarlo?')){
     this.servicioServices.deletePersonal($key);
-    // this.notification.success('¡Correcto!', 'El item fue eliminado correctamente', {
-    //   timeOut: 3000,
-    //   showProgressBar: true,
-    //   pauseOnHover: true,
-    //   clickToClose: true,
-    //   show: true
-    // });
+    this.notification.success('¡Correcto!', 'El item fue eliminado correctamente', {
+      timeOut: 3000,
+      showProgressBar: true,
+      pauseOnHover: true,
+      clickToClose: true,
+      show: true
+    });
     }
   }
 
