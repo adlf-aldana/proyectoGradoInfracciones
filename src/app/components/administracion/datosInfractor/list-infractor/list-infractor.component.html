@@ -1,0 +1,117 @@
+<div class="modal fade" id="listInfractor">
+    <div class="modal-dialog modal-xl">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">GESTIONAR INFRACTOR</h4>
+          <button
+            type="button"
+            class="close"
+            data-dismiss="modal"
+            aria-hidden="true"
+          >
+            &times;
+          </button>
+        </div>
+  
+        <div class="modal-body">
+           AGREGANDO INFRACTOR
+          <app-add-infractor></app-add-infractor>
+
+          
+          <div class="mt-3 ml-auto">
+            <div class="card">
+
+              <!-- <div class="card-body"> -->
+                
+
+
+
+                  <div class="example-container">
+                    <mat-form-field>
+                      <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Buscar Infractor">
+                    </mat-form-field>
+                    
+                    <table mat-table [dataSource]="dataSource">
+
+                        <!-- Columna Nombre -->
+                        <ng-container matColumnDef="nombreInfractor">
+                          <th mat-header-cell *matHeaderCellDef class="text-center">Nombre</th>
+                          <td mat-cell *matCellDef="let element"> {{element.nombreInfractor}} </td>
+                        </ng-container>
+  
+                        <!-- Columna apPaternoInfractor -->
+                        <ng-container matColumnDef="apPaternoInfractor" >
+                            <th mat-header-cell *matHeaderCellDef class="text-center">Apellido Paterno</th>
+                            <td mat-cell *matCellDef="let element"> {{element.apPaternoInfractor}} </td>
+                          </ng-container>
+
+                          <!-- Columna apMaternoInfractor -->
+                        <ng-container matColumnDef="apMaternoInfractor">
+                            <th mat-header-cell *matHeaderCellDef class="text-center">Apellido Materno</th>
+                            <td mat-cell *matCellDef="let element"> {{element.apMaternoInfractor}} </td>
+                          </ng-container>
+
+                          <!-- Columna ciInfractor -->
+                        <ng-container matColumnDef="ciInfractor">
+                            <th mat-header-cell *matHeaderCellDef class="text-center">Ci Infractor</th>
+                            <td mat-cell *matCellDef="let element"> {{element.ciInfractor}} </td>
+                          </ng-container>
+
+                          <!-- Columna sexoInfractor -->
+                        <ng-container matColumnDef="sexoInfractor">
+                            <th mat-header-cell *matHeaderCellDef class="text-center">Sexo</th>
+                            <td mat-cell *matCellDef="let element"> {{element.sexoInfractor}} </td>
+                          </ng-container>
+
+                          <!-- Columna celularInfractor -->
+                        <ng-container matColumnDef="celularInfractor">
+                            <th mat-header-cell *matHeaderCellDef class="text-center">N° Celular</th>
+                            <td mat-cell *matCellDef="let element"> {{element.celularInfractor}} </td>
+                          </ng-container>
+
+                          <!-- Columna fechaNacimientoInfractor -->
+                        <ng-container matColumnDef="fechaNacimientoInfractor">
+                            <th mat-header-cell *matHeaderCellDef class="text-center">Fecha de Nacimiento</th>
+                            <td mat-cell *matCellDef="let element"> {{element.fechaNacimientoInfractor}} </td>
+                          </ng-container>
+
+
+                          <!-- Columna direccionInfractor -->
+                        <ng-container matColumnDef="direccionInfractor">
+                            <th mat-header-cell *matHeaderCellDef class="text-center">Direccion</th>
+                            <td mat-cell *matCellDef="let element"> {{element.direccionInfractor}} </td>
+                          </ng-container>
+      
+                          
+                        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      
+                        <div class="d-flex flex-row bd-highlight">
+                        <!-- COLUMNA EVENTOS -->
+                        <ng-container matColumnDef="evento">
+                          <th mat-header-cell *matHeaderCellDef class="text-center">EVENTO</th>
+                          <td mat-cell *matCellDef="let element">
+                            <a class="btn btn-primary text-white bd-highlight m-1" (click)="onEdit(element)">
+                              <i class="far fa-edit"></i>
+                            </a>
+                            <a class="btn btn-danger text-white bd-highlight m-1" (click)="onDelete(element.$key)">
+                              <i class="fas fa-trash-alt"></i>
+                            </a>
+                          </td>
+                        </ng-container>
+                      </div>
+
+                      </table>
+                      <mat-paginator [pageSizeOptions]="[4]" showFirstLastButtons></mat-paginator>
+                    </div>
+
+
+
+  <simple-notifications></simple-notifications>
+              <!-- </div> -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div> 

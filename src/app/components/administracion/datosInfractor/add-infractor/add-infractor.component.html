@@ -1,0 +1,157 @@
+<div class="mt-3 ml-auto">
+    <form
+      class="form-inline"
+      [formGroup]="datosInfractor"
+      (ngSubmit)="addInfractor(datosInfractor)"
+    >
+      <!-- <input
+        type="hidden"
+        name="$key"
+        formControlName=$key
+        [(ngModel)]="servicioServices.seleccionarInfractor.ciInfractor"
+      /> -->
+  
+      <div>
+        <mat-form-field>
+      <input
+      matInput
+        #tamNombre maxlength="50"
+        placeholder="Nombre"
+        name="nombreInfractor"
+        formControlName="nombreInfractor"
+        [(ngModel)]="servicioServices.seleccionarInfractor.nombreInfractor"
+      />
+      <mat-hint align="end"> {{tamNombre.value.length}}/50 </mat-hint>
+    </mat-form-field>
+    
+
+    </div>
+  
+    <div>
+      <mat-form-field>
+  <input
+  matInput
+  #tamApPaterno maxlength="50"
+        placeholder="Apellido Paterno"
+        name="apPaternoInfractor"
+        formControlName="apPaternoInfractor"
+        [(ngModel)]="servicioServices.seleccionarInfractor.apPaternoInfractor"
+      />
+      <mat-hint align="end">{{tamApPaterno.value.length}}/50</mat-hint>
+    </mat-form-field>
+
+    <div class="alert-danger" *ngIf="apPaternoInfractor.invalid && (apPaternoInfractor.dirty || apPaternoInfractor.touched)">
+        <div class="" role="alert" *ngIf="apPaternoInfractor.errors.required">
+          Apellido Paterno es requerido
+        </div>
+      </div>
+    </div>
+
+
+    <div>
+      <mat-form-field>
+      <input
+      matInput
+        #tamApMaterno maxlength="50"
+        placeholder="Apellido Materno"
+        name="apMaternoInfractor"
+        formControlName="apMaternoInfractor"
+        [(ngModel)]="servicioServices.seleccionarInfractor.apMaternoInfractor"
+      />
+      <mat-hint align="end">{{tamApMaterno.value.length}}/50</mat-hint>
+    </mat-form-field>
+    <div class="alert-danger" *ngIf="apMaternoInfractor.invalid && (apMaternoInfractor.dirty || apMaternoInfractor.touched)">
+        <div class="" role="alert" *ngIf="apMaternoInfractor.errors.required">
+          Apellido Materno es requerido
+        </div>
+      </div>
+    </div>
+
+  
+    <div>
+      <mat-form-field>
+      <input
+        matInput
+        #tamCi maxlength="11"
+        placeholder="N° Licencia"
+        name="licenciaInfractor"
+        formControlName="licenciaInfractor"
+        [(ngModel)]="servicioServices.seleccionarInfractor.licenciaInfractor"
+      />
+      <mat-hint align="end">{{tamCi.value.length}}/11</mat-hint>
+      </mat-form-field>
+    </div>
+  
+      
+<div>
+      <mat-form-field>
+          <mat-label>Sexo</mat-label>
+          <mat-select
+      name="sexoInfractor"
+      formControlName="sexoInfractor"
+      [(ngModel)]="servicioServices.seleccionarInfractor.sexoInfractor" >
+            <mat-option value="Masculino">
+              Masculino
+            </mat-option>
+
+            <mat-option value="Femenino">
+                Femenino
+              </mat-option>
+          </mat-select>
+        </mat-form-field>
+        
+      </div>
+  
+      <div>
+        
+        <mat-form-field>
+      <input
+        matInput
+        #tamCelular maxlength="8"
+        placeholder="Celular"
+        name="celularInfractor"
+        formControlName="celularInfractor"
+        [(ngModel)]="servicioServices.seleccionarInfractor.celularInfractor"
+        />
+         <mat-hint align="end">{{tamCelular.value.length}}/8</mat-hint> 
+    </mat-form-field>
+    </div>
+  
+    <div>
+
+      <mat-form-field>
+        <input
+        matInput
+        type="date"
+        placeholder="Fecha de nacimiento"
+        name="fechaNacimientoInfractor"
+        formControlName="fechaNacimientoInfractor"
+        [(ngModel)]="servicioServices.seleccionarInfractor.fechaNacimientoInfractor"
+        />
+      </mat-form-field>
+          </div>
+
+
+      <div>
+        <mat-form-field>
+      <input
+        matInput
+        #tamDireccion maxlength="200"
+        placeholder="Direccion"
+        name="direccionInfractor"
+        formControlName="direccionInfractor"
+        [(ngModel)]="servicioServices.seleccionarInfractor.direccionInfractor"
+      />
+      <mat-hint align="end">{{tamDireccion.value.length}}/200</mat-hint>
+    </mat-form-field>
+    </div>
+
+  
+    <div class="d-flex flex-row bd-highlight">
+      <input class="btn btn-success p-2 bd-highlight m-1" type="submit" value="Guardar" />
+      <input class="btn btn-secondary p-2 bd-highlight m-1" type="button" value="Limpiar" (click)="resetForm(InfractorTransito)"/>
+    </div>
+      
+    </form>
+  </div>
+  

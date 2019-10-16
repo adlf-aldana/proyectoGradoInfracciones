@@ -14,7 +14,7 @@ import { MatPaginator, MatTableDataSource } from '@angular/material';
 export class ListCodigoTransitoComponent implements OnInit {
 listaCodigos: CodigoTransito[];
 
-displayedColumns: string[] = ['codigo','descripcion','evento'];
+displayedColumns: string[] = ['articulo','numero','descripcion','evento'];
 
 @ViewChild(MatPaginator, {static:true}) paginator: MatPaginator;
 

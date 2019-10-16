@@ -16,10 +16,24 @@
       <input
       matInput
       #tamCodigo maxlength="200"
-        name="codigo"
-        formControlName="codigo"
-        [(ngModel)]="servicioServices.seleccionarCodigoTransito.codigo"
-        placeholder="Código de Tránsito"
+        name="articulo"
+        formControlName="articulo"
+        [(ngModel)]="servicioServices.seleccionarCodigoTransito.articulo"
+        placeholder="Articulo"
+      />
+      <mat-hint align="end">{{tamCodigo.value.length}}/200</mat-hint>
+    </mat-form-field>
+  </div>
+
+  <div>
+      <mat-form-field>
+      <input
+      matInput
+      #tamCodigo maxlength="200"
+        name="numero"
+        formControlName="numero"
+        [(ngModel)]="servicioServices.seleccionarCodigoTransito.numero"
+        placeholder="Num"
       />
       <mat-hint align="end">{{tamCodigo.value.length}}/200</mat-hint>
     </mat-form-field>

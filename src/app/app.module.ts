@@ -28,6 +28,9 @@ import { environment } from 'src/environments/environment';
 // Servicios
 import { ServiciosService } from './services/servicios.service';
 
+// GOOGLE MAPS
+import { AgmCoreModule} from '@agm/core'
+
 
 // Rutas
 import { RouterModule,Routes} from '@angular/router'
@@ -60,6 +63,14 @@ import { GestionVehiculosComponent } from './components/administracion/gestion-v
 import { AddGestionUsuarioComponent } from './components/administracion/gestionUsuario/add-gestion-usuario/add-gestion-usuario.component';
 import { ListGestionUsuarioComponent } from './components/administracion/gestionUsuario/list-gestion-usuario/list-gestion-usuario.component';
 import { ScrollingModule } from '@angular/cdk/scrolling';
+import { AddBoletaComponent } from './components/boleta-infraccion/add-boleta/add-boleta.component';
+import { ListBoletaComponent } from './components/boleta-infraccion/list-boleta/list-boleta.component';
+import { AddInfractorComponent } from './components/administracion/datosInfractor/add-infractor/add-infractor.component';
+import { ListInfractorComponent } from './components/administracion/datosInfractor/list-infractor/list-infractor.component';
+import { LitDatosVehiculoComponent } from './components/administracion/datosVehiculoInfractor/lit-datos-vehiculo/lit-datos-vehiculo.component';
+import { AddDatosVehiculoComponent } from './components/administracion/datosVehiculoInfractor/add-datos-vehiculo/add-datos-vehiculo.component';
+import { AddMapaComponent } from './components/boleta-infraccion/mapa/add-mapa/add-mapa.component';
+import { ListMapaComponent } from './components/boleta-infraccion/mapa/list-mapa/list-mapa.component';
 
 //create our cost var with the information about the format that we want 
 export  const   MY_FORMATS   =   { 
@@ -76,8 +87,8 @@ export  const   MY_FORMATS   =   {
 
 //Crea variable donde estarán todas las rutas
 const misRutas: Routes = [
-  { path: 'Registro', component : BoletaInfraccionComponent, pathMatch: 'full'},
-  { path: '', component : BoletaInfraccionComponent },
+  { path: 'Registro', component : AddBoletaComponent, pathMatch: 'full'},
+  { path: '', component : AddBoletaComponent },
   { path: 'Multas', component : ListaMultasComponent},
   { path: 'Administrador', component: AdministracionComponent},
   { path: 'Código de Infracciones de Transporte', component: CodigoInfraccionesComponent}
@@ -109,6 +120,14 @@ const misRutas: Routes = [
     AdministracionComponent,
     AddGestionUsuarioComponent,
     ListGestionUsuarioComponent,
+    AddBoletaComponent,
+    ListBoletaComponent,
+    AddInfractorComponent,
+    ListInfractorComponent,
+    LitDatosVehiculoComponent,
+    AddDatosVehiculoComponent,
+    AddMapaComponent,
+    ListMapaComponent
   ],
   imports: [
     AngularFireDatabaseModule,
@@ -127,7 +146,10 @@ const misRutas: Routes = [
     MatSelectModule,
     MatDatepickerModule,
     MatNativeDateModule,
-    ScrollingModule
+    ScrollingModule,
+    AgmCoreModule.forRoot({
+      apiKey: 'AIzaSyBxkoOlWTS2dKgs15QxhgmLCTluhaP6iV0'
+    })
   ],
   providers: [ServiciosService,
     {   provide :   MAT_DATE_LOCALE ,   useValue :   'es'   } ,   //you can change useValue 

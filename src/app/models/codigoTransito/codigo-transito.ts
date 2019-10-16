@@ -1,5 +1,6 @@
 export class CodigoTransito {
     $key: string;
-    codigo: string;
+    articulo: string;
+    numero: string;
     descripcion:string;
 }

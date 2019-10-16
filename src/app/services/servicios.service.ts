@@ -8,6 +8,8 @@ import { Personal } from '../models/personalTransito/personal';
 import { TipoVehiculo } from '../models/tipoVehiculo/tipo-vehiculo';
 import { MarcaVehiculos } from '../models/marcaVehiculos/marca-vehiculos';
 import { ColorVehiculos } from '../models/colorVehiculos/color-vehiculos';
+import { Infractor } from '../models/Infractor/infractor';
+import { DatosVehiculo } from '../models/datosVehiculo/datos-vehiculo';
 
 
 @Injectable({
@@ -23,6 +25,8 @@ export class ServiciosService {
   seleccionarTipoVehiculo: TipoVehiculo = new TipoVehiculo();
   seleccionarMarcaVehiculo: MarcaVehiculos = new MarcaVehiculos();
   seleccionarColorVehiculo: ColorVehiculos= new ColorVehiculos();
+  seleccionarInfractor: Infractor = new Infractor();
+  seleccionarDatosVehiculo: DatosVehiculo = new DatosVehiculo();
 
   listaInfracciones: AngularFireList < any > ;
   listaServiciosVehiculares: AngularFireList < any > ;
@@ -32,9 +36,65 @@ export class ServiciosService {
   listaTipoVehiculo: AngularFireList<any>;
   listaMarcaVehiculo: AngularFireList<any>;
   listaColorVehiculo: AngularFireList<any>;
+  listaInfractor: AngularFireList<any>;
+  listDatosVehiculo: AngularFireList<any>;
 
 
   constructor(private firebase: AngularFireDatabase) { }
+
+  getDatosVehiculo() {
+    return this.listDatosVehiculo = this.firebase.list('datosVehiculo');
+  }
+  insertDatosVehiculo(datosVehiculo: DatosVehiculo) {
+    this.listDatosVehiculo.push({
+      tipoVehiculo: datosVehiculo.tipo,
+      marcaVehiculo: datosVehiculo.marca,
+      colorVehiculo: datosVehiculo.color,
+      placa: datosVehiculo.placa
+    })
+  }
+  updateDatosVehiculo(datosVehiculo: DatosVehiculo) {
+    this.listDatosVehiculo.update(datosVehiculo.$key, {
+      tipoVehiculo: datosVehiculo.tipo,
+      marcaVehiculo: datosVehiculo.marca,
+      colorVehiculo: datosVehiculo.color,
+      placa: datosVehiculo.placa
+    })
+  }
+  deleteDatosVehiculo($key: string) {
+    this.listDatosVehiculo.remove($key);
+  }
+
+  getInfractor() {
+    return this.listaInfractor = this.firebase.list('infractor');
+  }
+  insertInfractor(infractor: Infractor) {
+    this.listaInfractor.push({
+      licenciaInfractor: infractor.licenciaInfractor,
+      nombreInfractor: infractor.nombreInfractor,
+      apPaternoInfractor: infractor.apPaternoInfractor,
+      apMaternoInfractor: infractor.apMaternoInfractor,
+      sexoInfractor: infractor.sexoInfractor,
+      fechaNacimientoInfractor: infractor.fechaNacimientoInfractor,
+      celularInfractor: infractor.celularInfractor,
+      direccionInfractor: infractor.direccionInfractor,
+    })
+  }
+  updateInfractor(infractor: Infractor) {
+    this.listaInfractor.update(infractor.$key, {
+      nombreInfractor: infractor.nombreInfractor,
+      apPaternoInfractor: infractor.apPaternoInfractor,
+      apMaternoInfractor: infractor.apMaternoInfractor,
+      sexoInfractor: infractor.sexoInfractor,
+      fechaNacimientoInfractor: infractor.fechaNacimientoInfractor,
+      celularInfractor: infractor.celularInfractor,
+      direccionInfractor: infractor.direccionInfractor,
+      licenciaInfractor: infractor.licenciaInfractor
+    })
+  }
+  deleteInfractor($key: string) {
+    this.listaInfractor.remove($key);
+  }
 
   getColorVehiculo() {
     return this.listaColorVehiculo = this.firebase.list('colorVehiculos');
@@ -145,13 +205,15 @@ export class ServiciosService {
   }
   insertCodigosTransito(codigoTransito: CodigoTransito) {
     this.listaCodigoTransito.push({
-      codigo: codigoTransito.codigo,
+      articulo: codigoTransito.articulo,
+      numero: codigoTransito.numero,
       descripcion: codigoTransito.descripcion
     })
   }
   updateCodigosTransito(codigoTransito: CodigoTransito) {
     this.listaCodigoTransito.update(codigoTransito.$key, {
-      codigo: codigoTransito.codigo,
+      articulo: codigoTransito.articulo,
+      numero: codigoTransito.numero,
       descripcion: codigoTransito.descripcion
     })
   }
@@ -164,6 +226,7 @@ export class ServiciosService {
     return this.listaServiciosVehiculares = this.firebase.list('serviciosVehiculares');
   }
   insertTipoServicioVehicular(tsv: Tipo) {
+    console.log(this.listaServiciosVehiculares);
     this.listaServiciosVehiculares.push({
       nombreTipoServicio: tsv.nombreTipoServicio
     })
@@ -179,34 +242,23 @@ export class ServiciosService {
 
 
   getInfracciones() {
-    return this.listaInfracciones = this.firebase.list('infracciones');
+    return this.listaInfracciones = this.firebase.list('boletaInfraccion');
   }
-  insertInfracciones(datosInfracciones: Boleta, fechaHora) {
-
-    this.listaInfracciones.push({
-      fechaHora: fechaHora,
-      nombreConductor: datosInfracciones.nombreConductor,
-      apPaternoConductor: datosInfracciones.apPaternoConductor,
-      apMaternoConductor: datosInfracciones.apMaternoConductor,
-      placa: datosInfracciones.placa,
-      licenciaNum: datosInfracciones.licenciaNum,
-      lugarInfraccion: datosInfracciones.lugarInfraccion,
-      observacionInfraccion: datosInfracciones.observacionInfraccion,
-      nombrePolicia: datosInfracciones.nombrePolicia
+  insertInfracciones(datosInfracciones: Boleta) {
+      this.listaInfracciones.push({
+        numLicencia: datosInfracciones.numLicencia,
+        placa: datosInfracciones.placa,
+        ciPolicia: datosInfracciones.ciPolicia
     })
   }
   updateInfraccion(datosInfracciones: Boleta) {
-    this.listaInfracciones.update(datosInfracciones.$key, {
-      //fechaHora: datosInfracciones.fechaHora,
-      nombreConductor: datosInfracciones.nombreConductor,
-
-      apPaternoConductor: datosInfracciones.apPaternoConductor,
-      apMaternoConductor: datosInfracciones.apMaternoConductor,
-      placa: datosInfracciones.placa,
-      licenciaNum: datosInfracciones.licenciaNum,
-      observacionInfraccion: datosInfracciones.observacionInfraccion,
-      nombrePolicia: datosInfracciones.nombrePolicia
-    })
+    // this.listaInfracciones.update(datosInfracciones.$key, {
+    //   numLicencia: datosInfracciones.numLicencia,
+    //   placa: datosInfracciones.placa,
+    //   // lugarInfraccion: datosInfracciones.lugarInfraccion,
+    //   // observacionInfraccion: datosInfracciones.observacionInfraccion,
+    //   ciPolicia: datosInfracciones.ciPolicia,
+    // })
   }
   deleteInfraccion($key: string) {
     this.listaInfracciones.remove($key);

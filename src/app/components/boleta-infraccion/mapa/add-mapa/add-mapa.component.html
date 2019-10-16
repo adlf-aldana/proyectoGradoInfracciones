@@ -1,0 +1,43 @@
+<div class="modal fade" id="mapa">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">LOCALIZACION</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+          &times;
+        </button>
+      </div>
+      
+      <form 
+      class="form-inline"
+      >
+      <div>
+        <div class="text-center">
+          <input id="lat" type="text" value="{{lat}}" disabled>
+          <input id="lng" type="text" value="{{lng}}" disabled>
+        </div>
+
+        <div class="modal-body text-center">
+          <div class="text-center ml-5">
+            <agm-map [latitude]="lat" [longitude]="lng" [zoom]="18" [mapTypeControl]="mapControls">
+
+              <agm-marker [latitude]="lat" [longitude]="lng">
+              </agm-marker>
+
+            </agm-map>
+          </div>
+
+          <div>
+            <button class="btn btn-primary m-3" type="submit">Aceptar</button>
+            <!-- <button class="btn btn-secondary">Cancelar</button> -->
+          </div>
+
+
+          <div class="mt-3 ml-auto">
+            <div class="card">
+
+            </div>
+          </div>
+        </div>
+      </div>
+      </form>

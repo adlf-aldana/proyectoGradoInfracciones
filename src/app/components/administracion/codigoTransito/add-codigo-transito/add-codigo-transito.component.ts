@@ -24,7 +24,8 @@ export class AddCodigoTransitoComponent implements OnInit {
   {
     this.codigoTransito = this.builder.group({
       $key: [],
-      codigo: ['', Validators.required],
+      articulo: ['', Validators.required],
+      numero: ['', Validators.required],
       descripcion: ['', Validators.required]
     })
   }

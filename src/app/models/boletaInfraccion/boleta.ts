@@ -1,12 +1,9 @@
 export class Boleta {
-    $key:string;
-    fechaHora:Date;
-    nombreConductor:string;
-    apPaternoConductor:string;
-    apMaternoConductor:string;
+    // $key:string;
+    numLicencia:string;
     placa:string;
-    licenciaNum:number;
-    lugarInfraccion:string;
-    observacionInfraccion:string;
-    nombrePolicia:string;
+    // lugarInfraccion:string;
+    // observacionInfraccion:string;
+    ciPolicia:string;
+    // latlng: string;
 }

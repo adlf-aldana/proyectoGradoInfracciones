@@ -1,0 +1,128 @@
+<div class="mt-3 ml-auto">
+  <form class="form-inline"
+     [formGroup]="datosVehiculo"
+        (ngSubmit)="addDatosVehiculo(datosVehiculo)" 
+        >
+    <input type="hidden" name="" formControlName=$key  />
+
+    <!-- name="sexoPersonal"
+          formControlName="sexoPersonal"
+          [(ngModel)]="servicioServices.seleccionarPersonal.sexoPersonal" -->
+          
+          <mat-form-field>
+                  <input
+                    matInput
+                    #tamCi maxlength="11"
+                    placeholder="Placa"
+                    name="placa"
+                    formControlName="placa"
+                    />
+                    <mat-hint align="end">{{tamCi.value.length}}/11</mat-hint>
+                  </mat-form-field>
+
+    <mat-form-field >
+      <mat-label>Tipo</mat-label>
+      <mat-select formControlName="tipo" [(ngModel)]="servicioServices.seleccionarDatosVehiculo.tipo">
+
+        <mat-option value="Automovil">
+          Automovil
+        </mat-option>
+
+        <mat-option value="MiniBus">
+          MiniBus
+        </mat-option>
+
+        <mat-option value="Camion">
+          Camion
+        </mat-option>
+
+        <mat-option value="Bus">
+          Bus
+        </mat-option>
+
+        <mat-option value="MicroBus">
+          MicroBus
+        </mat-option>
+
+        <mat-option value="Camioneta">
+          Camioneta
+        </mat-option>
+        <mat-option value="Vagoneta">
+          Vagoneta
+        </mat-option>
+        <mat-option value="Otros">
+          Otros
+        </mat-option>
+
+      </mat-select>
+    </mat-form-field>
+
+
+    <mat-form-field>
+            <mat-label>Marca</mat-label>
+            <mat-select formControlName="marca" [(ngModel)]="servicioServices.seleccionarDatosVehiculo.marca">
+      
+              <mat-option value="Toyota">
+                Toyota
+              </mat-option>
+      
+              <mat-option value="Nissan">
+                Nissan
+              </mat-option>
+      
+              <mat-option value="Volkswagen">
+                Volkswagen
+              </mat-option>
+      
+              <mat-option value="Suzuki">
+                Suzuki
+              </mat-option>
+      
+              <mat-option value="Mitsubishi">
+                Mitsubishi
+              </mat-option>
+
+              <mat-option value="Otros">
+                Otros
+              </mat-option>
+      
+            </mat-select>
+          </mat-form-field>
+
+          <mat-form-field>
+                <mat-label>Color</mat-label>
+                <mat-select formControlName="color" [(ngModel)]="servicioServices.seleccionarDatosVehiculo.color">
+          
+                  <mat-option value="Blanco">
+                    Blanco
+                  </mat-option>
+          
+                  <mat-option value="Rojo">
+                    Rojo
+                  </mat-option>
+          
+                  <mat-option value="Negro">
+                    Negro
+                  </mat-option>
+          
+                  <mat-option value="Azul">
+                    Azul
+                  </mat-option>
+          
+                  <mat-option value="Otro">
+                    Otro
+                  </mat-option>
+          
+                </mat-select>
+              </mat-form-field>
+
+
+    <!-- <div class="d-flex flex-row bd-highlight"> --> 
+     <div>
+              <input class="btn btn-success p-2 m-1" type="submit" value="Guardar" />
+              <input class="btn btn-secondary p-2 m-1" type="button" value="Limpiar"
+                (click)="resetForm(datosBoleta)" />
+            </div>
+
+  </form>
+</div>
