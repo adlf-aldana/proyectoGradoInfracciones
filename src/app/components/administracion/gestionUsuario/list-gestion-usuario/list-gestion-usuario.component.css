@@ -1,0 +1,11 @@
+body{
+    /* padding:100px 0; */
+    background-color:#efefef
+  }
+  a, a:hover{
+    color:#333
+  }
+
+  input[type = button], input[type = submit]{
+    margin: 5px;
+  }

@@ -10,6 +10,7 @@ import { MarcaVehiculos } from '../models/marcaVehiculos/marca-vehiculos';
 import { ColorVehiculos } from '../models/colorVehiculos/color-vehiculos';
 import { Infractor } from '../models/Infractor/infractor';
 import { DatosVehiculo } from '../models/datosVehiculo/datos-vehiculo';
+import { GestionUsuario } from '../models/gestionarUsuarios/gestion-usuario';
 
 
 @Injectable({
@@ -27,6 +28,7 @@ export class ServiciosService {
   seleccionarColorVehiculo: ColorVehiculos= new ColorVehiculos();
   seleccionarInfractor: Infractor = new Infractor();
   seleccionarDatosVehiculo: DatosVehiculo = new DatosVehiculo();
+  seleccionarUsuario: GestionUsuario = new GestionUsuario();
 
   listaInfracciones: AngularFireList < any > ;
   listaServiciosVehiculares: AngularFireList < any > ;
@@ -38,9 +40,34 @@ export class ServiciosService {
   listaColorVehiculo: AngularFireList<any>;
   listaInfractor: AngularFireList<any>;
   listDatosVehiculo: AngularFireList<any>;
+  listUsuario: AngularFireList<any>;
 
 
   constructor(private firebase: AngularFireDatabase) { }
+
+  getUsuario() {
+    return this.listUsuario = this.firebase.list('gestionUsuarios');
+  }
+  insertUsuario(datosUsuario: GestionUsuario) {    
+    this.listUsuario.push({
+      ciUsuario: datosUsuario.ciUsuario,
+      nombreUsuario: datosUsuario.nombreUsuario,
+      cargoUsuario: datosUsuario.cargoUsuario,
+      password: datosUsuario.password,
+      
+    })
+  }
+  updateUsuario(datosUsuario: GestionUsuario) {
+    this.listUsuario.update(datosUsuario.$key, {
+      ciUsuario: datosUsuario.ciUsuario,
+      nombreUsuario: datosUsuario.nombreUsuario,
+      cargoUsuario: datosUsuario.cargoUsuario,
+      password: datosUsuario.password,
+    })
+  }
+  deleteUsuario($key: string) {
+    this.listUsuario.remove($key);
+  }
 
   getDatosVehiculo() {
     return this.listDatosVehiculo = this.firebase.list('datosVehiculo');
@@ -50,15 +77,33 @@ export class ServiciosService {
       tipoVehiculo: datosVehiculo.tipo,
       marcaVehiculo: datosVehiculo.marca,
       colorVehiculo: datosVehiculo.color,
-      placa: datosVehiculo.placa
+      placa: datosVehiculo.placa,
+
+      nombreInfractor: datosVehiculo.nombreInfractor,
+      apPaternoInfractor: datosVehiculo.apPaternoInfractor,
+      apMaternoInfractor: datosVehiculo.apMaternoInfractor,
+      numLicencia: datosVehiculo.numLicencia,
+      sexoInfractor: datosVehiculo.sexoInfractor,
+      fechaNacimientoInfractor: datosVehiculo.fechaNacimientoInfractor,
+      celularInfractor: datosVehiculo.celularInfractor,
+      direccionInfractor: datosVehiculo.direccionInfractor
     })
   }
   updateDatosVehiculo(datosVehiculo: DatosVehiculo) {
     this.listDatosVehiculo.update(datosVehiculo.$key, {
+      placa: datosVehiculo.placa,
       tipoVehiculo: datosVehiculo.tipo,
       marcaVehiculo: datosVehiculo.marca,
       colorVehiculo: datosVehiculo.color,
-      placa: datosVehiculo.placa
+
+      nombreInfractor: datosVehiculo.nombreInfractor,
+      apPaternoInfractor: datosVehiculo.apPaternoInfractor,
+      apMaternoInfractor: datosVehiculo.apMaternoInfractor,
+      numLicencia: datosVehiculo.numLicencia,
+      sexoInfractor: datosVehiculo.sexoInfractor,
+      fechaNacimientoInfractor: datosVehiculo.fechaNacimientoInfractor,
+      celularInfractor: datosVehiculo.celularInfractor,
+      direccionInfractor: datosVehiculo.direccionInfractor
     })
   }
   deleteDatosVehiculo($key: string) {
@@ -181,7 +226,6 @@ export class ServiciosService {
     this.listaPersonal.remove($key);
   }
 
-
   getCargo() {
     return this.listaCargos = this.firebase.list('cargosTransito');
   }
@@ -246,9 +290,7 @@ export class ServiciosService {
   }
   insertInfracciones(datosInfracciones: Boleta) {
       this.listaInfracciones.push({
-        numLicencia: datosInfracciones.numLicencia,
         placa: datosInfracciones.placa,
-        ciPolicia: datosInfracciones.ciPolicia
     })
   }
   updateInfraccion(datosInfracciones: Boleta) {

@@ -1,200 +1,120 @@
-<div class="mt-3 ml-auto">
-  
-  <form class="form-inline" [formGroup]="datosBoleta" (ngSubmit)="addBoleta(datosBoleta)">
-    <input type="hidden" name="" formControlName=$key  />
+  <div class="m-3">
+    <form class="form-inline" [formGroup]="datosBoleta" (ngSubmit)="addBoleta(datosBoleta)">
+      <input type="hidden" name="" formControlName=$key />
+      <div class="m-3">
+        <div class="text-center">
+          <div class="card">
 
-    <div class="text-center p-3">
-      <div class="card p-3">
-      <h5>INFRACTOR</h5>
-
-      <mat-form-field>
-        <input
-        matInput
-        #numLicencia
-        id="numLicencia"
-        maxlength="10"
-        placeholder="N° Licencia"
-        name="numLicencia"
-        formControlName="numLicencia"  />
-        <mat-hint align="end">  {{numLicencia.value.length}}/10 </mat-hint>
-      </mat-form-field>
-      
-      <div class="">
-        <input type="button" class="btn btn-primary m-3"  (click)="comprobarInfractor()" value="Buscar Infractor">
-          
-
-        <button id=""
-        href="#listInfractor"
-        data-toggle="modal"
-        class="btn btn-primary">
-        Nuevo Infractor</button>
-        <app-list-infractor></app-list-infractor>
-      </div>
-
-      
-        <p>Datos Infractor</p>
-      <p>Nombre: 
-        <strong
-        #nombreInfractor
-        id="nombreInfractor"
-        name="nombreInfractor"
-        >
-      </strong>
-    </p>
-      <p>Apellido Paterno: <strong id="apPaternoInfractor"></strong></p>
-      <p>Apellido Materno: <strong id="apMaternoInfractor"></strong></p>
-      <p>N° Licencia: <strong id="licenciaInfractor"></strong></p>
-      
-      <!-- valor oculto para obtener valores -->
-      <input type="hidden" class="m-3" name="licenciaInfractor2" value="{{valorLicencia}}" id="licenciaInfractor2" >
-    </div>
-    </div>
-
-    
-
-
-    <!-- DATOS VEHICULO -->
-    <div class="text-center p-3">
-      <div class="card p-3">
-        <h5>VEHICULO</h5>
-        <mat-form-field>
-          <input matInput id="placa" maxlength="50" placeholder="Placa" name="placa"
-            formControlName="placa"  />
-        </mat-form-field>
-        
-        <div class="">
-          <button class="btn btn-primary m-3"  (click)="comprobarVehiculo()">Buscar Automovil</button>
-  
-          <button id=""
-          href="#listDatosVehiculo"
-          data-toggle="modal"
-          class="btn btn-primary">
-          Nuevo Automovil</button>
-          <app-lit-datos-vehiculo></app-lit-datos-vehiculo>
-        </div>
-  
-        
-          <p>Datos Vehículo</p>
-        <p>Tipo: <strong id="tipoVehiculo"></strong></p>
-        <p>Marca: <strong id="marcaVehiculo"></strong></p>
-        <p>Color: <strong id="colorVehiculo"></strong></p>
-        
-        <!-- valor oculto para obtener valores -->
-        <input type="hidden" class="m-3" name="placaOculto" value="{{valorVehiculo}}" id="placaOculto" >
-      </div>
-      </div>
-
-
-
-      <div class="text-center p-3">
-        <div class="card p-3">
-      <h5>UBICACION</h5>
-
-      <div class="input-group mb-3">
-          <input 
-          type="text" 
-          class="form-control" 
-          value="{{lat}},{{lng}}"
-          disabled>
-        </div>
-        <!-- placeholder="Latitud, Longitud" -->
-        <!-- id="latlng" -->
-        <!-- formControlName="latlng" -->
-
-          <div class="text-center">
-              <agm-map [latitude]="lat" [longitude]="lng" [zoom]="18" [mapTypeControl]="mapControls">
-  
-                <agm-marker [latitude]="lat" [longitude]="lng">
-                </agm-marker>
-  
-              </agm-map>
+            <h4>DATOS POLICIA</h4>
+            <div class="text-left m-3">
+              <p>Grado: <strong id="grado"></strong></p>
+              <p>Nombre: <strong id="nombrePersonal"></strong></p>
+              <p>Apellido Paterno: <strong id="apPaternoPersonal"></strong></p>
+              <p>Apellido Materno: <strong id="apMaternoPersonal"></strong></p>
+              <p>Cedula Identidad: <strong id="cedulaIdentidad"></strong></p>
             </div>
-          <!-- <button
-          id="new-board-btn"
-                  href="#mapa"
-                  data-toggle="modal"
-          >Localizar</button> -->
-          <app-add-mapa></app-add-mapa>
-      </div>
-    </div>
-
-
-
-
-    <div class="text-center p-3">
-      <div class="card p-3">
-      <h5>INFRACCION</h5>
-      <!-- <mat-form-field>
-          <input 
-          matInput 
-          #ciInfractor 
-          id="art" 
-          maxlength="50" 
-          placeholder="Artículo" 
-          name="art"
-          formControlName="art"/>
-        </mat-form-field>
-        
-        <mat-form-field>
-            <input 
-            matInput 
-            #ciInfractor 
-            id="num" 
-            maxlength="50" 
-            placeholder="Num" 
-            name="num"
-            formControlName="num"  />
-          </mat-form-field> -->
-
-          <textarea placeholder="Descripcion" disabled></textarea>
-
-          <button class="btn btn-primary">Buscar Infracción</button>
+          </div>
         </div>
-    </div>
 
-    <div class="text-center p-3">
-      <div class="card p-3">
-        <h5>POLICIA</h5>
-          <mat-form-field>
-              <input 
-              matInput 
-              #ciPolicia 
-              id="ciPolicia" 
-              maxlength="50" 
-              placeholder="Cedula Identidad" 
-              name="ciPolicia"
-              formControlName="ciPolicia"  />
+        <div class="text-center m-3">
+          <div class="card p-3">
+            <h4>INFRACTOR</h4>
+            <mat-form-field>
+              <input matInput #placaVehiculo id="placaVehiculo" maxlength="10" placeholder="Placa del Vehiculo"
+                name="placaVehiculo" formControlName="placaVehiculo" />
+              <mat-hint align="">
+                <p>Ejemplo: 1234ABCD</p>
+              </mat-hint>
+              <mat-hint align="end"> {{placaVehiculo.value.length}}/10 </mat-hint>
             </mat-form-field>
 
-            <button class="btn btn-primary m-3"  (click)="comprobarPolicia()">Buscar Policia</button>
-            
-            <!-- <button id=""
-            href="#listPersonal"
-            data-toggle="modal"
-            class="btn btn-primary">
-      Nuevo Infractor</button>
-      <app-list-personal-transito></app-list-personal-transito> -->
+            <div class="">
+              <input type="button" class="btn btn-primary m-3" (click)="comprobarInfractor()" value="Buscar Infractor">
+              <input type="button" data-toggle="modal" class="btn btn-primary" value="Nuevo infractor"
+                href="#listDatosVehiculo">
+              <app-lit-datos-vehiculo></app-lit-datos-vehiculo>
+            </div>
+            <div>
+              <h5>DATOS DEL INFRACTOR</h5>
+              <div class="text-left">
+                <p>Nombre: <strong id="nombreInfractor"></strong></p>
+                <p>Apellido Paterno: <strong id="apPaternoInfractor"></strong></p>
+                <p>Apellido Materno: <strong id="apMaternoInfractor"></strong></p>
+                <p>N° Licencia: <strong id="numLicencia"></strong></p>
+              </div>
+            </div>
 
-            <p>Datos Policia</p>
-        <p>Grado: <strong id="grado"></strong></p>
-        <p>Nombre: <strong id="nombrePersonal"></strong></p>
-        <p>Apellido Paterno: <strong id="apPaternoPersonal"></strong></p>
-        <p>Apellido Materno: <strong id="apMaternoPersonal"></strong></p>
-        <p>Cedula Identidad: <strong id="cedulaIdentidad"></strong></p>
+            <div>
+              <h5>DATOS DEL VEHICULO</h5>
+              <div class="text-left">
+                <p>Tipo: <strong id="tipoVehiculo"></strong></p>
+                <p>Marca: <strong id="marcaVehiculo"></strong></p>
+                <p>Color: <strong id="colorVehiculo"></strong></p>
+              </div>
+            </div>
 
-        <input type="hidden" class="m-3" id="cedulaIdentidad" name="cedulaIdentidad" value="{{valorPolicia}}" id="placaOculto" >
+          </div>
+        </div>
+
       </div>
-    </div>
-      
-      
       <div>
-        <input class="btn btn-success p-2 m-1" type="submit" value="Guardar" />
-        <input class="btn btn-secondary p-2 m-1" type="button" value="Limpiar"
-          (click)="resetForm(datosBoleta)" />
+
+        <div class="text-center">
+          <div class="card p-3">
+            <h4>UBICACION</h4>
+
+            <div class="input-group m-3">
+              <input type="text" class="form-control" 
+              formControlName="latlong" name="latlong" id="latlong" value="{{lat}},{{lng}}" disabled>
+            </div>
+            <div layout-align="center center">
+
+              <agm-map [latitude]="lat" [longitude]="lng" [zoom]="18" [mapTypeControl]="mapControls">
+
+                <agm-marker [latitude]="lat" [longitude]="lng">
+                </agm-marker>
+
+              </agm-map>
+            </div>
+            <app-add-mapa></app-add-mapa>
+          </div>
+        </div>
+
+        <div class="m-3">
+          <div class="card p-3">
+            <h4>INFRACCION</h4>
+            <div>
+              <mat-form-field class="m-2">
+                <input matInput #ciInfractor id="art" maxlength="50" placeholder="Artículo" name="art"
+                  formControlName="art" />
+              </mat-form-field>
+
+              <mat-form-field>
+                <input matInput #ciInfractor id="num" maxlength="50" placeholder="Num" name="num"
+                  formControlName="num" />
+              </mat-form-field>
+
+              <div>
+                <input type="button" value="Validar" class="btn btn-primary m-2" (click)="validarCodigoInfraccion()">
+                
+                <input type="button" value="Buscar" href="#listCodigo"
+                data-toggle="modal" class="btn btn-secondary">
+                <app-codigo-infracciones></app-codigo-infracciones>
+
+              </div>
+            </div>
+
+            <textarea rows="7" cols="45" placeholder="Descripcion" disabled></textarea>
+
+          </div>
+        </div>
       </div>
 
-  </form>
 
-  <input class="btn btn-primary" type="button" value="Generar" (click)="generarPDF()">
-</div>
-
+      <div>
+        <input class="btn btn-success m-1" type="submit" value="Guardar" />
+        <input class="btn btn-secondary m-1" type="button" value="Limpiar" (click)="resetForm(datosBoleta)" />
+        <input class="btn btn-primary" type="button" value="Generar" (click)="generarPDF()">
+      </div>
+    </form>
+  </div>

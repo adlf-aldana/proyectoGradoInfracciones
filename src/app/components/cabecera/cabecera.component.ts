@@ -7,7 +7,8 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CabeceraComponent implements OnInit {
 
-  listaMenu:string[] = ['Registro','Multas','Código de Infracciones de Transporte','Administrador','Salir']
+  // listaMenu:string[] = ['Registro','Multas','codigoInfracciones','Administrador','Salir']
+   listaMenu:string[] = ['Registro','Multas','Administrador','Salir']
   constructor() { }
 
   ngOnInit() {

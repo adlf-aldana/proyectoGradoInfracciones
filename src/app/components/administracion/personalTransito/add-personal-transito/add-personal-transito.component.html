@@ -1,51 +1,31 @@
-<div class="mt-3 ml-auto">
-    <form
-      class="form-inline"
-      [formGroup]="personalTransito"
-      (ngSubmit)="addPersonalTransito(personalTransito)"
-    >
-      <input
-        type="hidden"
-        name="$key"
-        formControlName=$key
-        [(ngModel)]="servicioServices.seleccionarPersonal.$key"
-      />
-  
-      <div>
-        <mat-form-field>
-      <input
-      matInput
-        #tamNombre maxlength="50"
-        placeholder="Nombre"
-        name="nombrePersonal"
-        formControlName="nombrePersonal"
-        [(ngModel)]="servicioServices.seleccionarPersonal.nombrePersonal"
-      />
-      <mat-hint align="end"> {{tamNombre.value.length}}/50 </mat-hint>
-    </mat-form-field>
-    
-    <div class="alert-danger" *ngIf="nombrePersonal.invalid && (nombrePersonal.dirty || nombrePersonal.touched)">
+<div>
+  <form class="form-inline" [formGroup]="personalTransito" (ngSubmit)="addPersonalTransito(personalTransito)">
+    <input type="hidden" name="$key" formControlName=$key [(ngModel)]="servicioServices.seleccionarPersonal.$key" />
+
+    <div>
+      <mat-form-field>
+        <input matInput #tamNombre maxlength="50" placeholder="Nombre" name="nombrePersonal"
+          formControlName="nombrePersonal" [(ngModel)]="servicioServices.seleccionarPersonal.nombrePersonal" />
+        <mat-hint align="end"> {{tamNombre.value.length}}/50 </mat-hint>
+      </mat-form-field>
+
+      <div class="alert-danger" *ngIf="nombrePersonal.invalid && (nombrePersonal.dirty || nombrePersonal.touched)">
         <div class="" role="alert" *ngIf="nombrePersonal.errors.required">
           Nombre es requerido
         </div>
       </div>
 
     </div>
-  
+
     <div>
       <mat-form-field>
-  <input
-  matInput
-  #tamApPaterno maxlength="50"
-        placeholder="Apellido Paterno"
-        name="apPaternoPersonal"
-        formControlName="apPaternoPersonal"
-        [(ngModel)]="servicioServices.seleccionarPersonal.apPaternoPersonal"
-      />
-      <mat-hint align="end">{{tamApPaterno.value.length}}/50</mat-hint>
-    </mat-form-field>
+        <input matInput #tamApPaterno maxlength="50" placeholder="Apellido Paterno" name="apPaternoPersonal"
+          formControlName="apPaternoPersonal" [(ngModel)]="servicioServices.seleccionarPersonal.apPaternoPersonal" />
+        <mat-hint align="end">{{tamApPaterno.value.length}}/50</mat-hint>
+      </mat-form-field>
 
-    <div class="alert-danger" *ngIf="apPaternoPersonal.invalid && (apPaternoPersonal.dirty || apPaternoPersonal.touched)">
+      <div class="alert-danger"
+        *ngIf="apPaternoPersonal.invalid && (apPaternoPersonal.dirty || apPaternoPersonal.touched)">
         <div class="" role="alert" *ngIf="apPaternoPersonal.errors.required">
           Apellido Paterno es requerido
         </div>
@@ -55,131 +35,102 @@
 
     <div>
       <mat-form-field>
-      <input
-      matInput
-        #tamApMaterno maxlength="50"
-        placeholder="Apellido Materno"
-        name="apMaternoPersonal"
-        formControlName="apMaternoPersonal"
-        [(ngModel)]="servicioServices.seleccionarPersonal.apMaternoPersonal"
-      />
-      <mat-hint align="end">{{tamApMaterno.value.length}}/50</mat-hint>
-    </mat-form-field>
-    <div class="alert-danger" *ngIf="apMaternoPersonal.invalid && (apMaternoPersonal.dirty || apMaternoPersonal.touched)">
+        <input matInput #tamApMaterno maxlength="50" placeholder="Apellido Materno" name="apMaternoPersonal"
+          formControlName="apMaternoPersonal" [(ngModel)]="servicioServices.seleccionarPersonal.apMaternoPersonal" />
+        <mat-hint align="end">{{tamApMaterno.value.length}}/50</mat-hint>
+      </mat-form-field>
+      <div class="alert-danger"
+        *ngIf="apMaternoPersonal.invalid && (apMaternoPersonal.dirty || apMaternoPersonal.touched)">
         <div class="" role="alert" *ngIf="apMaternoPersonal.errors.required">
           Apellido Materno es requerido
         </div>
       </div>
     </div>
 
-  
+
     <div>
       <mat-form-field>
-      <input
-        matInput
-        #tamCi maxlength="11"
-        placeholder="Cedula de identidad"
-        name="ciPersonal"
-        formControlName="ciPersonal"
-        [(ngModel)]="servicioServices.seleccionarPersonal.ciPersonal"
-      />
-      <mat-hint align="end">{{tamCi.value.length}}/11</mat-hint>
-    </mat-form-field>
-    <div class="alert-danger" *ngIf="ciPersonal.invalid && (ciPersonal.dirty || ciPersonal.touched)">
+        <input matInput #tamCi maxlength="11" placeholder="Cedula de identidad" name="ciPersonal"
+          formControlName="ciPersonal" [(ngModel)]="servicioServices.seleccionarPersonal.ciPersonal" />
+        <mat-hint align="end">{{tamCi.value.length}}/11</mat-hint>
+      </mat-form-field>
+      <div class="alert-danger" *ngIf="ciPersonal.invalid && (ciPersonal.dirty || ciPersonal.touched)">
         <div class="" role="alert" *ngIf="ciPersonal.errors.required">
           Cédula de identidad es requerido
         </div>
       </div>
     </div>
-  
-      
-<div>
-      <mat-form-field>
-          <mat-label>Sexo</mat-label>
-          <mat-select
-      name="sexoPersonal"
-      formControlName="sexoPersonal"
-      [(ngModel)]="servicioServices.seleccionarPersonal.sexoPersonal" >
-            <mat-option value="Masculino">
-              Masculino
-            </mat-option>
 
-            <mat-option value="Femenino">
-                Femenino
-              </mat-option>
-          </mat-select>
-        </mat-form-field>
-        <div class="alert-danger" *ngIf="sexoPersonal.invalid && (sexoPersonal.dirty || sexoPersonal.touched)">
-            <div class="" role="alert" *ngIf="sexoPersonal.errors.required">
-              Sexo es requerido
-            </div>
-          </div>
+    <div>
+      <mat-form-field>
+        <mat-label>Sexo</mat-label>
+        <mat-select name="sexoPersonal" formControlName="sexoPersonal"
+          [(ngModel)]="servicioServices.seleccionarPersonal.sexoPersonal">
+          <mat-option value="Masculino">
+            Masculino
+          </mat-option>
+
+          <mat-option value="Femenino">
+            Femenino
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <div class="alert-danger" *ngIf="sexoPersonal.invalid && (sexoPersonal.dirty || sexoPersonal.touched)">
+        <div class="" role="alert" *ngIf="sexoPersonal.errors.required">
+          Sexo es requerido
+        </div>
       </div>
-  
-      <div>
-        
-        <mat-form-field>
-      <input
-        matInput
-        #tamCelular maxlength="8"
-        placeholder="Celular"
-        name="celularPersonal"
-        formControlName="celularPersonal"
-        [(ngModel)]="servicioServices.seleccionarPersonal.celularPersonal"
-        />
-         <mat-hint align="end">{{tamCelular.value.length}}/8</mat-hint> 
-    </mat-form-field>
-    <div class="alert-danger" *ngIf="celularPersonal.invalid && (celularPersonal.dirty || celularPersonal.touched)">
+    </div>
+
+    <div>
+
+      <mat-form-field>
+        <input matInput #tamCelular maxlength="8" placeholder="Celular" name="celularPersonal"
+          formControlName="celularPersonal" [(ngModel)]="servicioServices.seleccionarPersonal.celularPersonal" />
+        <mat-hint align="end">{{tamCelular.value.length}}/8</mat-hint>
+      </mat-form-field>
+      <div class="alert-danger" *ngIf="celularPersonal.invalid && (celularPersonal.dirty || celularPersonal.touched)">
         <div class="" role="alert" *ngIf="celularPersonal.errors.required">
           N° de celular es requerido
         </div>
       </div>
     </div>
-  
+
     <div>
 
       <mat-form-field>
-        <input
-        matInput
-        type="date"
-        placeholder="Fecha de nacimiento"
-        name="fechaNacimientoPersonal"
-        formControlName="fechaNacimientoPersonal"
-        [(ngModel)]="servicioServices.seleccionarPersonal.fechaNacimientoPersonal"
-        />
+        <input matInput type="date" placeholder="Fecha de nacimiento" name="fechaNacimientoPersonal"
+          formControlName="fechaNacimientoPersonal"
+          [(ngModel)]="servicioServices.seleccionarPersonal.fechaNacimientoPersonal" />
       </mat-form-field>
-      <div class="alert-danger" *ngIf="fechaNacimientoPersonal.invalid && (fechaNacimientoPersonal.dirty || fechaNacimientoPersonal.touched)">
-          <div class="" role="alert" *ngIf="fechaNacimientoPersonal.errors.required">
-            Nombre es requerido
-          </div>
+      <div class="alert-danger"
+        *ngIf="fechaNacimientoPersonal.invalid && (fechaNacimientoPersonal.dirty || fechaNacimientoPersonal.touched)">
+        <div class="" role="alert" *ngIf="fechaNacimientoPersonal.errors.required">
+          Nombre es requerido
         </div>
+      </div>
     </div>
 
 
-      <div>
-        <mat-form-field>
-      <input
-        matInput
-        #tamDireccion maxlength="200"
-        placeholder="Direccion"
-        name="direccionPersonal"
-        formControlName="direccionPersonal"
-        [(ngModel)]="servicioServices.seleccionarPersonal.direccionPersonal"
-      />
-      <mat-hint align="end">{{tamDireccion.value.length}}/200</mat-hint>
-    </mat-form-field>
-    <div class="alert-danger" *ngIf="direccionPersonal.invalid && (direccionPersonal.dirty || direccionPersonal.touched)">
+    <div>
+      <mat-form-field>
+        <input matInput #tamDireccion maxlength="200" placeholder="Direccion" name="direccionPersonal"
+          formControlName="direccionPersonal" [(ngModel)]="servicioServices.seleccionarPersonal.direccionPersonal" />
+        <mat-hint align="end">{{tamDireccion.value.length}}/200</mat-hint>
+      </mat-form-field>
+      <div class="alert-danger"
+        *ngIf="direccionPersonal.invalid && (direccionPersonal.dirty || direccionPersonal.touched)">
         <div class="" role="alert" *ngIf="direccionPersonal.errors.required">
           Dirección es requerido
         </div>
       </div>
     </div>
-  
+
     <div class="d-flex flex-row bd-highlight">
       <input class="btn btn-success p-2 bd-highlight m-1" type="submit" value="Guardar" />
-      <input class="btn btn-secondary p-2 bd-highlight m-1" type="button" value="Limpiar" (click)="resetForm(personalTransito)"/>
+      <input class="btn btn-secondary p-2 bd-highlight m-1" type="button" value="Limpiar"
+        (click)="resetForm(personalTransito)" />
     </div>
-      
-    </form>
-  </div>
-  
+
+  </form>
+</div>

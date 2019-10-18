@@ -72,6 +72,7 @@ import { AddDatosVehiculoComponent } from './components/administracion/datosVehi
 import { AddMapaComponent } from './components/boleta-infraccion/mapa/add-mapa/add-mapa.component';
 import { ListMapaComponent } from './components/boleta-infraccion/mapa/list-mapa/list-mapa.component';
 
+
 //create our cost var with the information about the format that we want 
 export  const   MY_FORMATS   =   { 
   parse :   { 
@@ -91,7 +92,7 @@ const misRutas: Routes = [
   { path: '', component : AddBoletaComponent },
   { path: 'Multas', component : ListaMultasComponent},
   { path: 'Administrador', component: AdministracionComponent},
-  { path: 'Código de Infracciones de Transporte', component: CodigoInfraccionesComponent}
+  // { path: 'codigoInfracciones', component: CodigoInfraccionesComponent}
 ];
 
 @NgModule({

@@ -1,9 +1,7 @@
 export class Boleta {
-    // $key:string;
-    numLicencia:string;
+    $key:string;
     placa:string;
-    // lugarInfraccion:string;
-    // observacionInfraccion:string;
-    ciPolicia:string;
-    // latlng: string;
+    latlong: string
+    art: string
+    num:string 
 }

@@ -21,8 +21,15 @@ import {
   equal,
   strictEqual
 } from 'assert';
-import { Boleta } from 'src/app/models/boletaInfraccion/boleta';
+import {
+  Boleta
+} from 'src/app/models/boletaInfraccion/boleta';
 import * as jsPDF from 'jspdf'
+import {
+  PdfMakeWrapper
+} from 'pdfmake-wrapper';
+import pdfFonts from "pdfmake/build/vfs_fonts";
+
 
 
 
@@ -33,52 +40,62 @@ import * as jsPDF from 'jspdf'
 })
 
 
-export class AddBoletaComponent implements OnInit { 
+export class AddBoletaComponent implements OnInit {
   datosBoleta: FormGroup
 
-  lat: number = -19.0397905;
-  lng: number = -65.2571159;
-  
+  lat: number
+  lng: number
+
   constructor(
     public servicioServices: ServiciosService,
     public notificaciones: NotificationsService,
     public builder: FormBuilder,
     private firebase: AngularFireDatabase
-    ) {
-      this.datosBoleta = this.builder.group({
-        $key: [],
-        numLicencia: [],
-        placa:[],
-        ciPolicia: [],
-        // latlng:[{value: this.lat +", "+ this.lng}]
-      })
+  ) {
+    this.datosBoleta = this.builder.group({
+      $key: [],
+      placaVehiculo: [],
+      art: [],
+      num: [],
+      latlong:[]
+    })
+
   }
 
 
   ngOnInit() {
+    this.getUserLocation()
     this.servicioServices.getInfracciones();
     this.resetForm()
   }
 
+  private getUserLocation(){
+    if(navigator.geolocation){
+      navigator.geolocation.getCurrentPosition(position =>{
+        this.lat = position.coords.latitude;
+        this.lng = position.coords.longitude;
+      });
+
+    }
+  }
+
   addBoleta(datosBoleta: NgForm) {
-    this.servicioServices.insertInfracciones(datosBoleta.value)
-      if (datosBoleta.value.$key == null){
-      this.notificaciones.success('Exitosamente','Item guardado correctamente',
-        {
-          timeOut: 3000,
-          showProgressBar:true
-        })
-    }
-    else
-    {
-      this.servicioServices.updateInfraccion(datosBoleta.value)
-      this.notificaciones.success('Exitosamente','Item actualizado correctamente',
-        {
-          timeOut: 3000,
-          showProgressBar:true
-        })
-    }
-    this.resetForm(datosBoleta)
+    console.log(datosBoleta.value);
+    
+    // this.servicioServices.insertInfracciones(datosBoleta.value)
+    // if (datosBoleta.value.$key == null) {
+    //   this.notificaciones.success('Exitosamente', 'Item guardado correctamente', {
+    //     timeOut: 3000,
+    //     showProgressBar: true
+    //   })
+    // } else {
+    //   this.servicioServices.updateInfraccion(datosBoleta.value)
+    //   this.notificaciones.success('Exitosamente', 'Item actualizado correctamente', {
+    //     timeOut: 3000,
+    //     showProgressBar: true
+    //   })
+    // }
+    // this.resetForm(datosBoleta)
   }
 
   resetForm(serviciBoleta ? : NgForm) {
@@ -88,220 +105,94 @@ export class AddBoletaComponent implements OnInit {
     }
   }
 
-  nuevoInfractor(){}
-
-  
-  generarPDF()
-  {
-    // let licencia: number = 7485588;
-    let licencia = (document.getElementById('numLicencia') as HTMLInputElement).value;
-    let placa = (document.getElementById('placa') as HTMLInputElement).value;
-    
-    const doc = new jsPDF('p','mm',[279, 120])//('p','mm',[297, 210]);
-    
-    doc.setFontSize(5);
-    doc.text(5.4, 6, 'ESTADO PLURINACIONAL DE BOLIVIA');
-    doc.setFontSize(9);
-    doc.text(5, 10, 'BOLETA INFRACCION');
-
-    doc.setFontSize(5);
-    doc.text(11, 15, 'Fecha y Hora:');
-    
-    doc.setFontSize(5);
-    doc.text(3, 20, 'Placa N° '+placa);
-    
-    doc.setFontSize(5);
-    doc.text(22, 20, 'Licencia N° '+licencia);
+  nuevoInfractor() {}
 
 
-    let nameInfractor = "";
-    let apPatInfractor = "";
-    let apMatInfractor = "";
-    let licenciaInfractor = "";
+  generarPDF() {
 
-    let name;
+    PdfMakeWrapper.setFonts(pdfFonts);
 
-    let infractor: string = (document.getElementById('numLicencia') as HTMLInputElement).value;
-
-    firebase.database().ref('infractor').once('value').then(function (snapshot) {
-      let nuevo = Object.keys(snapshot.val())
-
-      for (let i = 0; i < nuevo.length; i++) {
-        firebase.database().ref('infractor/' + nuevo[i]).once('value').then(function (snapshot) {
-          let ci = snapshot.child('licenciaInfractor').val()
-
-          if (infractor === ci) {
-
-            nameInfractor = snapshot.child('nombreInfractor').val()
-
-            apPatInfractor = snapshot.child('apPaternoInfractor').val()
-
-            apMatInfractor = snapshot.child('apMaternoInfractor').val()
-
-            doc.setFontSize(5);
-            doc.text(3, 24, 'Nombre del Conductor: '+nameInfractor+" "+apPatInfractor+" "+apMatInfractor);
-            doc.autoPrint();
-            doc.save('multa.pdf');
-          }
-          
-        });
-      }
-    });
-    
-    
-    
-    
-    
-    
-    
-    
-    // doc.setFontsize(12);
-    // doc.text('BOLETA INFRACCION',3,3);
+    const doc = new jsPDF('p', 'mm', [279, 120]) //('p','mm',[297, 210]);
 
 
+
+    let placaVehiculo: string = (document.getElementById('placaVehiculo') as HTMLInputElement).value;
+
+    var ref = firebase.database().ref('datosVehiculo');
+    ref.orderByChild('placa').equalTo(placaVehiculo).on("child_added", snap => {
+
+      let nombreInfractor = snap.val().nombreInfractor;
+      let apPatInfractor = snap.val().apPaternoInfractor;
+      let apMatInfractor = snap.val().apMaternoInfractor;
+      let numLicencia = snap.val().numLicencia;
+      let tipoVehiculo = snap.val().tipoVehiculo;
+      let marcaVehiculo = snap.val().marcaVehiculo;
+      let colorVehiculo = snap.val().colorVehiculo;
+      let placa = snap.val().placa;
+
+      doc.setFontSize(5);
+      doc.text(5.4, 6, 'ESTADO PLURINACIONAL DE BOLIVIA');
+      doc.setFontSize(9);
+      doc.text(5, 10, 'BOLETA INFRACCION');
+
+      doc.setFontSize(5);
+      doc.text(11, 15, 'Fecha y Hora:');
+
+      doc.setFontSize(5);
+      doc.text(3, 20, 'Placa N° ' + placa);
+
+      doc.setFontSize(5);
+      doc.text(22, 20, 'Licencia N° ' + numLicencia);
+
+      doc.setFontSize(5);
+      doc.text(3, 23, 'Infractor ' + nombreInfractor + ' ' + apPatInfractor + ' ' + apMatInfractor);
+
+      doc.save('infraccion.pdf');
+    })
+  }
+
+  validarCodigoInfraccion(){
+    let art: string = (document.getElementById('art') as HTMLInputElement).value;
+    let num: string = (document.getElementById('num') as HTMLInputElement).value;
+
+    var ref = firebase.database().ref('codigosTransito')
+    ref.orderByChild('articulo').equalTo(art).orderByChild('num').equalTo(num).on("child_added", snap => {
+      console.log(snap.val().descripcion);
+      
+    })
     
   }
 
+  comprobarInfractor() {
 
-  valorLicencia;
-  comprobarInfractor(ciInfrac ?: string) {
-    let nameInfractor = "";
-    let apPatInfractor = "";
-    let apMatInfractor = "";
-    let licenciaInfractor = "";
+    let placaVehiculo: string = (document.getElementById('placaVehiculo') as HTMLInputElement).value;
 
-    let name;
+    var ref = firebase.database().ref('datosVehiculo');
+    ref.orderByChild('placa').equalTo(placaVehiculo).on("child_added", snap => {
 
-    // document.getElementById('nombreInfractor').innerHTML = ""
-    // document.getElementById('apPaternoInfractor').innerHTML = ""
-    // document.getElementById('apMaternoInfractor').innerHTML = ""
-    // document.getElementById('licenciaInfractor').innerHTML = ""
+      let nombreInfractor = snap.val().nombreInfractor;
+      document.getElementById('nombreInfractor').innerHTML = nombreInfractor;
 
-    let infractor: string = (document.getElementById('numLicencia') as HTMLInputElement).value;
-    
+      let apPaternoInfractor = snap.val().apPaternoInfractor;
+      document.getElementById('apPaternoInfractor').innerHTML = apPaternoInfractor;
 
-    firebase.database().ref('infractor').once('value').then(function (snapshot) {
-      let nuevo = Object.keys(snapshot.val())
+      let apMaternoInfractor = snap.val().apMaternoInfractor;
+      document.getElementById('apMaternoInfractor').innerHTML = apMaternoInfractor;
 
-      for (let i = 0; i < nuevo.length; i++) {
-        firebase.database().ref('infractor/' + nuevo[i]).once('value').then(function (snapshot) {
-          let ci = snapshot.child('licenciaInfractor').val()
+      let numLicencia = snap.val().numLicencia;
+      document.getElementById('numLicencia').innerHTML = numLicencia;
 
-          if (infractor === ci) {
+      let tipoVehiculo = snap.val().tipoVehiculo;
+      document.getElementById('tipoVehiculo').innerHTML = tipoVehiculo
 
-            nameInfractor = snapshot.child('nombreInfractor').val()
-            name = document.getElementById('nombreInfractor').innerHTML = nameInfractor
+      let marcaVehiculo = snap.val().marcaVehiculo;
+      document.getElementById('marcaVehiculo').innerHTML = marcaVehiculo
 
-            apPatInfractor = snapshot.child('apPaternoInfractor').val()
-            document.getElementById('apPaternoInfractor').innerHTML = apPatInfractor
+      let colorVehiculo = snap.val().colorVehiculo;
+      document.getElementById('colorVehiculo').innerHTML = colorVehiculo
 
-            apMatInfractor = snapshot.child('apMaternoInfractor').val()
-            document.getElementById('apMaternoInfractor').innerHTML = apMatInfractor
-            
-            document.getElementById('licenciaInfractor').innerHTML = infractor;
-            // licenciaInfractor = snapshot.child('licenciaInfractor').val()
-          }
-          
-        });
-      }
-    });
-    
-    this.valorLicencia = (document.getElementById('numLicencia') as HTMLInputElement).value;
-    // if (strictEqual(nameInfractor.toString())) {console.log('crear nuevo infractor');}
-  }
-
-  valorVehiculo;
-  comprobarVehiculo()
-  {
-    let tiposVehiculos = "";
-    let marcasVehiculos = "";
-    let colorVehiculo = "";
-    let placa = "";
-
-    let name;
-
-    // document.getElementById('tipoVehiculo').innerHTML = ""
-    // document.getElementById('marcaVehiculo').innerHTML = ""
-    // document.getElementById('colorVehiculo').innerHTML = ""
-    // document.getElementById('placa').innerHTML = ""
-
-    let numPlaca: string = (document.getElementById('placa') as HTMLInputElement).value;
-
-    firebase.database().ref('datosVehiculo').once('value').then(function (snapshot) {
-      let nuevo = Object.keys(snapshot.val())
-
-      for (let i = 0; i < nuevo.length; i++) {
-        firebase.database().ref('datosVehiculo/' + nuevo[i]).once('value').then(function (snapshot) {
-          let ci = snapshot.child('placa').val()
-
-          if (numPlaca === ci) {
-
-            tiposVehiculos = snapshot.child('tipoVehiculo').val()
-            name = document.getElementById('tipoVehiculo').innerHTML = tiposVehiculos
-
-            marcasVehiculos = snapshot.child('marcaVehiculo').val()
-            document.getElementById('marcaVehiculo').innerHTML = marcasVehiculos
-
-            colorVehiculo = snapshot.child('colorVehiculo').val()
-            document.getElementById('colorVehiculo').innerHTML = colorVehiculo
-            
-            document.getElementById('placa').innerHTML = numPlaca;
-            // licenciaInfractor = snapshot.child('licenciaInfractor').val()
-          }
-          
-        });
-      }
-    });
-    
-    this.valorVehiculo = (document.getElementById('placa') as HTMLInputElement).value;
-  }
+    })
 
 
-
-
-  valorPolicia;
-  comprobarPolicia()
-  {
-    let nombrePersonal = "";
-    let apPaternoPersonal = "";
-    let apMaternoPersonal = "";
-    let ciPersonal = "";
-
-    let name;
-
-    // document.getElementById('nombrePersonal').innerHTML = ""
-    // document.getElementById('apPaternoPersonal').innerHTML = ""
-    // document.getElementById('apMaternoInfractor').innerHTML = ""
-    // document.getElementById('cedulaIdentidad').innerHTML = ""
-
-    let cedulaIdentidad: string = (document.getElementById('ciPolicia') as HTMLInputElement).value;
-
-    firebase.database().ref('personalTransito').once('value').then(function (snapshot) {
-      let nuevo = Object.keys(snapshot.val())
-
-      for (let i = 0; i < nuevo.length; i++) {
-        firebase.database().ref('personalTransito/' + nuevo[i]).once('value').then(function (snapshot) {
-          let ci = snapshot.child('ciPersonal').val()
-
-          if (cedulaIdentidad === ci) {
-
-            nombrePersonal = snapshot.child('nombrePersonal').val()
-            name = document.getElementById('nombrePersonal').innerHTML = nombrePersonal
-
-            apPaternoPersonal = snapshot.child('apPaternoPersonal').val()
-            document.getElementById('apPaternoPersonal').innerHTML = apPaternoPersonal
-
-            apMaternoPersonal = snapshot.child('apMaternoPersonal').val()
-            document.getElementById('apMaternoPersonal').innerHTML = apMaternoPersonal
-            
-            document.getElementById('cedulaIdentidad').innerHTML = cedulaIdentidad;
-            // licenciaInfractor = snapshot.child('licenciaInfractor').val()
-          }
-          
-        });
-      }
-    });
-    
-    this.valorPolicia = (document.getElementById('ciPersonal') as HTMLInputElement).value;
   }
 }
