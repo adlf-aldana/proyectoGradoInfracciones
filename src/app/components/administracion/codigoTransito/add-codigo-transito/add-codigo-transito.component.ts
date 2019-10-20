@@ -17,6 +17,16 @@ export class AddCodigoTransitoComponent implements OnInit {
 
   codigoTransito: FormGroup
 
+  get articulo() {
+    return this.codigoTransito.get('articulo')
+  }
+  get numero() {
+    return this.codigoTransito.get('numero')
+  }
+  get descripcion() {
+    return this.codigoTransito.get('descripcion')
+  }
+
   constructor(
     public servicioServices:ServiciosService, 
     public notificaciones:NotificationsService, 
@@ -36,6 +46,7 @@ export class AddCodigoTransitoComponent implements OnInit {
   }
 
 addCodigoTransito(servicioCodigoTransito: NgForm) {
+  if(servicioCodigoTransito.valid){
     if (servicioCodigoTransito.value.$key == null){
       this.servicioServices.insertCodigosTransito(servicioCodigoTransito.value)
       this.notificaciones.success('Exitosamente','Item guardado correctamente',
@@ -54,6 +65,7 @@ addCodigoTransito(servicioCodigoTransito: NgForm) {
         })
     }
     this.resetForm(servicioCodigoTransito)
+  }
   }
 
   resetForm(servicioCodigoTransito ? : NgForm) {

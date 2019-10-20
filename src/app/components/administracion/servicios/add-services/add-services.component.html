@@ -3,6 +3,11 @@
       [formGroup]="servicioVehicular"
       (ngSubmit)="agregarServicioVehiculo(servicioVehicular)"
     >
+
+    <p align="left">
+        <font size=2><strong>(*) Datos obligatorios </strong></font>
+      </p>
+
       <input
         type="hidden"
         name="$key"
@@ -15,14 +20,20 @@
           <mat-form-field>
         <input
         matInput
-          #tamNombreServicio maxlength="50"
-          placeholder="Tipo de servicio del vehículo"
+          #tamNombreServicio minlength="3" maxlength="50"
+          placeholder="Servicio del vehículo *"
           name="nombreTipoServicio"
           formControlName="nombreTipoServicio"
           [(ngModel)]="serviciosService.seleccionarServicioVehicular.nombreTipoServicio"
         />
         <mat-hint align="end"> {{tamNombreServicio.value.length}}/50 </mat-hint>
+
       </mat-form-field>
+          <div class="text-danger" *ngIf="nombreTipoServicio.invalid && (nombreTipoServicio.dirty || nombreTipoServicio.touched)">
+              <div class="" role="" *ngIf="nombreTipoServicio.errors.required">
+                Campo servicio es obligatorio
+              </div>
+            </div>
       
 
       <!-- <input
@@ -40,7 +51,7 @@
       <!-- <input class="btn btn-success m-2" type="submit" value="Guardar" />
       <input class="btn btn-secondary" type="button" value="Limpiar" (click)="resetForm(servicioVehicular)"/> -->
       <div>
-      <input [disabled]="servicioVehicular.invalid" class="btn btn-primary m-1" type="submit" value="Guardar">
+      <input [disabled]="servicioVehicular.invalid" class="btn btn-success m-1" type="submit" value="Guardar">
       <input class="btn btn-secondary" type="button" value="Limpiar" (click)="resetForm(servicioVehicular)"/>
     </div>
     

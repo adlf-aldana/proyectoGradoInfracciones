@@ -3,7 +3,10 @@ import {
   OnInit
 } from '@angular/core';
 import {
-  NgForm, FormGroup, FormBuilder, Validators
+  NgForm,
+  FormGroup,
+  FormBuilder,
+  Validators
 } from '@angular/forms';
 import {
   Cargos
@@ -11,8 +14,11 @@ import {
 import {
   ServiciosService
 } from 'src/app/services/servicios.service';
-import { NotificationsService } from 'angular2-notifications';
-import { timeout } from 'q';
+import {
+  NotificationsService
+} from 'angular2-notifications';
+import * as firebase from 'firebase/app'
+
 
 @Component({
   selector: 'app-add-cargo',
@@ -23,14 +29,20 @@ export class AddCargoComponent implements OnInit {
 
   validando: FormGroup
 
-  constructor(public servicioServices: ServiciosService, public notificaciones:NotificationsService,public builder:FormBuilder)
-     {
-       this.validando = this.builder.group({
-        cargo: ['', Validators.required],
-        $key: [],
-        busqueda: []
-       })
-     }
+  get cargo() {
+    return this.validando.get('cargo')
+  }
+
+  constructor(
+    public servicioServices: ServiciosService,
+    public notificaciones: NotificationsService,
+    public builder: FormBuilder) {
+    this.validando = this.builder.group({
+      $key: [],
+      cargo: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(50)]],
+
+    })
+  }
 
   ngOnInit() {
     this.servicioServices.getCargo();
@@ -39,25 +51,32 @@ export class AddCargoComponent implements OnInit {
 
 
 
-  agregarCargo(cargo) {
-      if (cargo.value.$key == null){
+  agregarCargo(cargo: NgForm) {
+    
+    if (cargo.valid) {
+      if (cargo.value.$key == null) {
         this.servicioServices.insertCargos(cargo.value)
-        this.notificaciones.success('Exitosamente','Cargo guardado correctamente',
-        {
-          timeOut:3000,
-          showProgressBar:true
-        })
-      }
-      else{
-        this.servicioServices.updateCargos(cargo.value)
-        this.notificaciones.success('Exitosamente','Cargo actualizado correctamente',
-        {
+        this.notificaciones.success('Exitosamente', 'Cargo guardado correctamente', {
           timeOut: 3000,
-          showProgressBar:true
+          showProgressBar: true
+        })
+      } else {
+        this.servicioServices.updateCargos(cargo.value)
+        this.notificaciones.success('Exitosamente', 'Cargo actualizado correctamente', {
+          timeOut: 3000,
+          showProgressBar: true
         })
       }
       this.resetForm(cargo)
+    } else {
+      this.servicioServices.updateCargos(cargo.value)
+      this.notificaciones.success('Error', 'Cargo es un campo obligatorio', {
+        timeOut: 3000,
+        showProgressBar: true
+      })
+    }
   }
+
 
   resetForm(cargo ? : NgForm) {
     if (cargo != null) {
@@ -67,3 +86,26 @@ export class AddCargoComponent implements OnInit {
   }
 
 }
+
+
+// if (cargo.value.$key == null) {
+//   this.servicioServices.insertCargos(cargo.value)
+//   this.notificaciones.success('Exitosamente', 'Cargo guardado correctamente', {
+//     timeOut: 3000,
+//     showProgressBar: true
+//   })
+// } else {
+//   this.servicioServices.updateCargos(cargo.value)
+//   this.notificaciones.success('Exitosamente', 'Cargo actualizado correctamente', {
+//     timeOut: 3000,
+//     showProgressBar: true
+//   })
+// }
+// this.resetForm(cargo)
+// })
+// } else {
+// this.servicioServices.updateCargos(cargo.value)
+// this.notificaciones.success('Error', 'Cargo es un campo obligatorio', {
+// timeOut: 3000,
+// showProgressBar: true
+// }

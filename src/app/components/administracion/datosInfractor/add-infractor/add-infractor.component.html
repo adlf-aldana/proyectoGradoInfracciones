@@ -4,19 +4,24 @@
       [formGroup]="datosInfractor"
       (ngSubmit)="addInfractor(datosInfractor)"
     >
-      <!-- <input
+
+    <p align="left">
+        <font size=2><strong>(*) Datos obligatorios </strong></font>
+      </p>
+
+      <input
         type="hidden"
         name="$key"
         formControlName=$key
-        [(ngModel)]="servicioServices.seleccionarInfractor.ciInfractor"
-      /> -->
+        [(ngModel)]="servicioServices.seleccionarInfractor.$key"
+      />
   
       <div>
         <mat-form-field>
       <input
       matInput
         #tamNombre maxlength="50"
-        placeholder="Nombre"
+        placeholder="Nombre *"
         name="nombreInfractor"
         formControlName="nombreInfractor"
         [(ngModel)]="servicioServices.seleccionarInfractor.nombreInfractor"
@@ -32,7 +37,7 @@
   <input
   matInput
   #tamApPaterno maxlength="50"
-        placeholder="Apellido Paterno"
+        placeholder="Apellido Paterno *"
         name="apPaternoInfractor"
         formControlName="apPaternoInfractor"
         [(ngModel)]="servicioServices.seleccionarInfractor.apPaternoInfractor"
@@ -53,7 +58,7 @@
       <input
       matInput
         #tamApMaterno maxlength="50"
-        placeholder="Apellido Materno"
+        placeholder="Apellido Materno *"
         name="apMaternoInfractor"
         formControlName="apMaternoInfractor"
         [(ngModel)]="servicioServices.seleccionarInfractor.apMaternoInfractor"
@@ -73,7 +78,7 @@
       <input
         matInput
         #tamCi maxlength="11"
-        placeholder="N° Licencia"
+        placeholder="N° Licencia *"
         name="licenciaInfractor"
         formControlName="licenciaInfractor"
         [(ngModel)]="servicioServices.seleccionarInfractor.licenciaInfractor"
@@ -85,7 +90,7 @@
       
 <div>
       <mat-form-field>
-          <mat-label>Sexo</mat-label>
+          <mat-label>Sexo *</mat-label>
           <mat-select
       name="sexoInfractor"
       formControlName="sexoInfractor"
@@ -148,7 +153,7 @@
 
   
     <div class="d-flex flex-row bd-highlight">
-      <input class="btn btn-success p-2 bd-highlight m-1" type="submit" value="Guardar" />
+      <input [disabled]="InfractorTransito.invalid" class="btn btn-success p-2 bd-highlight m-1" type="submit" value="Guardar" />
       <input class="btn btn-secondary p-2 bd-highlight m-1" type="button" value="Limpiar" (click)="resetForm(InfractorTransito)"/>
     </div>
       

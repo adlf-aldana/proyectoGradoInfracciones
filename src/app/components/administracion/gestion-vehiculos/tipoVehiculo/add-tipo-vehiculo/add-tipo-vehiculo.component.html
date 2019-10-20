@@ -1,33 +1,27 @@
 <div class="mt-3 ml-auto">
-    <form
-      [formGroup]="tipoVehiculo"
-      (ngSubmit)="agregarTipoVehiculo(tipoVehiculo)"
-    >
-      <input
-        type="hidden"
-        name="$key"
-        formControlName="$key"
-        [(ngModel)]="servicioServices.seleccionarTipoVehiculo.$key"
-      />
-      <div>
-        <mat-form-field>
-      <input
-      matInput
-        #tamTipo maxlength="50"
-        placeholder="Tipo de Vehiculo"
-        name="nombreTipoVehiculo"
-        formControlName="nombreTipoVehiculo"
-        [(ngModel)]="
+  <form [formGroup]="tipoVehiculo" (ngSubmit)="agregarTipoVehiculo(tipoVehiculo)">
+    <input type="hidden" name="$key" formControlName="$key"
+      [(ngModel)]="servicioServices.seleccionarTipoVehiculo.$key" />
+    <div>
+      <mat-form-field>
+        <input matInput #tamTipo maxlength="50" minlength="3" placeholder="Tipo de Vehiculo *" name="nombreTipoVehiculo"
+          formControlName="nombreTipoVehiculo" [(ngModel)]="
         servicioServices.seleccionarTipoVehiculo.nombreTipoVehiculo
-        "
-      />
-      <mat-hint align="end">{{tamTipo.value.length}}/50</mat-hint>
-    </mat-form-field>
+        " />
+        <mat-hint align="end">{{tamTipo.value.length}}/50</mat-hint>
+      </mat-form-field>
+
+      <div class="text-danger"
+        *ngIf="nombreTipoVehiculo.invalid && (nombreTipoVehiculo.dirty || nombreTipoVehiculo.touched)">
+        <div class="" role="" *ngIf="nombreTipoVehiculo.errors.required">
+          Campo tipo es obligatorio
+        </div>
+      </div>
+
     </div>
-  <div>
+    <div>
       <input [disabled]="tipoVehiculo.invalid" class="btn btn-success m-2" type="submit" value="Guardar" />
-      <input class="btn btn-secondary" type="button" value="Limpiar" (click)="resetForm(tipoVehiculo)"/>
+      <input class="btn btn-secondary" type="button" value="Limpiar" (click)="resetForm(tipoVehiculo)" />
     </div>
-    </form>
-  </div>
-  
+  </form>
+</div>

@@ -1,120 +1,173 @@
   <div class="m-3">
-    <form class="form-inline" [formGroup]="datosBoleta" (ngSubmit)="addBoleta(datosBoleta)">
-      <input type="hidden" name="" formControlName=$key />
-      <div class="m-3">
-        <div class="text-center">
-          <div class="card">
 
-            <h4>DATOS POLICIA</h4>
-            <div class="text-left m-3">
-              <p>Grado: <strong id="grado"></strong></p>
-              <p>Nombre: <strong id="nombrePersonal"></strong></p>
-              <p>Apellido Paterno: <strong id="apPaternoPersonal"></strong></p>
-              <p>Apellido Materno: <strong id="apMaternoPersonal"></strong></p>
-              <p>Cedula Identidad: <strong id="cedulaIdentidad"></strong></p>
-            </div>
-          </div>
-        </div>
+    <form class="" [formGroup]="datosBoleta" (ngSubmit)="addBoleta(datosBoleta)">
+      <div class="card">
+        <input type="hidden" name="" formControlName=$key />
 
-        <div class="text-center m-3">
-          <div class="card p-3">
-            <h4>INFRACTOR</h4>
-            <mat-form-field>
-              <input matInput #placaVehiculo id="placaVehiculo" maxlength="10" placeholder="Placa del Vehiculo"
-                name="placaVehiculo" formControlName="placaVehiculo" />
-              <mat-hint align="">
-                <p>Ejemplo: 1234ABCD</p>
-              </mat-hint>
-              <mat-hint align="end"> {{placaVehiculo.value.length}}/10 </mat-hint>
-            </mat-form-field>
+        <div class="m-3 row">
 
-            <div class="">
-              <input type="button" class="btn btn-primary m-3" (click)="comprobarInfractor()" value="Buscar Infractor">
-              <input type="button" data-toggle="modal" class="btn btn-primary" value="Nuevo infractor"
-                href="#listDatosVehiculo">
-              <app-lit-datos-vehiculo></app-lit-datos-vehiculo>
-            </div>
-            <div>
-              <h5>DATOS DEL INFRACTOR</h5>
-              <div class="text-left">
-                <p>Nombre: <strong id="nombreInfractor"></strong></p>
-                <p>Apellido Paterno: <strong id="apPaternoInfractor"></strong></p>
-                <p>Apellido Materno: <strong id="apMaternoInfractor"></strong></p>
-                <p>N° Licencia: <strong id="numLicencia"></strong></p>
+          <div class="text-center col">
+
+            <div class="card">
+
+              <h4>DATOS POLICIA</h4>
+              <div class="text-left m-3">
+                <p>Grado: <strong id="grado"></strong></p>
+                <p>Nombre: <strong id="nombrePersonal"></strong></p>
+                <p>Apellido Paterno: <strong id="apPaternoPersonal"></strong></p>
+                <p>Apellido Materno: <strong id="apMaternoPersonal"></strong></p>
+                <p>Cedula Identidad: <strong id="cedulaIdentidad"></strong></p>
               </div>
             </div>
 
-            <div>
-              <h5>DATOS DEL VEHICULO</h5>
-              <div class="text-left">
-                <p>Tipo: <strong id="tipoVehiculo"></strong></p>
-                <p>Marca: <strong id="marcaVehiculo"></strong></p>
-                <p>Color: <strong id="colorVehiculo"></strong></p>
+            <div class="card p-3 m-3">
+              <h4>UBICACION</h4>
+
+              <input type="hidden" name="lat" id="lat" formControlName="lat"
+                [(ngModel)]="servicioServices.seleccionarInfraccion.lat">
+              <input type="hidden" name="lng" id="lng" formControlName="lng"
+                [(ngModel)]="servicioServices.seleccionarInfraccion.lng">
+              <div class="input-group m-3">
+                <div class="text-left">
+                  <p>Latitud: <strong>{{lat}}</strong></p>
+                  <p>Longitud: <strong>{{lng}}</strong></p>
+                </div>
+                <!-- <input type="text" class="form-control" 
+                formControlName="latlong" name="latlong" id="latlong" value="{{lat}},{{lng}}" disabled> -->
               </div>
+              <div layout-align="center center">
+
+                <agm-map [latitude]="lat" [longitude]="lng" [zoom]="18" [mapTypeControl]="mapControls">
+
+                  <agm-marker [latitude]="lat" [longitude]="lng">
+                  </agm-marker>
+
+                </agm-map>
+              </div>
+              <app-add-mapa></app-add-mapa>
             </div>
 
           </div>
-        </div>
 
-      </div>
-      <div>
-
-        <div class="text-center">
-          <div class="card p-3">
-            <h4>UBICACION</h4>
-
-            <div class="input-group m-3">
-              <input type="text" class="form-control" 
-              formControlName="latlong" name="latlong" id="latlong" value="{{lat}},{{lng}}" disabled>
-            </div>
-            <div layout-align="center center">
-
-              <agm-map [latitude]="lat" [longitude]="lng" [zoom]="18" [mapTypeControl]="mapControls">
-
-                <agm-marker [latitude]="lat" [longitude]="lng">
-                </agm-marker>
-
-              </agm-map>
-            </div>
-            <app-add-mapa></app-add-mapa>
-          </div>
-        </div>
-
-        <div class="m-3">
-          <div class="card p-3">
-            <h4>INFRACCION</h4>
-            <div>
-              <mat-form-field class="m-2">
-                <input matInput #ciInfractor id="art" maxlength="50" placeholder="Artículo" name="art"
-                  formControlName="art" />
-              </mat-form-field>
-
+          <div class="text-center m-3 col">
+            <div class="card p-3">
+              <h4>INFRACTOR</h4>
               <mat-form-field>
-                <input matInput #ciInfractor id="num" maxlength="50" placeholder="Num" name="num"
-                  formControlName="num" />
+                <input matInput #placaVehiculo id="placa" maxlength="10" placeholder="Placa del Vehiculo" name="placa"
+                  formControlName="placa" [(ngModel)]="servicioServices.seleccionarInfraccion.placa" />
+                <mat-hint align="">
+                  <p>Ejemplo: 1234ABCD</p>
+                </mat-hint>
+                <mat-hint align="end"> {{placaVehiculo.value.length}}/10 </mat-hint>
               </mat-form-field>
+
+              <div class="">
+                <input type="button" class="btn btn-primary m-3" (click)="comprobarInfractor()"
+                  value="Buscar Infractor">
+                <input type="button" data-toggle="modal" class="btn btn-primary" value="Nuevo infractor"
+                  href="#listDatosVehiculo">
+                <app-lit-datos-vehiculo></app-lit-datos-vehiculo>
+              </div>
+              <div>
+                <h5>DATOS DEL INFRACTOR</h5>
+                <div class="text-left">
+                  <p>Nombre: <strong id="nombreInfractor"></strong></p>
+                  <p>Apellido Paterno: <strong id="apPaternoInfractor"></strong></p>
+                  <p>Apellido Materno: <strong id="apMaternoInfractor"></strong></p>
+                  <p>N° Licencia: <strong id="numLicencia"></strong></p>
+                </div>
+              </div>
 
               <div>
-                <input type="button" value="Validar" class="btn btn-primary m-2" (click)="validarCodigoInfraccion()">
-                
-                <input type="button" value="Buscar" href="#listCodigo"
-                data-toggle="modal" class="btn btn-secondary">
-                <app-codigo-infracciones></app-codigo-infracciones>
+                <h5>DATOS DEL VEHICULO</h5>
+                <div class="text-left">
+                  <p>Tipo: <strong id="tipoVehiculo"></strong></p>
+                  <p>Marca: <strong id="marcaVehiculo"></strong></p>
+                  <p>Color: <strong id="colorVehiculo"></strong></p>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+
+        <div>
+          <!-- <div class="text-center col">
+            <div class="card p-3">
+              <h4>UBICACION</h4>
+              <input type="hidden" name="lat" id="lat" formControlName="lat"
+                [(ngModel)]="servicioServices.seleccionarInfraccion.lat">
+              <input type="hidden" name="lng" id="lng" formControlName="lng"
+                [(ngModel)]="servicioServices.seleccionarInfraccion.lng">
+              <div class="input-group m-3">
+                <div class="text-left">
+                  <p>Latitud: <strong>{{lat}}</strong></p>
+                  <p>Longitud: <strong>{{lng}}</strong></p>
+                </div>
+              </div>
+              <div layout-align="center center">
+                <agm-map [latitude]="lat" [longitude]="lng" [zoom]="18" [mapTypeControl]="mapControls">
+                  <agm-marker [latitude]="lat" [longitude]="lng">
+                  </agm-marker>
+                </agm-map>
+              </div>
+              <app-add-mapa></app-add-mapa>
+            </div>
+          </div> -->
+          <div class="m-3 row text-center">
+            <div class="card p-3 col">
+              <h4>INFRACCION</h4>
+              <div>
+                <mat-form-field class="m-2">
+                  <input matInput #ciInfractor id="art" maxlength="50" placeholder="Artículo" name="art"
+                    formControlName="art" />
+                </mat-form-field>
+
+                <mat-form-field>
+                  <input matInput #ciInfractor id="num" maxlength="50" placeholder="Num" name="num"
+                    formControlName="num" />
+                </mat-form-field>
+
+                <div>
+                  <input type="button" value="Validar" class="btn btn-primary m-2" (click)="validarCodigoInfraccion()">
+
+                  <input type="button" value="Buscar" href="#listCodigo" data-toggle="modal" class="btn btn-secondary">
+                  <app-codigo-infracciones></app-codigo-infracciones>
+
+                </div>
+              </div>
+
+              <textarea rows="7" cols="45" placeholder="Descripcion" disabled></textarea>
+            </div>
+
+            <div class="col">
+              <div class="card">
+                <h4>FOTOGRAFIAS</h4>
+
+                <div id="app">
+                    <div><video #video id="video" width="640" height="480" autoplay></video></div>
+                    <div><button id="snap" (click)="capture()">Snap Photo</button></div>
+                    <canvas #canvas id="canvas" width="640" height="480"></canvas>
+                    <!-- <ul>
+                        <li *ngFor="let c of captures">
+                            <img src="{{ c }}" height="50" />
+                        </li>
+                    </ul> -->
+                </div>
 
               </div>
             </div>
 
-            <textarea rows="7" cols="45" placeholder="Descripcion" disabled></textarea>
-
           </div>
         </div>
-      </div>
 
 
-      <div>
-        <input class="btn btn-success m-1" type="submit" value="Guardar" />
-        <input class="btn btn-secondary m-1" type="button" value="Limpiar" (click)="resetForm(datosBoleta)" />
-        <input class="btn btn-primary" type="button" value="Generar" (click)="generarPDF()">
+        <div class="text-right">
+          <input class="btn btn-success m-1" type="submit" value="Guardar" />
+          <input class="btn btn-secondary m-1" type="button" value="Limpiar" (click)="resetForm(datosBoleta)" />
+          <input class="btn btn-primary" type="button" value="Generar" (click)="generarPDF()">
+        </div>
       </div>
     </form>
   </div>

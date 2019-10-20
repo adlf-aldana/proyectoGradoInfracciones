@@ -1,208 +1,261 @@
-<div class="">
+<form class="form-group" [formGroup]="datosVehiculo" (ngSubmit)="addDatosVehiculo(datosVehiculo)">
+  
+  <div class="card">
+    
+    <h3>REGISTRO DE DATOS</h3>
 
-  <!-- name="sexoPersonal"
-    formControlName="sexoPersonal"
-    [(ngModel)]="servicioServices.seleccionarPersonal.sexoPersonal" -->
-    <form class="" [formGroup]="datosVehiculo" (ngSubmit)="addDatosVehiculo(datosVehiculo)">
-    <div class="card form-row">
-      <!-- DATOS INFRACTOR -->
-      <h3>REGISTRO DE DATOS</h3>
+    <p align="left p-1">
+        <font size=2><strong>(*) Datos obligatorios </strong></font>
+      </p>
 
-      <div class="card col">
-        <div class="text-center">
-          <h5>DATOS INFRACTOR</h5>
-        </div>
-        
-        <div>
-          <mat-form-field class="m-3">
-            <input matInput #nombreInfractor maxlength="11" placeholder="Nombre" name="nombreInfractor"
-              formControlName="nombreInfractor"
-              [(ngModel)]="servicioServices.seleccionarDatosVehiculo.nombreInfractor" />
-            <mat-hint align="end">{{nombreInfractor.value.length}}/11</mat-hint>
-          </mat-form-field>
-          <mat-form-field class="m-3">
-            <input matInput #apPaternoInfractor maxlength="11" placeholder="Apellido Paterno" name="apPaternoInfractor"
-              formControlName="apPaternoInfractor"
-              [(ngModel)]="servicioServices.seleccionarDatosVehiculo.apPaternoInfractor" />
-            <mat-hint align="end">{{apPaternoInfractor.value.length}}/11</mat-hint>
-          </mat-form-field>
-          <mat-form-field class="m-3">
-            <input matInput #apMaternoInfractor maxlength="11" placeholder="Apellido Materno" name="apMaternoInfractor"
-              formControlName="apMaternoInfractor"
-              [(ngModel)]="servicioServices.seleccionarDatosVehiculo.apMaternoInfractor" />
-            <mat-hint align="end">{{apMaternoInfractor.value.length}}/11</mat-hint>
-          </mat-form-field>
-        </div>
+      <div class="row m-1">
 
+      <div class="col">
+        <div class="card">
 
-        <div>
-          <mat-form-field class="m-3">
-            <input matInput #numLicencia maxlength="11" placeholder="N° de Licencia de conducir" name="numLicencia"
-              formControlName="numLicencia" [(ngModel)]="servicioServices.seleccionarDatosVehiculo.numLicencia" />
-            <mat-hint align="end">{{numLicencia.value.length}}/11</mat-hint>
-          </mat-form-field>
+          <div class="text-center m-3">
+            <h5>DATOS INFRACTOR</h5>
+          </div>
 
-          <mat-form-field class="m-3">
-            <mat-label>Sexo:</mat-label>
-            <mat-select formControlName="sexoInfractor"
-              [(ngModel)]="servicioServices.seleccionarDatosVehiculo.sexoInfractor">
-              <mat-option value="Masculino">
-                Masculino
-              </mat-option>
-              <mat-option value="Femenino">
-                Femenino
-              </mat-option>
-            </mat-select>
-          </mat-form-field>
-
-          <mat-form-field class="m-3">
-            <input matInput type="date" placeholder="Fecha de nacimiento" name="fechaNacimientoInfractor"
-              formControlName="fechaNacimientoInfractor"
-              [(ngModel)]="servicioServices.seleccionarDatosVehiculo.fechaNacimientoInfractor" />
-          </mat-form-field>
-        </div>
-        <div>
-          <mat-form-field class="m-3">
-            <input matInput #celularInfractor maxlength="11" placeholder="N° de celular" name="celularInfractor"
-              formControlName="celularInfractor"
-              [(ngModel)]="servicioServices.seleccionarDatosVehiculo.celularInfractor" />
-            <mat-hint align="end">{{numLicencia.value.length}}/11</mat-hint>
-          </mat-form-field>
-
-          <mat-form-field class="m-3">
-            <input matInput #direccionInfractor maxlength="11" placeholder="Dirección" name="direccionInfractor"
-              formControlName="direccionInfractor"
-              [(ngModel)]="servicioServices.seleccionarDatosVehiculo.direccionInfractor" />
-            <mat-hint align="end">{{numLicencia.value.length}}/11</mat-hint>
-          </mat-form-field>
-        </div>
-
-        <!-- [(ngModel)]="servicioServices.seleccionarDatosVehiculo.tipo" -->
-
-      </div>
-
-
-      <div class="col" >
-
-        <div class="text-center m-1">
-          <div class="card p-3">
-
-            <input type="hidden" name="" formControlName=$key />
-            <h5>Datos Vehículo</h5>
-            <mat-form-field>
-              <input matInput #tamCi maxlength="11" placeholder="Placa" name="placa" formControlName="placa" />
-              <mat-hint align="">
-                <p>Ejemplo: 1234ABCD </p>
-              </mat-hint>
-              <mat-hint align="end">{{tamCi.value.length}}/11</mat-hint>
+          <div class="row m-auto">
+            <mat-form-field class="m-3">
+              <input matInput #nombre id="nombreInfractor" name="nombreInfractor" maxlength="11" minlength="3" placeholder="Nombre *"
+                formControlName="nombreInfractor"
+                [(ngModel)]="servicioServices.seleccionarDatosVehiculo.nombreInfractor" />
+              <mat-hint align="">min: 3</mat-hint>
+              <mat-hint align="end">{{nombre.value.length}}/11</mat-hint>
             </mat-form-field>
+            <div class="text-danger" *ngIf="nombreInfractor.invalid && (nombreInfractor.dirty || nombreInfractor.touched)">
+                <div class="" role="" *ngIf="nombreInfractor.errors.required">
+                  Campo nombre es obligatorio
+                </div>
+              </div>
 
-            <mat-form-field>
-              <mat-label>Tipo</mat-label>
-              <mat-select formControlName="tipo" [(ngModel)]="servicioServices.seleccionarDatosVehiculo.tipo">
+            <mat-form-field class="m-3">
+              <input matInput #apPaterno maxlength="11" minlength="3" placeholder="Apellido Paterno *"
+                name="apPaternoInfractor" formControlName="apPaternoInfractor"
+                [(ngModel)]="servicioServices.seleccionarDatosVehiculo.apPaternoInfractor" />
+                <mat-hint align="">min: 3</mat-hint>
+              <mat-hint align="end">{{apPaterno.value.length}}/11</mat-hint>
+            </mat-form-field>
+            <div class="text-danger" *ngIf="apPaternoInfractor.invalid && (apPaternoInfractor.dirty || apPaternoInfractor.touched)">
+                <div class="" role="" *ngIf="apPaternoInfractor.errors.required">
+                  Campo Apellido Paterno es obligatorio
+                </div>
+              </div>
 
-                <mat-option value="Automovil">
-                  Automovil
-                </mat-option>
+            <mat-form-field class="m-3">
+              <input matInput #apMaterno maxlength="11" minlength="3" placeholder="Apellido Materno *"
+                name="apMaternoInfractor" formControlName="apMaternoInfractor"
+                [(ngModel)]="servicioServices.seleccionarDatosVehiculo.apMaternoInfractor" />
+                <mat-hint align="">min: 3</mat-hint>
+              <mat-hint align="end">{{apMaterno.value.length}}/11</mat-hint>
+            </mat-form-field>
+            <div class="text-danger" *ngIf="apMaternoInfractor.invalid && (apMaternoInfractor.dirty || apMaternoInfractor.touched)">
+                <div class="" role="" *ngIf="apMaternoInfractor.errors.required">
+                  Campo Apellido Materno es obligatorio
+                </div>
+              </div>
+          
+            <mat-form-field class="m-3">
+              <input matInput #licencia maxlength="11" minlength="7" placeholder="N° de Licencia de conducir *" name="numLicencia"
+                formControlName="numLicencia" [(ngModel)]="servicioServices.seleccionarDatosVehiculo.numLicencia" />
+                <mat-hint align="">min: 7</mat-hint>
+              <mat-hint align="end">{{licencia.value.length}}/11</mat-hint>
+            </mat-form-field>
+            <div class="text-danger" *ngIf="numLicencia.invalid && (numLicencia.dirty || numLicencia.touched)">
+                <div class="" role="" *ngIf="numLicencia.errors.required">
+                  Campo Licencia de conducir es obligatorio
+                </div>
+              </div>
 
-                <mat-option value="MiniBus">
-                  MiniBus
+            <mat-form-field class="m-3">
+              <mat-label>Sexo *</mat-label>
+              <mat-select formControlName="sexoInfractor"
+                [(ngModel)]="servicioServices.seleccionarDatosVehiculo.sexoInfractor">
+                <mat-option value="Masculino">
+                  Masculino
                 </mat-option>
-
-                <mat-option value="Camion">
-                  Camion
+                <mat-option value="Femenino">
+                  Femenino
                 </mat-option>
-
-                <mat-option value="Bus">
-                  Bus
-                </mat-option>
-
-                <mat-option value="MicroBus">
-                  MicroBus
-                </mat-option>
-
-                <mat-option value="Camioneta">
-                  Camioneta
-                </mat-option>
-                <mat-option value="Vagoneta">
-                  Vagoneta
-                </mat-option>
-                <mat-option value="Otros">
-                  Otros
-                </mat-option>
-
               </mat-select>
             </mat-form-field>
+            <div class="text-danger" *ngIf="sexoInfractor.invalid && (sexoInfractor.dirty || sexoInfractor.touched)">
+                <div class="" role="" *ngIf="sexoInfractor.errors.required">
+                  Sexo es obligatorio
+                </div>
+              </div>
 
+            <mat-form-field class="m-3">
+              <input matInput type="date" placeholder="Fecha de nacimiento *" name="fechaNacimientoInfractor"
+                formControlName="fechaNacimientoInfractor"
+                [(ngModel)]="servicioServices.seleccionarDatosVehiculo.fechaNacimientoInfractor" />
+            </mat-form-field>
+            <div class="text-danger" *ngIf="fechaNacimientoInfractor.invalid && (fechaNacimientoInfractor.dirty || fechaNacimientoInfractor.touched)">
+                <div class="" role="" *ngIf="fechaNacimientoInfractor.errors.required">
+                  Fecha de nacimiento es obligatorio
+                </div>
+              </div>
+          
 
-            <mat-form-field>
-              <mat-label>Marca</mat-label>
-              <mat-select formControlName="marca" [(ngModel)]="servicioServices.seleccionarDatosVehiculo.marca">
-
-                <mat-option value="Toyota">
-                  Toyota
-                </mat-option>
-
-                <mat-option value="Nissan">
-                  Nissan
-                </mat-option>
-
-                <mat-option value="Volkswagen">
-                  Volkswagen
-                </mat-option>
-
-                <mat-option value="Suzuki">
-                  Suzuki
-                </mat-option>
-
-                <mat-option value="Mitsubishi">
-                  Mitsubishi
-                </mat-option>
-
-                <mat-option value="Otros">
-                  Otros
-                </mat-option>
-
-              </mat-select>
+            <mat-form-field class="m-3">
+              <input matInput #celularInfractor maxlength="11" minlength="8" placeholder="N° de celular" name="celularInfractor"
+                formControlName="celularInfractor"
+                [(ngModel)]="servicioServices.seleccionarDatosVehiculo.celularInfractor" />
+                <mat-hint align="">min: 8</mat-hint>
+              <mat-hint align="end">{{celularInfractor.value.length}}/11</mat-hint>
             </mat-form-field>
 
-            <mat-form-field>
-              <mat-label>Color</mat-label>
-              <mat-select formControlName="color" [(ngModel)]="servicioServices.seleccionarDatosVehiculo.color">
-
-                <mat-option value="Blanco">
-                  Blanco
-                </mat-option>
-
-                <mat-option value="Rojo">
-                  Rojo
-                </mat-option>
-
-                <mat-option value="Negro">
-                  Negro
-                </mat-option>
-
-                <mat-option value="Azul">
-                  Azul
-                </mat-option>
-
-                <mat-option value="Otro">
-                  Otro
-                </mat-option>
-
-              </mat-select>
+            <mat-form-field class="m-3">
+              <input matInput #direccionInfractor maxlength="50" minlength="3" placeholder="Dirección" name="direccionInfractor"
+                formControlName="direccionInfractor"
+                [(ngModel)]="servicioServices.seleccionarDatosVehiculo.direccionInfractor" />
+                <mat-hint align="">min: 3</mat-hint>
+              <mat-hint align="end">{{direccionInfractor.value.length}}/50</mat-hint>
             </mat-form-field>
           </div>
         </div>
-
-        <!-- <div class="d-flex flex-row bd-highlight"> -->
-        <div class="m-1">
-          <input class="btn btn-success m-1" type="submit" value="Guardar" />
-          <input class="btn btn-secondary m-1" type="button" value="Limpiar" (click)="resetForm(datosBoleta)" />
-        </div>
       </div>
 
-    </div>
-    </form>
+      <div class="col">
+        <div class="card p-3">
 
-</div>
+          <input type="hidden" name="" formControlName=$key />
+          <h5>Datos Vehículo</h5>
+          <mat-form-field>
+            <input matInput #tamCi maxlength="11" placeholder="Placa" name="placa" formControlName="placa" />
+            <mat-hint align="">
+              <p>Ejemplo: 1234ABCD </p>
+            </mat-hint>
+            <mat-hint align="end">{{tamCi.value.length}}/11</mat-hint>
+          </mat-form-field>
+          <div class="text-danger" *ngIf="placa.invalid && (placa.dirty || placa.touched)">
+              <div class="" role="" *ngIf="placa.errors.required">
+                Campo placa es obligatorio
+              </div>
+            </div>
+
+          <mat-form-field>
+            <mat-label>Tipo</mat-label>
+            <mat-select id="tipo" name="tipo" formControlName="tipo" [(ngModel)]="servicioServices.seleccionarDatosVehiculo.tipo">
+
+              <mat-option value="Automovil">
+                Automovil
+              </mat-option>
+
+              <mat-option value="MiniBus">
+                MiniBus
+              </mat-option>
+
+              <mat-option value="Camion">
+                Camion
+              </mat-option>
+
+              <mat-option value="Bus">
+                Bus
+              </mat-option>
+
+              <mat-option value="MicroBus">
+                MicroBus
+              </mat-option>
+
+              <mat-option value="Camioneta">
+                Camioneta
+              </mat-option>
+              <mat-option value="Vagoneta">
+                Vagoneta
+              </mat-option>
+              <mat-option value="Otros">
+                Otros
+              </mat-option>
+
+            </mat-select>
+          </mat-form-field>
+          <div class="text-danger" *ngIf="tipo.invalid && (tipo.dirty || tipo.touched)">
+              <div class="" role="" *ngIf="tipo.errors.required">
+                Tipo es obligatorio
+              </div>
+            </div>
+
+
+          <mat-form-field>
+            <mat-label>Marca</mat-label>
+            <mat-select id="marca" name="marca" formControlName="marca" [(ngModel)]="servicioServices.seleccionarDatosVehiculo.marca">
+
+              <mat-option value="Toyota">
+                Toyota
+              </mat-option>
+
+              <mat-option value="Nissan">
+                Nissan
+              </mat-option>
+
+              <mat-option value="Volkswagen">
+                Volkswagen
+              </mat-option>
+
+              <mat-option value="Suzuki">
+                Suzuki
+              </mat-option>
+
+              <mat-option value="Mitsubishi">
+                Mitsubishi
+              </mat-option>
+
+              <mat-option value="Otros">
+                Otros
+              </mat-option>
+
+            </mat-select>
+          </mat-form-field>
+          <div class="text-danger" *ngIf="marca.invalid && (marca.dirty || marca.touched)">
+              <div class="" role="" *ngIf="marca.errors.required">
+                Marca es obligatorio
+              </div>
+            </div>
+
+          <mat-form-field>
+            <mat-label>Color</mat-label>
+            <mat-select formControlName="color" id="color" name="color" [(ngModel)]="servicioServices.seleccionarDatosVehiculo.color">
+
+              <mat-option value="Blanco">
+                Blanco
+              </mat-option>
+
+              <mat-option value="Rojo">
+                Rojo
+              </mat-option>
+
+              <mat-option value="Negro">
+                Negro
+              </mat-option>
+
+              <mat-option value="Azul">
+                Azul
+              </mat-option>
+
+              <mat-option value="Otro">
+                Otro
+              </mat-option>
+
+            </mat-select>
+          </mat-form-field>
+          <div class="text-danger" *ngIf="color.invalid && (color.dirty || color.touched)">
+              <div class="" role="" *ngIf="color.errors.required">
+                Color es obligatorio
+              </div>
+            </div>
+
+        </div>
+      </div>
+    </div>
+    
+    <div class="">
+      <input [disabled]="datosVehiculo.invalid" class="btn btn-success m-1" type="submit" value="Guardar" />
+      <input class="btn btn-secondary m-1" type="button" value="Limpiar" (click)="resetForm(datosVehiculo)" />
+    </div>
+    </div>
+
+
+</form>

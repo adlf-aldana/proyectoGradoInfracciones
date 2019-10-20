@@ -5,7 +5,8 @@ import {
 import {
   FormGroup,
   FormBuilder,
-  NgForm
+  NgForm,
+  Validators
 } from '@angular/forms';
 import {
   ServiciosService
@@ -43,6 +44,30 @@ export class AddDatosVehiculoComponent implements OnInit {
   get placa() {
     return this.datosVehiculo.get('placa')
   }
+  get nombreInfractor() {
+    return this.datosVehiculo.get('nombreInfractor')
+  }
+  get apPaternoInfractor() {
+    return this.datosVehiculo.get('apPaternoInfractor')
+  }
+  get apMaternoInfractor() {
+    return this.datosVehiculo.get('apMaternoInfractor')
+  }
+  get numLicencia() {
+    return this.datosVehiculo.get('numLicencia')
+  }
+  get sexoInfractor() {
+    return this.datosVehiculo.get('sexoInfractor')
+  }
+  get fechaNacimientoInfractor() {
+    return this.datosVehiculo.get('fechaNacimientoInfractor')
+  }
+  get celularInfractor() {
+    return this.datosVehiculo.get('celularInfractor')
+  }
+  get direccionInfractor() {
+    return this.datosVehiculo.get('direccionInfractor')
+  }
 
   constructor(
     public servicioServices: ServiciosService,
@@ -51,24 +76,25 @@ export class AddDatosVehiculoComponent implements OnInit {
     private _adapter: DateAdapter < any > ) {
     this.datosVehiculo = this.builder.group({
         $key: [],
-        tipo: [''],
-        marca: [],
-        color: [],
-        placa: [],
-        nombreInfractor: [],
-        apPaternoInfractor: [],
-        apMaternoInfractor: [],
-        numLicencia: [],
-        sexoInfractor: [],
-       fechaNacimientoInfractor: [],
+        tipo: ['', Validators.required],
+        marca: ['', Validators.required],
+        color: ['', Validators.required],
+        placa: ['', Validators.required],
+        nombreInfractor: ['', Validators.required],
+        apPaternoInfractor: ['', Validators.required],
+        apMaternoInfractor: ['', Validators.required],
+        numLicencia: ['', Validators.required],
+        sexoInfractor: ['', Validators.required],
+       fechaNacimientoInfractor: ['', Validators.required],
       celularInfractor: [],
-      direccionInfractor: []
+      direccionInfractor: [],
     })
 
 }
 
 ngOnInit() {
   this.servicioServices.getDatosVehiculo();
+  this.resetForm()
 }
 
 addDatosVehiculo(datosVehiculo: NgForm) {

@@ -48,13 +48,12 @@ export class ServiciosService {
   getUsuario() {
     return this.listUsuario = this.firebase.list('gestionUsuarios');
   }
-  insertUsuario(datosUsuario: GestionUsuario) {    
+  insertUsuario(datosUsuario: GestionUsuario) {        
     this.listUsuario.push({
       ciUsuario: datosUsuario.ciUsuario,
       nombreUsuario: datosUsuario.nombreUsuario,
       cargoUsuario: datosUsuario.cargoUsuario,
       password: datosUsuario.password,
-      
     })
   }
   updateUsuario(datosUsuario: GestionUsuario) {
@@ -289,9 +288,17 @@ export class ServiciosService {
     return this.listaInfracciones = this.firebase.list('boletaInfraccion');
   }
   insertInfracciones(datosInfracciones: Boleta) {
-      this.listaInfracciones.push({
-        placa: datosInfracciones.placa,
-    })
+    console.log(datosInfracciones.placa);
+    console.log(datosInfracciones.lat);
+    console.log(datosInfracciones.lng);
+    console.log(datosInfracciones.art);
+    console.log(datosInfracciones.num);
+    
+    //   this.listaInfracciones.push({
+    //     placa: datosInfracciones.placa,
+    //     lat: datosInfracciones.lat,
+    //     lng: datosInfracciones.lng,
+    // })
   }
   updateInfraccion(datosInfracciones: Boleta) {
     // this.listaInfracciones.update(datosInfracciones.$key, {

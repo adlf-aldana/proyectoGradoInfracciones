@@ -24,6 +24,7 @@ import * as firebase from 'firebase/app'
 import {
   GestionUsuario
 } from 'src/app/models/gestionarUsuarios/gestion-usuario';
+import { invalid } from '@angular/compiler/src/render3/view/util';
 
 @Component({
   selector: 'app-add-gestion-usuario',
@@ -31,10 +32,31 @@ import {
   styleUrls: ['./add-gestion-usuario.component.css']
 })
 export class AddGestionUsuarioComponent implements OnInit {
+
   registro: FormGroup
-  get f() {
-    return this.registro.controls;
+  isShow = true;
+  // isDisabled = false
+
+  get nombreUsuario() {
+    return this.registro.get('nombreUsuario')
   }
+
+  get cargoUsuario() {
+    return this.registro.get('cargoUsuario')
+  }
+
+  get password() {
+    return this.registro.get('password')
+  }
+
+  get confirmPassword() {
+    return this.registro.get('confirmPassword')
+  }
+
+  // get f() {
+  //   return this.registro.controls;
+  // }
+
   cargo: any
   submitted = false;
 
@@ -60,9 +82,9 @@ export class AddGestionUsuarioComponent implements OnInit {
 
     this.registro = this.formBuilder.group({
       $key: [],
-      nombreUsuario: [],
-      cargoUsuario: [],
-      ciUsuario: [],
+      nombreUsuario: ['', Validators.required],
+      cargoUsuario: ['', Validators.required],
+      ciUsuario: [''],
       password: ['', [Validators.required, Validators.minLength(6)]],
       confirmPassword: ['', Validators.required]
     }, {
@@ -71,10 +93,22 @@ export class AddGestionUsuarioComponent implements OnInit {
   }
 
   buscarPersonal() {
-    let ciPersonal: string = (document.getElementById('ciUsuario') as HTMLInputElement).value;
+
+    let i = 0;
+
+    let ciPersonal: string = (document.getElementById('ci') as HTMLInputElement).value;
+
+    this.registro.patchValue({
+      ciUsuario: ciPersonal
+    })
 
     var ref = firebase.database().ref('personalTransito');
-    ref.orderByChild('ciPersonal').equalTo(ciPersonal).on("child_added", snap => {
+
+    if(ref.orderByChild('ciPersonal').equalTo(ciPersonal).on("child_added", snap => {
+
+
+      this.isShow = !this.isShow;
+      // this.isDisabled = true
 
       let nombrePersonal = snap.val().nombrePersonal;
       document.getElementById('nombrePersonal').innerHTML = nombrePersonal;
@@ -84,14 +118,23 @@ export class AddGestionUsuarioComponent implements OnInit {
 
       let apMaternoPersonal = snap.val().apMaternoPersonal;
       document.getElementById('apMaternoPersonal').innerHTML = apMaternoPersonal;
+      i=1;
     })
+    ){
+      if(i==0){
+        this.notificaciones.error('Error', 'Carnet de Identidad no existente', {
+            timeOut: 3000,
+            showProgressBar: true
+          })
+      }
+    }
   }
 
   addUsuario(servicioUsuario: NgForm) {
     if (servicioUsuario.valid) {
       if (servicioUsuario.value.$key == null) {
         this.servicioServices.insertUsuario(servicioUsuario.value)
-        this.notificaciones.success('Exitosamente', 'Datos guardados correctamente', {
+        this.notificaciones.success('Exitosamente', 'Datos actualizados correctamente', {
           timeOut: 3000,
           showProgressBar: true
         })
@@ -102,9 +145,14 @@ export class AddGestionUsuarioComponent implements OnInit {
           showProgressBar: true
         })
       }
+      
       this.resetForm(servicioUsuario)
+      // this.isDisabled = true
     } else {
-      console.log('Error no valido');
+      this.notificaciones.error('Error', 'Datos no válidos', {
+        timeOut: 3000,
+        showProgressBar: true
+      })
     }
   }
 
@@ -112,6 +160,9 @@ export class AddGestionUsuarioComponent implements OnInit {
     if (servicioUsuario != null) {
       servicioUsuario.reset();
       this.servicioServices.seleccionarUsuario = new GestionUsuario();
+      this.isShow = !this.isShow;
+      (document.getElementById('ci') as HTMLInputElement).value = ''
+      // this.isDisabled = true
     }
   }
 }

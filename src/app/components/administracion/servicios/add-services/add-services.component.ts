@@ -6,12 +6,17 @@ import {
   ServiciosService
 } from 'src/app/services/servicios.service';
 import {
-  NgForm, FormGroup, FormBuilder, Validators
+  NgForm,
+  FormGroup,
+  FormBuilder,
+  Validators
 } from '@angular/forms';
 import {
   Tipo
 } from 'src/app/models/tipoServicioVehiculo/tipo';
-import { NotificationsService } from 'angular2-notifications';
+import {
+  NotificationsService
+} from 'angular2-notifications';
 
 @Component({
   selector: 'app-add-services',
@@ -22,17 +27,20 @@ export class AddServicesComponent implements OnInit {
 
   servicioVehicular: FormGroup
 
+  get nombreTipoServicio() {
+    return this.servicioVehicular.get('nombreTipoServicio')
+  }
+
   constructor(
     public serviciosService: ServiciosService,
     public notificaciones: NotificationsService,
     public builder: FormBuilder
-    )
-    {
-      this.servicioVehicular = this.builder.group({
-        $key: [],
-        nombreTipoServicio:['', Validators.required]
-      })
-    }
+  ) {
+    this.servicioVehicular = this.builder.group({
+      $key: [],
+      nombreTipoServicio: ['', Validators.required]
+    })
+  }
 
   ngOnInit() {
     this.serviciosService.getServiciosVehiculares()
@@ -40,23 +48,22 @@ export class AddServicesComponent implements OnInit {
   }
 
   agregarServicioVehiculo(servicioVehicular: NgForm) {
-    if (servicioVehicular.value.$key == null){
-      this.serviciosService.insertTipoServicioVehicular(servicioVehicular.value)
-      this.notificaciones.success('Exitosamente','Servicio guardado correctamente',
-        {
+    if (servicioVehicular.valid) {
+      if (servicioVehicular.value.$key == null) {
+        this.serviciosService.insertTipoServicioVehicular(servicioVehicular.value)
+        this.notificaciones.success('Exitosamente', 'Servicio guardado correctamente', {
           timeOut: 3000,
-          showProgressBar:true
+          showProgressBar: true
         })
-    }
-    else{
-      this.serviciosService.updateTipoServicioVehicular(servicioVehicular.value)
-      this.notificaciones.success('Exitosamente','Servicio actualizado correctamente',
-        {
+      } else {
+        this.serviciosService.updateTipoServicioVehicular(servicioVehicular.value)
+        this.notificaciones.success('Exitosamente', 'Servicio actualizado correctamente', {
           timeOut: 3000,
-          showProgressBar:true
+          showProgressBar: true
         })
+      }
+      this.resetForm(servicioVehicular)
     }
-    this.resetForm(servicioVehicular)
   }
 
   resetForm(servicioVehicular ? : NgForm) {

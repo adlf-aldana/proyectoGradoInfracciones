@@ -78,7 +78,6 @@ export class AddPersonalTransitoComponent implements OnInit {
     public servicioServices: ServiciosService,
     public notificaciones: NotificationsService,
     public builder: FormBuilder,
-    private _adapter: DateAdapter < any > ,
     db: AngularFireDatabase) {
     this.personalTransito = this.builder.group({
       $key: [],
@@ -86,10 +85,11 @@ export class AddPersonalTransitoComponent implements OnInit {
       apPaternoPersonal: ['', Validators.required],
       apMaternoPersonal: ['', Validators.required],
       ciPersonal: ['', [Validators.required, Validators.maxLength(11), Validators.minLength(7)]],
-      sexoPersonal: [''],
-      celularPersonal: ['', [Validators.required, Validators.minLength(8), Validators.maxLength(8), Validators.pattern(this.num)]],
-      fechaNacimientoPersonal: [''],
-      direccionPersonal: ['', Validators.required]
+      sexoPersonal: ['', Validators.required],
+      // celularPersonal: ['', [Validators.required, Validators.minLength(8), Validators.maxLength(8), Validators.pattern(this.num)]],
+      celularPersonal: ['', [Validators.minLength(8), Validators.maxLength(8), Validators.pattern(this.num)]],
+      fechaNacimientoPersonal: ['', Validators.required],
+      direccionPersonal: ['', ]
     })
 
     db.list('cargosTransito').snapshotChanges()
@@ -107,6 +107,7 @@ export class AddPersonalTransitoComponent implements OnInit {
 
   ngOnInit() {
     this.servicioServices.getPersonal();
+    this.resetForm();
   }
 
   addPersonalTransito(servicioPersonalTransito: NgForm) {

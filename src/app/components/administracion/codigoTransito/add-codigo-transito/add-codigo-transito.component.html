@@ -5,40 +5,60 @@
       <input type="hidden" name="$key" formControlName="$key"
         [(ngModel)]="servicioServices.seleccionarCodigoTransito.$key" />
 
+      <p align="left">
+        <font size=2><strong>(*) Datos obligatorios </strong></font>
+      </p>
+
       <div class="form-row">
+
         <div class="col">
           <mat-form-field>
-            <input matInput #tamCodigo maxlength="5" name="articulo" formControlName="articulo"
-              [(ngModel)]="servicioServices.seleccionarCodigoTransito.articulo" placeholder="Articulo" />
-            <mat-hint align="end">{{tamCodigo.value.length}}/5</mat-hint>
+            <input matInput #tamArt minlength="1" maxlength="5" name="articulo" formControlName="articulo"
+              [(ngModel)]="servicioServices.seleccionarCodigoTransito.articulo" placeholder="Articulo *" />
+            <mat-hint align="end">{{tamArt.value.length}}/5</mat-hint>
           </mat-form-field>
+          <div class="text-danger" *ngIf="articulo.invalid && (articulo.dirty || articulo.touched)">
+            <div class="" role="" *ngIf="articulo.errors.required">
+              Campo articulo es obligatorio
+            </div>
+          </div>
         </div>
+
         <div class="col">
-
-
           <mat-form-field>
-            <input matInput #tamCodigo maxlength="5" name="numero" formControlName="numero"
-              [(ngModel)]="servicioServices.seleccionarCodigoTransito.numero" placeholder="Num" />
-            <mat-hint align="end">{{tamCodigo.value.length}}/5</mat-hint>
+            <input matInput #tamNum minlength="1" maxlength="5" name="numero" formControlName="numero"
+              [(ngModel)]="servicioServices.seleccionarCodigoTransito.numero" placeholder="Num *" />
+            <mat-hint align="end">{{tamNum.value.length}}/5</mat-hint>
           </mat-form-field>
+          <div class="text-danger" *ngIf="numero.invalid && (numero.dirty || numero.touched)">
+            <div class="" role="" *ngIf="numero.errors.required">
+               Campo num es obligatorio
+            </div>
+          </div>
         </div>
       </div>
 
 
       <div>
         <mat-form-field>
-          <textarea matInput #tamDescripcion maxlength="500" name="descripcion" formControlName="descripcion"
-            [(ngModel)]="servicioServices.seleccionarCodigoTransito.descripcion"
-            placeholder="Descripción del Código de Tránsito"></textarea>
+          <textarea matInput #tamDescripcion minlength="3" maxlength="500" name="descripcion"
+            formControlName="descripcion" [(ngModel)]="servicioServices.seleccionarCodigoTransito.descripcion"
+            placeholder="Descripción del Código de Tránsito *"></textarea>
           <mat-hint align="end">{{tamDescripcion.value.length}}/500</mat-hint>
         </mat-form-field>
+
+        <div class="text-danger" *ngIf="descripcion.invalid && (descripcion.dirty || descripcion.touched)">
+          <div class="" role="" *ngIf="descripcion.errors.required">
+            Campo descripcion es obligatorio
+          </div>
+        </div>
 
 
 
       </div>
 
     </div>
-    <input [disabled]="codigoTransito.invalid" class="btn btn-primary m-1" type="submit" value="Guardar">
+    <input [disabled]="codigoTransito.invalid" class="btn btn-success m-1" type="submit" value="Guardar">
     <input class="btn btn-secondary" type="button" value="Limpiar" (click)="resetForm(codigoTransito)" />
   </form>
 </div>

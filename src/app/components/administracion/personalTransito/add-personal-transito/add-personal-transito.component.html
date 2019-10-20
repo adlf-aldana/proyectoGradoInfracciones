@@ -1,15 +1,18 @@
 <div>
+  <p align="left">
+      <font size=2><strong>(*) Datos obligatorios </strong></font>
+    </p>
   <form class="form-inline" [formGroup]="personalTransito" (ngSubmit)="addPersonalTransito(personalTransito)">
     <input type="hidden" name="$key" formControlName=$key [(ngModel)]="servicioServices.seleccionarPersonal.$key" />
 
     <div>
       <mat-form-field>
-        <input matInput #tamNombre maxlength="50" placeholder="Nombre" name="nombrePersonal"
+        <input matInput #tamNombre minlength="3" maxlength="50" placeholder="Nombre *" name="nombrePersonal"
           formControlName="nombrePersonal" [(ngModel)]="servicioServices.seleccionarPersonal.nombrePersonal" />
         <mat-hint align="end"> {{tamNombre.value.length}}/50 </mat-hint>
       </mat-form-field>
 
-      <div class="alert-danger" *ngIf="nombrePersonal.invalid && (nombrePersonal.dirty || nombrePersonal.touched)">
+      <div class="text-danger" *ngIf="nombrePersonal.invalid && (nombrePersonal.dirty || nombrePersonal.touched)">
         <div class="" role="alert" *ngIf="nombrePersonal.errors.required">
           Nombre es requerido
         </div>
@@ -19,12 +22,12 @@
 
     <div>
       <mat-form-field>
-        <input matInput #tamApPaterno maxlength="50" placeholder="Apellido Paterno" name="apPaternoPersonal"
+        <input matInput #tamApPaterno minlength="3" maxlength="50" placeholder="Apellido Paterno *" name="apPaternoPersonal"
           formControlName="apPaternoPersonal" [(ngModel)]="servicioServices.seleccionarPersonal.apPaternoPersonal" />
         <mat-hint align="end">{{tamApPaterno.value.length}}/50</mat-hint>
       </mat-form-field>
 
-      <div class="alert-danger"
+      <div class="text-danger"
         *ngIf="apPaternoPersonal.invalid && (apPaternoPersonal.dirty || apPaternoPersonal.touched)">
         <div class="" role="alert" *ngIf="apPaternoPersonal.errors.required">
           Apellido Paterno es requerido
@@ -35,11 +38,11 @@
 
     <div>
       <mat-form-field>
-        <input matInput #tamApMaterno maxlength="50" placeholder="Apellido Materno" name="apMaternoPersonal"
+        <input matInput #tamApMaterno minlength="3" maxlength="50" placeholder="Apellido Materno *" name="apMaternoPersonal"
           formControlName="apMaternoPersonal" [(ngModel)]="servicioServices.seleccionarPersonal.apMaternoPersonal" />
         <mat-hint align="end">{{tamApMaterno.value.length}}/50</mat-hint>
       </mat-form-field>
-      <div class="alert-danger"
+      <div class="text-danger"
         *ngIf="apMaternoPersonal.invalid && (apMaternoPersonal.dirty || apMaternoPersonal.touched)">
         <div class="" role="alert" *ngIf="apMaternoPersonal.errors.required">
           Apellido Materno es requerido
@@ -50,11 +53,11 @@
 
     <div>
       <mat-form-field>
-        <input matInput #tamCi maxlength="11" placeholder="Cedula de identidad" name="ciPersonal"
+        <input matInput #tamCi minlength="5" maxlength="11" placeholder="Cedula de identidad *" name="ciPersonal"
           formControlName="ciPersonal" [(ngModel)]="servicioServices.seleccionarPersonal.ciPersonal" />
         <mat-hint align="end">{{tamCi.value.length}}/11</mat-hint>
       </mat-form-field>
-      <div class="alert-danger" *ngIf="ciPersonal.invalid && (ciPersonal.dirty || ciPersonal.touched)">
+      <div class="text-danger" *ngIf="ciPersonal.invalid && (ciPersonal.dirty || ciPersonal.touched)">
         <div class="" role="alert" *ngIf="ciPersonal.errors.required">
           Cédula de identidad es requerido
         </div>
@@ -64,7 +67,7 @@
     <div>
       <mat-form-field>
         <mat-label>Sexo</mat-label>
-        <mat-select name="sexoPersonal" formControlName="sexoPersonal"
+        <mat-select name="sexoPersonal *" formControlName="sexoPersonal"
           [(ngModel)]="servicioServices.seleccionarPersonal.sexoPersonal">
           <mat-option value="Masculino">
             Masculino
@@ -75,7 +78,7 @@
           </mat-option>
         </mat-select>
       </mat-form-field>
-      <div class="alert-danger" *ngIf="sexoPersonal.invalid && (sexoPersonal.dirty || sexoPersonal.touched)">
+      <div class="text-danger" *ngIf="sexoPersonal.invalid && (sexoPersonal.dirty || sexoPersonal.touched)">
         <div class="" role="alert" *ngIf="sexoPersonal.errors.required">
           Sexo es requerido
         </div>
@@ -85,28 +88,29 @@
     <div>
 
       <mat-form-field>
-        <input matInput #tamCelular maxlength="8" placeholder="Celular" name="celularPersonal"
+        <input matInput #tamCelular minlength="8" maxlength="8" placeholder="Celular" name="celularPersonal"
           formControlName="celularPersonal" [(ngModel)]="servicioServices.seleccionarPersonal.celularPersonal" />
         <mat-hint align="end">{{tamCelular.value.length}}/8</mat-hint>
       </mat-form-field>
-      <div class="alert-danger" *ngIf="celularPersonal.invalid && (celularPersonal.dirty || celularPersonal.touched)">
+      <!-- <div class="text-danger" *ngIf="celularPersonal.invalid && (celularPersonal.dirty || celularPersonal.touched)">
         <div class="" role="alert" *ngIf="celularPersonal.errors.required">
           N° de celular es requerido
         </div>
-      </div>
+      </div> -->
     </div>
 
     <div>
 
       <mat-form-field>
-        <input matInput type="date" placeholder="Fecha de nacimiento" name="fechaNacimientoPersonal"
+        <input matInput type="date" placeholder="Fecha de nacimiento *" name="fechaNacimientoPersonal"
           formControlName="fechaNacimientoPersonal"
-          [(ngModel)]="servicioServices.seleccionarPersonal.fechaNacimientoPersonal" />
+          [(ngModel)]="servicioServices.seleccionarPersonal.fechaNacimientoPersonal"
+          step="1" min="1700-01-01" max="2019-01-01" value="1700-01-01" />
       </mat-form-field>
-      <div class="alert-danger"
+      <div class="text-danger"
         *ngIf="fechaNacimientoPersonal.invalid && (fechaNacimientoPersonal.dirty || fechaNacimientoPersonal.touched)">
         <div class="" role="alert" *ngIf="fechaNacimientoPersonal.errors.required">
-          Nombre es requerido
+          Fecha de Nacimiento es requerido
         </div>
       </div>
     </div>
@@ -114,20 +118,20 @@
 
     <div>
       <mat-form-field>
-        <input matInput #tamDireccion maxlength="200" placeholder="Direccion" name="direccionPersonal"
+        <input matInput #tamDireccion minlength="3" maxlength="200" placeholder="Direccion" name="direccionPersonal"
           formControlName="direccionPersonal" [(ngModel)]="servicioServices.seleccionarPersonal.direccionPersonal" />
         <mat-hint align="end">{{tamDireccion.value.length}}/200</mat-hint>
       </mat-form-field>
-      <div class="alert-danger"
+      <!-- <div class="text-danger"
         *ngIf="direccionPersonal.invalid && (direccionPersonal.dirty || direccionPersonal.touched)">
         <div class="" role="alert" *ngIf="direccionPersonal.errors.required">
           Dirección es requerido
         </div>
-      </div>
+      </div> -->
     </div>
 
     <div class="d-flex flex-row bd-highlight">
-      <input class="btn btn-success p-2 bd-highlight m-1" type="submit" value="Guardar" />
+      <input [disabled]="personalTransito.invalid" class="btn btn-success p-2 bd-highlight m-1" type="submit" value="Guardar" />
       <input class="btn btn-secondary p-2 bd-highlight m-1" type="button" value="Limpiar"
         (click)="resetForm(personalTransito)" />
     </div>

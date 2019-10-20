@@ -1,37 +1,29 @@
 <div class="mt-3 ml-auto">
-  <form 
-  class="form-group w-100"
-  [formGroup]="validando"
-  (ngSubmit)="agregarCargo(validando)">
+  <form class="form-group w-100" [formGroup]="validando" (ngSubmit)="agregarCargo(validando)">
 
     <p align="left">
-      <font size=2>(*) Datos obligatorios </font>
+      <font size=2><strong>(*) Datos obligatorios </strong></font>
     </p>
 
-    <input
-    type="hidden"
-    name="$key"
-    formControlName="$key" 
-    [(ngModel)]="servicioServices.seleccionarCargo.$key
-      ">
+    <input type="hidden" name="$key" formControlName="$key" [(ngModel)]="servicioServices.seleccionarCargo.$key" />
 
     <mat-form-field>
-      <input 
-      matInput 
-      #message maxlength="50"
-      placeholder="* Nuevo cargo" 
-      name="cargo" 
-      formControlName="cargo" 
-      [(ngModel)]="
-      servicioServices.seleccionarCargo.cargo" 
-      >
-      <mat-hint align="end">{{message.value.length}} / 50</mat-hint>
+      <input matInput #tamCargo maxlength="50" minlength="3" placeholder="Nuevo cargo *" name="cargo"
+        formControlName="cargo" [(ngModel)]="
+      servicioServices.seleccionarCargo.cargo" />
+      <mat-hint align="end">{{tamCargo.value.length}} / 50</mat-hint>
     </mat-form-field>
 
-<div>
-    <input [disabled]="validando.invalid" class="btn btn-success m-2" type="submit" value="Guardar" />
-    <input class="btn btn-secondary" type="button" value="Limpiar" (click)="resetForm(validando)" />
-  </div>
+      <div class="text-danger" *ngIf="cargo.invalid && (cargo.dirty || cargo.touched)">
+        <div class="" role="" *ngIf="cargo.errors.required">
+          Campo cargo es obligatorio
+        </div>
+      </div>
+
+    <div>
+      <input [disabled]="validando.invalid" class="btn btn-success m-2" type="submit" value="Guardar" />
+      <input class="btn btn-secondary" type="button" value="Limpiar" (click)="resetForm(validando)" />
+    </div>
 
   </form>
 

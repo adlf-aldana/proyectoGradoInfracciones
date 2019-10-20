@@ -11,7 +11,9 @@ import {
 import {
   FormBuilder,
   FormGroup,
-  NgForm
+  NgForm,
+  Validators,
+  FormControl
 } from '@angular/forms';
 import {
   AngularFireDatabase
@@ -43,8 +45,8 @@ import pdfFonts from "pdfmake/build/vfs_fonts";
 export class AddBoletaComponent implements OnInit {
   datosBoleta: FormGroup
 
-  lat: number
-  lng: number
+  lat: number;
+  lng: number;
 
   constructor(
     public servicioServices: ServiciosService,
@@ -52,50 +54,59 @@ export class AddBoletaComponent implements OnInit {
     public builder: FormBuilder,
     private firebase: AngularFireDatabase
   ) {
+    
     this.datosBoleta = this.builder.group({
       $key: [],
-      placaVehiculo: [],
+      placa: [],
       art: [],
       num: [],
-      latlong:[]
-    })
+      lat: [''],
+      lng:[]
+    });
 
+    
   }
-
-
+  
+  
   ngOnInit() {
+    
     this.getUserLocation()
     this.servicioServices.getInfracciones();
-    this.resetForm()
+    this.resetForm() 
   }
-
-  private getUserLocation(){
+  
+  public getUserLocation(){
     if(navigator.geolocation){
       navigator.geolocation.getCurrentPosition(position =>{
         this.lat = position.coords.latitude;
         this.lng = position.coords.longitude;
       });
-
     }
   }
 
+  
+  
   addBoleta(datosBoleta: NgForm) {
-    console.log(datosBoleta.value);
+
+    this.datosBoleta.patchValue({
+      lat: this.lat,
+      lng: this.lng
+    })
     
-    // this.servicioServices.insertInfracciones(datosBoleta.value)
-    // if (datosBoleta.value.$key == null) {
-    //   this.notificaciones.success('Exitosamente', 'Item guardado correctamente', {
-    //     timeOut: 3000,
-    //     showProgressBar: true
-    //   })
-    // } else {
-    //   this.servicioServices.updateInfraccion(datosBoleta.value)
-    //   this.notificaciones.success('Exitosamente', 'Item actualizado correctamente', {
-    //     timeOut: 3000,
-    //     showProgressBar: true
-    //   })
-    // }
-    // this.resetForm(datosBoleta)
+    this.servicioServices.insertInfracciones(datosBoleta.value)
+    if (datosBoleta.value.$key == null) {
+      this.notificaciones.success('Exitosamente', 'Item guardado correctamente', {
+        timeOut: 3000,
+        showProgressBar: true
+      })
+    } else {
+      this.servicioServices.updateInfraccion(datosBoleta.value)
+      this.notificaciones.success('Exitosamente', 'Item actualizado correctamente', {
+        timeOut: 3000,
+        showProgressBar: true
+      })
+    }
+    this.resetForm(datosBoleta)
   }
 
   resetForm(serviciBoleta ? : NgForm) {
@@ -165,9 +176,9 @@ export class AddBoletaComponent implements OnInit {
 
   comprobarInfractor() {
 
-    let placaVehiculo: string = (document.getElementById('placaVehiculo') as HTMLInputElement).value;
+    let placaVehiculo: string = (document.getElementById('placa') as HTMLInputElement).value;
 
-    var ref = firebase.database().ref('datosVehiculo');
+    var ref = firebase.database().ref('datosVehiculo')
     ref.orderByChild('placa').equalTo(placaVehiculo).on("child_added", snap => {
 
       let nombreInfractor = snap.val().nombreInfractor;

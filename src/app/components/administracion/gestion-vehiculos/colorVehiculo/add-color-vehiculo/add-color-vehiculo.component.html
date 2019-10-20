@@ -14,8 +14,8 @@
     <mat-form-field>
     <input
     matInput
-    #tamColor maxlength="30"
-      placeholder="Color de Vehiculo"
+    #tamColor maxlength="30" minlength="3"
+      placeholder="Color de Vehiculo *"
       name="nombreColorVehiculo"
       formControlName="nombreColorVehiculo"
       [(ngModel)]="
@@ -24,6 +24,11 @@
     />
     <mat-hint align="end">{{tamColor.value.length}}/30</mat-hint>
   </mat-form-field>
+  <div class="text-danger" *ngIf="nombreColorVehiculo.invalid && (nombreColorVehiculo.dirty || nombreColorVehiculo.touched)">
+      <div class="" role="" *ngIf="nombreColorVehiculo.errors.required">
+        Campo color es obligatorio
+      </div>
+    </div>
 <div>
     <input [disabled]="colorVehiculo.invalid" class="btn btn-success m-2" type="submit" value="Guardar" />
     <input class="btn btn-secondary" type="button" value="Limpiar" (click)="resetForm(colorVehiculo)"/>

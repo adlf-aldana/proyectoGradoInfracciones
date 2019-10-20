@@ -1,32 +1,25 @@
 <div class="mt-3 ml-auto">
-    <form
-        [formGroup]="marcaVehiculo"
-      (ngSubmit)="agregarMarcaVehiculo(marcaVehiculo)"
-    >
-      <input
-        type="hidden"
-        name="$key"
-        formControlName="$key"
-        [(ngModel)]="servicioServices.seleccionarMarcaVehiculo.$key"
-      />
+  <form [formGroup]="marcaVehiculo" (ngSubmit)="agregarMarcaVehiculo(marcaVehiculo)">
+    <input type="hidden" name="$key" formControlName="$key"
+      [(ngModel)]="servicioServices.seleccionarMarcaVehiculo.$key" />
 
-      <mat-form-field>
-      <input
-        matInput
-        #tamMarca maxlength="50"
-        placeholder="Marca de Vehiculo"
-        name="nombreMarcaVehiculos"
-        formControlName="nombreMarcaVehiculos"
-        [(ngModel)]="
+    <mat-form-field>
+      <input matInput #tamMarca minlength="3" maxlength="50" placeholder="Marca de Vehiculo *" name="nombreMarcaVehiculos"
+        formControlName="nombreMarcaVehiculos" [(ngModel)]="
         servicioServices.seleccionarMarcaVehiculo.nombreMarcaVehiculos
-        "
-      />
+        " />
       <mat-hint align="end">{{tamMarca.value.length}}/50</mat-hint>
     </mat-form-field>
+
+    <div class="text-danger" *ngIf="nombreMarcaVehiculos.invalid && (nombreMarcaVehiculos.dirty || nombreMarcaVehiculos.touched)">
+      <div class="" role="" *ngIf="nombreMarcaVehiculos.errors.required">
+        Campo marca es obligatorio
+      </div>
+    </div>
+    
     <div>
       <input [disabled]="marcaVehiculo.invalid" class="btn btn-success m-2" type="submit" value="Guardar" />
-      <input class="btn btn-secondary" type="button" value="Limpiar" (click)="resetForm(marcaVehiculo)"/>
+      <input class="btn btn-secondary" type="button" value="Limpiar" (click)="resetForm(marcaVehiculo)" />
     </div>
-    </form>
-  </div>
-  
+  </form>
+</div>

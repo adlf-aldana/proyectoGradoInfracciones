@@ -1,65 +1,125 @@
 
-    <form [formGroup]="registro" (ngSubmit)="addUsuario(registro)">
+
+
+<form [formGroup]="registro" (ngSubmit)="addUsuario(registro)">
+  
+  <div class="form-row">
+    
+    <input type="hidden" name="$key" formControlName="$key" [(ngModel)]="servicioServices.seleccionarUsuario.$key" />
+    
+    <div class="card form-col">
       
-      <div class="form-row">
-      <input type="hidden" name="$key" formControlName="$key" [(ngModel)]="servicioServices.seleccionarUsuario.$key" />
       
-      <div class="card form-col">
-        <h5 class="mt-3">BUSCAR PERSONAL</h5>
-        <div>
-          <mat-form-field class="m-3">
-            <input #ciPersonal matInput type="text" maxlength="10" name="ciUsuario" id="ciUsuario"
-            formControlName="ciUsuario" [(ngModel)]="servicioServices.seleccionarUsuario.ciUsuario"
-            placeholder="Ci Personal">
-            <mat-hint align="end"> {{ciPersonal.value.length}}/10 </mat-hint>
-          </mat-form-field>
-          <input type="button" class="btn btn-primary" value="Buscar" (click)="buscarPersonal()">
+      
+      <p align="left" class="m-3">
+        <font size=2><strong>(*) Datos obligatorios </strong></font>
+      </p>
+      
+      
+      <div>
+          <h5 class="mt-3">BUSCAR PERSONAL</h5>
+
+          <mat-form-field class="m-3" >
+              <!-- [(ngModel)]="servicioServices.seleccionarUsuario.ciUsuario" formControlName="ciUsua2rio"  [disabled]="isDisabled"-->
+              <input #ciPersonal matInput type="text" minlength="6" maxlength="10" name="ci" id="ci" 
+                 placeholder="Ci Personal">
+                <mat-hint align=""> Mín: 6 caracteres </mat-hint>
+                <mat-hint align="end"> {{ciPersonal.value.length}}/10 </mat-hint>
+              </mat-form-field>
+              <input type="button" class="btn btn-success" value="Buscar" (click)="buscarPersonal()" [disabled]="isDisabled">
+
+          
+        <!-- <div>
+        <mat-hint align=""><font size=2 class="text-left"> Mín: 6 caracteres </font></mat-hint>
+        <mat-hint align="end"><font size=2 > Max: {{ciBusqueda.value.length}}/10</font></mat-hint>
+      </div> -->
         </div>
-        
-        <h4>DATOS PERSONAL</h4>
-        <div class="text-left m-3">
-          <p>Nombre: <strong id="nombrePersonal"></strong></p>
-          <p>Apellido Paterno: <strong id="apPaternoPersonal"></strong></p>
-          <p>Apellido Materno: <strong id="apMaternoPersonal"></strong></p>
-        </div>
-      </div>
       
-      <div class="card form-col">
-          <h5 class="mt-3">USUARIO</h5>
-        <mat-form-field class="m-3">
-          <input matInput #usuario maxlength="10" formControlName="nombreUsuario" name="nombreUsuario"
-            placeholder="Usuario" [(ngModel)]="servicioServices.seleccionarUsuario.nombreUsuario">
-          <!-- <mat-hint align="end"> {{usuario.value.length}}/10 </mat-hint> -->
-        </mat-form-field>
 
-        <mat-form-field class="m-3">
-          <mat-label>Cargo </mat-label>
-          <mat-select name="cargoUsuario" formControlName="cargoUsuario"
-            [(ngModel)]="servicioServices.seleccionarPersonal.cargoUsuario">
-            <mat-option *ngFor="let cargos of cargo" [value]="cargos.cargo">
-              {{cargos.cargo}}
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
 
-        <mat-form-field class="ml-3">
-          <input #password matInput type="password" name="password" placeholder="Contraseña" formControlName="password"
-            minlength="6" maxlength="20" [ngClass]="{ 'is-invalid': submitted && f.password.errors }"
-            [(ngModel)]="servicioServices.seleccionarUsuario.password" />
-          <mat-hint align="end"> {{password.value.length}}/20 </mat-hint>
-        </mat-form-field>
-
-        <mat-form-field class="ml-3">
-          <input #confirmPassword matInput placeholder="Confirmar contraseña" type="password"
-            formControlName="confirmPassword" [ngClass]="{ 'is-invalid': submitted && f.confirmPassword.errors }" />
-          <mat-hint align="end"> {{confirmPassword.value.length}}/20 </mat-hint>
-        </mat-form-field>
-        <div class="m-3">
-        <input type="submit" value="Guardar" class="btn btn-primary w-auto">
-        <input type="button" value="Limpiar" class="btn btn-secondary w-auto" (click)="resetForm(registro)">
+      <h4>DATOS PERSONAL</h4>
+      <div class="text-left m-3" [hidden]="isShow">
+        <p>Nombre: <strong id="nombrePersonal"></strong></p>
+        <p>Apellido Paterno: <strong id="apPaternoPersonal"></strong></p>
+        <p>Apellido Materno: <strong id="apMaternoPersonal"></strong></p>
       </div>
-      </div>
-
     </div>
 
-    </form>
+    <div class="card form-col" [hidden]="isShow">
+      <h5 class="mt-3">USUARIO</h5>
+
+      <input  type="hidden" minlength="6" maxlength="10" name="ciUsuario" id="ciUsuario" 
+                 placeholder="Ci Personal"  [(ngModel)]="servicioServices.seleccionarUsuario.ciUsuario" formControlName="ciUsuario">
+
+
+
+
+      <mat-form-field class="m-3">
+        <input matInput #usuario maxlength="20" minlength="4" formControlName="nombreUsuario" name="nombreUsuario"
+          placeholder="Usuario *" [(ngModel)]="servicioServices.seleccionarUsuario.nombreUsuario">
+        <mat-hint align=""> Mín: 4 caracteres </mat-hint>
+        <mat-hint align="end"> Max: {{usuario.value.length}}/20 </mat-hint>
+      </mat-form-field>
+
+      <div class="text-danger" *ngIf="nombreUsuario.invalid && (nombreUsuario.dirty || nombreUsuario.touched)">
+        <div class="" role="" *ngIf="nombreUsuario.errors.required">
+          Campo nombre usuario es obligatorio
+        </div>
+      </div>
+
+
+
+      <mat-form-field class="m-3">
+        <mat-label>Cargo *</mat-label>
+        <mat-select name="cargoUsuario" formControlName="cargoUsuario"
+          [(ngModel)]="servicioServices.seleccionarPersonal.caradssdfsdfgoUsuario">
+          <mat-option *ngFor="let cargos of cargo" [value]="cargos.cargo">
+            {{cargos.cargo}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <div class="text-danger" *ngIf="cargoUsuario.invalid && (cargoUsuario.dirty || cargoUsuario.touched)">
+        <div class="" role="" *ngIf="cargoUsuario.errors.required">
+          Campo cargo es obligatorio
+        </div>
+      </div>
+
+
+      <mat-form-field class="ml-3">
+        <input #password matInput type="password" name="password" placeholder="Contraseña *" formControlName="password"
+          minlength="6" maxlength="30" [ngClass]="{ 'is-invalid': submitted && f.password.errors }"
+          [(ngModel)]="servicioServices.seleccionarUsuario.password" />
+        <mat-hint align=""> Mín: 6 caracteres </mat-hint>
+        <mat-hint align="end"> Max: {{password.value.length}}/30 </mat-hint>
+      </mat-form-field>
+
+      <div class="text-danger" *ngIf="password.invalid && (password.dirty || password.touched)">
+        <div class="" role="" *ngIf="password.errors.required">
+          Campo contraseña es obligatorio
+        </div>
+      </div>
+
+
+      <mat-form-field class="ml-3">
+        <input #confirmPassword matInput placeholder="Confirmar contraseña *" type="password" maxlength="30" minlength="6"
+          formControlName="confirmPassword" [ngClass]="{ 'is-invalid': submitted && f.confirmPassword.errors }" />
+        <mat-hint align=""> Mín: 6 caracteres </mat-hint>
+        <mat-hint align="end"> Max: {{confirmPassword.value.length}}/30 </mat-hint>
+      </mat-form-field>
+
+      <div class="text-danger" *ngIf="confirmPassword.invalid && (confirmPassword.dirty || confirmPassword.touched)">
+        <div class="" role="" *ngIf="confirmPassword.errors.required">
+          Campo confirmar contraseña es obligatorio
+        </div>
+      </div>
+
+      <div class="m-3">
+        <input type="submit" value="Guardar" class="btn btn-success w-auto m-3">
+        <input type="button" value="Limpiar" class="btn btn-secondary w-auto" (click)="resetForm(registro)">
+      </div>
+    </div>
+
+  </div>
+
+</form>

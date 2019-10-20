@@ -1,8 +1,22 @@
-import { Component, OnInit } from '@angular/core';
-import { ServiciosService } from 'src/app/services/servicios.service';
-import { NgForm, FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { TipoVehiculo } from 'src/app/models/tipoVehiculo/tipo-vehiculo';
-import { NotificationsService } from 'angular2-notifications';
+import {
+  Component,
+  OnInit
+} from '@angular/core';
+import {
+  ServiciosService
+} from 'src/app/services/servicios.service';
+import {
+  NgForm,
+  FormGroup,
+  FormBuilder,
+  Validators
+} from '@angular/forms';
+import {
+  TipoVehiculo
+} from 'src/app/models/tipoVehiculo/tipo-vehiculo';
+import {
+  NotificationsService
+} from 'angular2-notifications';
 
 @Component({
   selector: 'app-add-tipo-vehiculo',
@@ -11,18 +25,22 @@ import { NotificationsService } from 'angular2-notifications';
 })
 export class AddTipoVehiculoComponent implements OnInit {
 
+
   tipoVehiculo: FormGroup
 
+  get nombreTipoVehiculo() {
+    return this.tipoVehiculo.get('nombreTipoVehiculo')
+  }
+
   constructor(
-    public servicioServices:ServiciosService,
-    public notificaciones:NotificationsService,
-    public builder:FormBuilder) 
-    {
-      this.tipoVehiculo = this.builder.group({
-        $key: [],
-        nombreTipoVehiculo: ['', Validators.required]
-      })
-    }
+    public servicioServices: ServiciosService,
+    public notificaciones: NotificationsService,
+    public builder: FormBuilder) {
+    this.tipoVehiculo = this.builder.group({
+      $key: [],
+      nombreTipoVehiculo: ['', Validators.required]
+    })
+  }
 
   ngOnInit() {
     this.servicioServices.getTipoVehiculo()
@@ -30,23 +48,22 @@ export class AddTipoVehiculoComponent implements OnInit {
   }
 
   agregarTipoVehiculo(tipoVehicular: NgForm) {
-    if (tipoVehicular.value.$key == null){
-      this.servicioServices.insertTipoVehiculo(tipoVehicular.value)
-      this.notificaciones.success('Exitosamente','Tipo de servicio agregado correctamente',
-        {
+    if (tipoVehicular.valid) {
+      if (tipoVehicular.value.$key == null) {
+        this.servicioServices.insertTipoVehiculo(tipoVehicular.value)
+        this.notificaciones.success('Exitosamente', 'Tipo de servicio agregado correctamente', {
           timeOut: 3000,
-          showProgressBar:true
+          showProgressBar: true
         })
-    }
-    else{
-      this.servicioServices.updateTipoVehiculo(tipoVehicular.value)
-      this.notificaciones.success('Exitosamente','Tipo de Servicio actualizado correctamente',
-        {
+      } else {
+        this.servicioServices.updateTipoVehiculo(tipoVehicular.value)
+        this.notificaciones.success('Exitosamente', 'Tipo de Servicio actualizado correctamente', {
           timeOut: 3000,
-          showProgressBar:true
+          showProgressBar: true
         })
+      }
+      this.resetForm(tipoVehicular)
     }
-    this.resetForm(tipoVehicular)
   }
 
   resetForm(tipoVehicular ? : NgForm) {
