@@ -141,23 +141,44 @@
               <textarea rows="7" cols="45" placeholder="Descripcion" disabled></textarea>
             </div>
 
+            
             <div class="col">
               <div class="card">
                 <h4>FOTOGRAFIAS</h4>
+                <br>
+                
+                <input type="file"  (change)="uploadFile($event)">
+                <div>{{updaloadPercent | async}}</div>
 
-                <div id="app">
-                    <div><video #video id="video" width="640" height="480" autoplay></video></div>
-                    <div><button id="snap" (click)="capture()">Snap Photo</button></div>
-                    <canvas #canvas id="canvas" width="640" height="480"></canvas>
-                    <!-- <ul>
-                        <li *ngFor="let c of captures">
-                            <img src="{{ c }}" height="50" />
-                        </li>
-                    </ul> -->
-                </div>
+                <!-- <webcam [height]="400" [width]="300" [trigger]="triggerObservable" (imageCapture)="handleImage($event)"
+                  *ngIf="showWebcam" [allowCameraSwitch]="allowCameraSwitch" [switchCamera]="nextWebcamObservable"
+                  [imageQuality]="1" (cametaSwitched)="cameraWasSwitched($event)" (initError)="handleInitError($event)">
+                </webcam>
+                <br />
+
+                <button class="actionBtn" (click)="toggleWebcam();">Encender/Apagar cámara</button>
+                <button class="btn btn-primary" (click)="triggerSnapshot();">Tomar Foto</button> -->
+                <!-- <br />
+                <button class="actionBtn" (click)="showNextWebcam(true);" [disabled]="!multipleWebcamsAvailable">Next
+                  Webcam</button> -->
+                <!-- <input id="cameraSwitchCheckbox" type="checkbox"> -->
+                 <!-- [(ngModel)]="allowCameraSwitch"> -->
+                <!-- <label for="cameraSwitchCheckbox">Allow Camera Switch</label>
+                <br />
+                DeviceId: <input id="deviceId" type="text" [(ngModel)]="deviceId" style="width: 500px">
+                <button (click)="showNextWebcam(deviceId);">Activate</button> -->
 
               </div>
             </div>
+
+            <!-- <div class="snapshot" *ngIf="webcamImage">
+              <img [src]="webcamImage.imageAsDataUrl" />
+            </div>
+
+            <h4 *ngIf="errors.length > 0">Messages:</h4>
+            <ul *ngFor="let error of errors">
+              <li>{{error | json}}</li>
+            </ul> -->
 
           </div>
         </div>

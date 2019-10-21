@@ -5,4 +5,5 @@ export class Boleta {
     lng: string
     art: string
     num:string 
+    foto1: string
 }

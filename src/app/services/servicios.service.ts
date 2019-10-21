@@ -12,6 +12,10 @@ import { Infractor } from '../models/Infractor/infractor';
 import { DatosVehiculo } from '../models/datosVehiculo/datos-vehiculo';
 import { GestionUsuario } from '../models/gestionarUsuarios/gestion-usuario';
 
+import {
+  NotificationsService
+} from 'angular2-notifications';
+
 
 @Injectable({
   providedIn: 'root'
@@ -43,7 +47,7 @@ export class ServiciosService {
   listUsuario: AngularFireList<any>;
 
 
-  constructor(private firebase: AngularFireDatabase) { }
+  constructor(private firebase: AngularFireDatabase, private notificaciones: NotificationsService) { }
 
   getUsuario() {
     return this.listUsuario = this.firebase.list('gestionUsuarios');
@@ -293,12 +297,17 @@ export class ServiciosService {
     console.log(datosInfracciones.lng);
     console.log(datosInfracciones.art);
     console.log(datosInfracciones.num);
+    console.log(datosInfracciones.foto1);
+
     
-    //   this.listaInfracciones.push({
-    //     placa: datosInfracciones.placa,
-    //     lat: datosInfracciones.lat,
-    //     lng: datosInfracciones.lng,
-    // })
+      this.listaInfracciones.push({
+        placa: datosInfracciones.placa,
+        lat: datosInfracciones.lat,
+        lng: datosInfracciones.lng,
+        art: datosInfracciones.art,
+        num: datosInfracciones.num,
+        foto1: datosInfracciones.foto1,
+    })
   }
   updateInfraccion(datosInfracciones: Boleta) {
     // this.listaInfracciones.update(datosInfracciones.$key, {

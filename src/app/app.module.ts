@@ -24,6 +24,7 @@ import {SimpleNotificationsModule} from 'angular2-notifications'
 import {AngularFireDatabaseModule} from 'angularfire2/database'
 import { AngularFireModule } from '@angular/fire';
 import { environment } from 'src/environments/environment';
+import { AngularFireStorageModule} from 'angularfire2/storage'
 
 // Servicios
 import { ServiciosService } from './services/servicios.service';
@@ -71,6 +72,9 @@ import { LitDatosVehiculoComponent } from './components/administracion/datosVehi
 import { AddDatosVehiculoComponent } from './components/administracion/datosVehiculoInfractor/add-datos-vehiculo/add-datos-vehiculo.component';
 import { AddMapaComponent } from './components/boleta-infraccion/mapa/add-mapa/add-mapa.component';
 import { ListMapaComponent } from './components/boleta-infraccion/mapa/list-mapa/list-mapa.component';
+
+// CAMARA
+import {WebcamModule} from 'ngx-webcam'
 
 
 //create our cost var with the information about the format that we want 
@@ -150,7 +154,9 @@ const misRutas: Routes = [
     ScrollingModule,
     AgmCoreModule.forRoot({
       apiKey: 'AIzaSyBxkoOlWTS2dKgs15QxhgmLCTluhaP6iV0'
-    })
+    }),
+    WebcamModule,
+    AngularFireStorageModule
   ],
   providers: [ServiciosService,
     {   provide :   MAT_DATE_LOCALE ,   useValue :   'es'   } ,   //you can change useValue 
