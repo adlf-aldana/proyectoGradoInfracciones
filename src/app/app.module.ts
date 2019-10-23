@@ -25,9 +25,11 @@ import {AngularFireDatabaseModule} from 'angularfire2/database'
 import { AngularFireModule } from '@angular/fire';
 import { environment } from 'src/environments/environment';
 import { AngularFireStorageModule} from 'angularfire2/storage'
+import { AngularFireAuthModule} from 'angularfire2/auth'
 
 // Servicios
 import { ServiciosService } from './services/servicios.service';
+import { AuthService} from './services/auth.service';
 
 // GOOGLE MAPS
 import { AgmCoreModule} from '@agm/core'
@@ -74,7 +76,9 @@ import { AddMapaComponent } from './components/boleta-infraccion/mapa/add-mapa/a
 import { ListMapaComponent } from './components/boleta-infraccion/mapa/list-mapa/list-mapa.component';
 
 // CAMARA
-import {WebcamModule} from 'ngx-webcam'
+import {WebcamModule} from 'ngx-webcam';
+import { AddLogueoComponent } from './components/login/addLogueo/add-logueo/add-logueo.component';
+import { NotFoundComponent } from './components/not-found/not-found/not-found.component'
 
 
 //create our cost var with the information about the format that we want 
@@ -96,7 +100,9 @@ const misRutas: Routes = [
   { path: '', component : AddBoletaComponent },
   { path: 'Multas', component : ListaMultasComponent},
   { path: 'Administrador', component: AdministracionComponent},
-  // { path: 'codigoInfracciones', component: CodigoInfraccionesComponent}
+  { path: 'codigoInfracciones', component: CodigoInfraccionesComponent},
+  { path: 'logeo', component: AddLogueoComponent},
+  { path: '**', component: NotFoundComponent}
 ];
 
 @NgModule({
@@ -132,7 +138,9 @@ const misRutas: Routes = [
     LitDatosVehiculoComponent,
     AddDatosVehiculoComponent,
     AddMapaComponent,
-    ListMapaComponent
+    ListMapaComponent,
+    AddLogueoComponent,
+    NotFoundComponent
   ],
   imports: [
     AngularFireDatabaseModule,
@@ -156,9 +164,12 @@ const misRutas: Routes = [
       apiKey: 'AIzaSyBxkoOlWTS2dKgs15QxhgmLCTluhaP6iV0'
     }),
     WebcamModule,
-    AngularFireStorageModule
+    AngularFireStorageModule,
+    AngularFireAuthModule
   ],
-  providers: [ServiciosService,
+  providers: [
+    AuthService,
+    ServiciosService,
     {   provide :   MAT_DATE_LOCALE ,   useValue :   'es'   } ,   //you can change useValue 
     //  {   provide :   DateAdapter ,   useClass :   MomentDateAdapter ,   deps :   [ MAT_DATE_LOCALE ]   } , 
     //  {   provide :   MAT_DATE_FORMATS ,   useValue :   MY_FORMATS  }

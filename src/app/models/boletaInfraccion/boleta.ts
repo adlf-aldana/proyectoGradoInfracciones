@@ -6,4 +6,9 @@ export class Boleta {
     art: string
     num:string 
     foto1: string
+
+    nombreInfractor: string
+    apPaternoInfractor: string
+    apMaternoInfractor: string
+    numLicenciaInfractor: string
 }

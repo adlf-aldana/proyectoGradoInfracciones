@@ -67,12 +67,27 @@
         </div>
       </div>
 
+      <mat-form-field class="m-3">
+        <input matInput type="email" #correo maxlength="50" formControlName="correoUsuario" id="correoUsuario" name="correoUsuario"
+          placeholder="Correo electrónico *" [(ngModel)]="servicioServices.seleccionarUsuario.correoUsuario">
+        <mat-hint align="end"> Max: {{correo.value.length}}/50 </mat-hint>
+      </mat-form-field>
+
+      <div class="text-danger" *ngIf="correoUsuario.invalid && (correoUsuario.dirty || correoUsuario.touched)">
+        <div class="" role="" *ngIf="correoUsuario.errors.required">
+          Campo correo electrónico es obligatorio
+        </div>
+        <div class="" role="" *ngIf="correoUsuario.hasError('email')">
+          Campo correo no valido
+        </div>
+      </div>
+
 
 
       <mat-form-field class="m-3">
         <mat-label>Cargo *</mat-label>
         <mat-select name="cargoUsuario" formControlName="cargoUsuario"
-          [(ngModel)]="servicioServices.seleccionarPersonal.caradssdfsdfgoUsuario">
+          [(ngModel)]="servicioServices.seleccionarPersonal.cargoUsuario">
           <mat-option *ngFor="let cargos of cargo" [value]="cargos.cargo">
             {{cargos.cargo}}
           </mat-option>

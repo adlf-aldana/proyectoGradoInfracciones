@@ -26,6 +26,8 @@ import {
 } from 'src/app/models/gestionarUsuarios/gestion-usuario';
 import { invalid } from '@angular/compiler/src/render3/view/util';
 
+import { AuthService } from '../../../../services/auth.service';
+
 @Component({
   selector: 'app-add-gestion-usuario',
   templateUrl: './add-gestion-usuario.component.html',
@@ -53,6 +55,10 @@ export class AddGestionUsuarioComponent implements OnInit {
     return this.registro.get('confirmPassword')
   }
 
+  get correoUsuario() {
+    return this.registro.get('correoUsuario')
+  }
+
   // get f() {
   //   return this.registro.controls;
   // }
@@ -63,7 +69,8 @@ export class AddGestionUsuarioComponent implements OnInit {
   constructor(public formBuilder: FormBuilder,
     db: AngularFireDatabase,
     public servicioServices: ServiciosService,
-    public notificaciones: NotificationsService) {
+    public notificaciones: NotificationsService,
+    public authService: AuthService) {
 
     db.list('cargosTransito').snapshotChanges()
       .subscribe(item => {
@@ -83,6 +90,7 @@ export class AddGestionUsuarioComponent implements OnInit {
     this.registro = this.formBuilder.group({
       $key: [],
       nombreUsuario: ['', Validators.required],
+      correoUsuario: ['', [Validators.required, Validators.email]],
       cargoUsuario: ['', Validators.required],
       ciUsuario: [''],
       password: ['', [Validators.required, Validators.minLength(6)]],
@@ -131,8 +139,11 @@ export class AddGestionUsuarioComponent implements OnInit {
   }
 
   addUsuario(servicioUsuario: NgForm) {
+    
     if (servicioUsuario.valid) {
       if (servicioUsuario.value.$key == null) {
+        this.authService.registerUser(this.servicioServices.seleccionarUsuario.correoUsuario, this.servicioServices.seleccionarUsuario.password);
+
         this.servicioServices.insertUsuario(servicioUsuario.value)
         this.notificaciones.success('Exitosamente', 'Datos actualizados correctamente', {
           timeOut: 3000,

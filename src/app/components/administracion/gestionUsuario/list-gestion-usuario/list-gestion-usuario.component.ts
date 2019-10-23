@@ -30,7 +30,7 @@ export class ListGestionUsuarioComponent implements OnInit {
   'ciUsuario',
   'nombreUsuario',
   'cargoUsuario',
-  // 'password',
+  'correoUsuario',
   'evento'];
 
   @ViewChild(MatPaginator, {static:true}) paginator: MatPaginator;

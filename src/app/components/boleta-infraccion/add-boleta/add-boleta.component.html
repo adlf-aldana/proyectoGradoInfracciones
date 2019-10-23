@@ -18,6 +18,11 @@
                 <p>Apellido Materno: <strong id="apMaternoPersonal"></strong></p>
                 <p>Cedula Identidad: <strong id="cedulaIdentidad"></strong></p>
               </div>
+
+              <input type="hidden" id="nombreInfractor" name="nombreInfractor" formControlName="nombreInfractor" [(ngModel)]="servicioServices.seleccionarInfraccion.nombreInfractor">
+              <input type="hidden" id="apPaternoInfractonumLicenciar" name="apPaternoInfractor" formControlName="apPaternoInfractor" [(ngModel)]="servicioServices.seleccionarInfraccion.apPaternoInfractor">
+              <input type="hidden" id="apMaternoInfractor" name="apMaternoInfractor" formControlName="apMaternoInfractor" [(ngModel)]="servicioServices.seleccionarInfraccion.apMaternoInfractor">
+              <input type="hidden" id="numLicenciaInfractor" name="numLicenciaInfractor" formControlName="numLicenciaInfractor" [(ngModel)]="servicioServices.seleccionarInfraccion.numLicenciaInfractor">
             </div>
 
             <div class="card p-3 m-3">
@@ -63,7 +68,7 @@
 
               <div class="">
                 <input type="button" class="btn btn-primary m-3" (click)="comprobarInfractor()"
-                  value="Buscar Infractor">
+                  value="Validar Infractor">
                 <input type="button" data-toggle="modal" class="btn btn-primary" value="Nuevo infractor"
                   href="#listDatosVehiculo">
                 <app-lit-datos-vehiculo></app-lit-datos-vehiculo>
@@ -71,9 +76,9 @@
               <div>
                 <h5>DATOS DEL INFRACTOR</h5>
                 <div class="text-left">
-                  <p>Nombre: <strong id="nombreInfractor"></strong></p>
-                  <p>Apellido Paterno: <strong id="apPaternoInfractor"></strong></p>
-                  <p>Apellido Materno: <strong id="apMaternoInfractor"></strong></p>
+                  <p>Nombre: <strong id="nombre"></strong></p>
+                  <p>Apellido Paterno: <strong id="apPaterno"></strong></p>
+                  <p>Apellido Materno: <strong id="apMaterno"></strong></p>
                   <p>N° Licencia: <strong id="numLicencia"></strong></p>
                 </div>
               </div>
@@ -149,6 +154,7 @@
                 
                 <input type="file"  (change)="uploadFile($event)">
                 <div>{{updaloadPercent | async}}</div>
+                <input type="hidden" formControlName="foto1" id="foto1" name="foto1" [(ngModel)]="servicioServices.seleccionarInfraccion.foto1">
 
                 <!-- <webcam [height]="400" [width]="300" [trigger]="triggerObservable" (imageCapture)="handleImage($event)"
                   *ngIf="showWebcam" [allowCameraSwitch]="allowCameraSwitch" [switchCamera]="nextWebcamObservable"
@@ -185,7 +191,7 @@
 
 
         <div class="text-right">
-          <input class="btn btn-success m-1" type="submit" value="Guardar" />
+          <input [disabled]="datosBoleta.invalid" class="btn btn-success m-1" type="submit" value="Guardar" />
           <input class="btn btn-secondary m-1" type="button" value="Limpiar" (click)="resetForm(datosBoleta)" />
           <input class="btn btn-primary" type="button" value="Generar" (click)="generarPDF()">
         </div>

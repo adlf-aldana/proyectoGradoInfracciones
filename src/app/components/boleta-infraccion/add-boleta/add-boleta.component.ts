@@ -32,9 +32,18 @@ import {
 } from 'pdfmake-wrapper';
 import pdfFonts from "pdfmake/build/vfs_fonts";
 
-import {WebcamImage, WebcamInitError,WebcamUtil} from 'ngx-webcam'
-import { Subject, Observable } from 'rxjs';
-import { AngularFireStorage } from 'angularfire2/storage';
+import {
+  WebcamImage,
+  WebcamInitError,
+  WebcamUtil
+} from 'ngx-webcam'
+import {
+  Subject,
+  Observable
+} from 'rxjs';
+import {
+  AngularFireStorage
+} from 'angularfire2/storage';
 
 
 
@@ -48,8 +57,10 @@ import { AngularFireStorage } from 'angularfire2/storage';
 
 export class AddBoletaComponent implements OnInit {
 
-  uploadPercent: Observable<number>;
-  // downloadURL: Observable<string>;
+  uploadPercent: Observable < number > ;
+  date = new Date();
+  nombreFoto: any
+
 
 
   datosBoleta: FormGroup
@@ -67,7 +78,7 @@ export class AddBoletaComponent implements OnInit {
   //   height: {ideal: 576}
   // }
   // public errors: WebcamInitError[] = [];  
-  
+
   // latest snapshot
   // public webcamImage: WebcamImage = null;
 
@@ -77,52 +88,63 @@ export class AddBoletaComponent implements OnInit {
   //switch to next / previous / specific webcam; true/false; forward/backwards, string: deviceId
   // private nextWebcam: Subject<boolean|string> = new Subject<boolean|string>();
 
-  
-  
+
+
   constructor(
     public servicioServices: ServiciosService,
     public notificaciones: NotificationsService,
     public builder: FormBuilder,
     private firebase: AngularFireDatabase,
     private storage: AngularFireStorage
-    ) {
-      this.datosBoleta = this.builder.group({
-        $key: [],
-        placa: [],
-        art: [],
-        num: [],
-        lat: [''],
-        lng:[],
-        foto1: []
-      });
-    }
-    
-    // :
-    //     if request.auth != null;
+  ) {
+    this.datosBoleta = this.builder.group({
+      $key: [],
+      placa: ['', Validators.required],
+      art: ['', Validators.required],
+      num: ['', Validators.required],
+      lat: [''],
+      lng: [''],
+      foto1: [],
+      nombreInfractor:['',Validators.required],
+      apPaternoInfractor:['', Validators.required],
+      apMaternoInfractor:['', Validators.required],
+      numLicenciaInfractor:['', Validators.required]
+    });
+  }
 
-    file
-    filePath
-    uploadFile(event){
-      this.file = event.target.files[0];
-      this.filePath = 'foto1'
-      
+  // :
+  //     if request.auth != null;
 
+  file
+  filePath
+  uploadFile(event) {
+    let anio = this.date.getFullYear()
+    let mes = this.date.getMonth()
+    let dia = this.date.getDay()
+    let hora = this.date.getHours()
+    let minutos =  this.date.getMinutes()
+    let segundo = this.date.getSeconds()
+
+    this.file = event.target.files[0];
     //   const file = event.target.files[0];
-      
+
     //  const filePath = 'foto1'
     // const task = this.storage.upload(filePath, file)
 
     // this.uploadPercent = task.percentageChanges();
+    this.nombreFoto = anio+'!'+mes+'!'+dia+'!'+hora+'!'+minutos+'!'+segundo;
+    // console.log(this.nombreFoto);
+    
   }
-  
-  
+
+
   ngOnInit() {
     // WebcamUtil.getAvailableVideoInputs().then((MediaDevices: MediaDeviceInfo[])=>{
     //   this.multipleWebcamsAvailable = MediaDevices && MediaDevices.length>1;
     // })
     this.getUserLocation()
     this.servicioServices.getInfracciones();
-    this.resetForm() 
+    this.resetForm()
   }
 
   // public triggerSnapshot(): void {
@@ -163,28 +185,31 @@ export class AddBoletaComponent implements OnInit {
   // }
 
 
-  
-  public getUserLocation(){
-    if(navigator.geolocation){
-      navigator.geolocation.getCurrentPosition(position =>{
+
+  public getUserLocation() {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(position => {
         this.lat = position.coords.latitude;
         this.lng = position.coords.longitude;
       });
     }
   }
 
-  
+
   
   addBoleta(datosBoleta: NgForm) {
     
-const task = this.storage.upload(this.filePath, this.file)
-    
-    /*
 
+
+    this.filePath = 'infracciones/'+this.nombreFoto
+    const task = this.storage.upload(this.filePath, this.file)
+    
     this.datosBoleta.patchValue({
       lat: this.lat,
-      lng: this.lng
+      lng: this.lng,
+      foto1: this.nombreFoto
     })
+    
     
     if (datosBoleta.value.$key == null) {
       this.servicioServices.insertInfracciones(datosBoleta.value)
@@ -199,7 +224,7 @@ const task = this.storage.upload(this.filePath, this.file)
         showProgressBar: true
       })
     }
-    this.resetForm(datosBoleta)*/
+    this.resetForm(datosBoleta)
   }
 
   resetForm(serviciBoleta ? : NgForm) {
@@ -225,7 +250,7 @@ const task = this.storage.upload(this.filePath, this.file)
     var ref = firebase.database().ref('datosVehiculo');
     ref.orderByChild('placa').equalTo(placaVehiculo).on("child_added", snap => {
 
-      let nombreInfractor = snap.val().nombreInfractor;
+      let nomInfractor = snap.val().nombreInfractor;
       let apPatInfractor = snap.val().apPaternoInfractor;
       let apMatInfractor = snap.val().apMaternoInfractor;
       let numLicencia = snap.val().numLicencia;
@@ -249,22 +274,22 @@ const task = this.storage.upload(this.filePath, this.file)
       doc.text(22, 20, 'Licencia N° ' + numLicencia);
 
       doc.setFontSize(5);
-      doc.text(3, 23, 'Infractor ' + nombreInfractor + ' ' + apPatInfractor + ' ' + apMatInfractor);
+      doc.text(3, 23, 'Infractor ' + nomInfractor + ' ' + apPatInfractor + ' ' + apMatInfractor);
 
       doc.save('infraccion.pdf');
     })
   }
 
-  validarCodigoInfraccion(){
+  validarCodigoInfraccion() {
     let art: string = (document.getElementById('art') as HTMLInputElement).value;
     let num: string = (document.getElementById('num') as HTMLInputElement).value;
 
     var ref = firebase.database().ref('codigosTransito')
     ref.orderByChild('articulo').equalTo(art).orderByChild('num').equalTo(num).on("child_added", snap => {
       console.log(snap.val().descripcion);
-      
+
     })
-    
+
   }
 
   comprobarInfractor() {
@@ -275,13 +300,13 @@ const task = this.storage.upload(this.filePath, this.file)
     ref.orderByChild('placa').equalTo(placaVehiculo).on("child_added", snap => {
 
       let nombreInfractor = snap.val().nombreInfractor;
-      document.getElementById('nombreInfractor').innerHTML = nombreInfractor;
+      document.getElementById('nombre').innerHTML = nombreInfractor
 
       let apPaternoInfractor = snap.val().apPaternoInfractor;
-      document.getElementById('apPaternoInfractor').innerHTML = apPaternoInfractor;
+      document.getElementById('apPaterno').innerHTML = apPaternoInfractor;
 
       let apMaternoInfractor = snap.val().apMaternoInfractor;
-      document.getElementById('apMaternoInfractor').innerHTML = apMaternoInfractor;
+      document.getElementById('apMaterno').innerHTML = apMaternoInfractor;
 
       let numLicencia = snap.val().numLicencia;
       document.getElementById('numLicencia').innerHTML = numLicencia;
@@ -295,8 +320,14 @@ const task = this.storage.upload(this.filePath, this.file)
       let colorVehiculo = snap.val().colorVehiculo;
       document.getElementById('colorVehiculo').innerHTML = colorVehiculo
 
-    })
+      this.datosBoleta.patchValue({
+        nombreInfractor: nombreInfractor,
+        apPaternoInfractor: apPaternoInfractor,
+        apMaternoInfractor: apMaternoInfractor,
+        numLicenciaInfractor: numLicencia
+      })
 
+    })
 
   }
 }

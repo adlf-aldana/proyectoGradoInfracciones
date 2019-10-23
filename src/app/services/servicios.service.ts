@@ -56,6 +56,7 @@ export class ServiciosService {
     this.listUsuario.push({
       ciUsuario: datosUsuario.ciUsuario,
       nombreUsuario: datosUsuario.nombreUsuario,
+      correoUsuario: datosUsuario.correoUsuario,
       cargoUsuario: datosUsuario.cargoUsuario,
       password: datosUsuario.password,
     })
@@ -292,21 +293,17 @@ export class ServiciosService {
     return this.listaInfracciones = this.firebase.list('boletaInfraccion');
   }
   insertInfracciones(datosInfracciones: Boleta) {
-    console.log(datosInfracciones.placa);
-    console.log(datosInfracciones.lat);
-    console.log(datosInfracciones.lng);
-    console.log(datosInfracciones.art);
-    console.log(datosInfracciones.num);
-    console.log(datosInfracciones.foto1);
-
-    
-      this.listaInfracciones.push({
+    this.listaInfracciones.push({
         placa: datosInfracciones.placa,
         lat: datosInfracciones.lat,
         lng: datosInfracciones.lng,
         art: datosInfracciones.art,
         num: datosInfracciones.num,
         foto1: datosInfracciones.foto1,
+        nombreInfractor: datosInfracciones.nombreInfractor,
+        apPaternoInfractor: datosInfracciones.apPaternoInfractor,
+        apMaternoInfractor: datosInfracciones.apMaternoInfractor,
+        numLicenciaInfractor: datosInfracciones.numLicenciaInfractor
     })
   }
   updateInfraccion(datosInfracciones: Boleta) {
