@@ -142,7 +142,7 @@ export class AddGestionUsuarioComponent implements OnInit {
     
     if (servicioUsuario.valid) {
       if (servicioUsuario.value.$key == null) {
-        this.authService.registerUser(this.servicioServices.seleccionarUsuario.correoUsuario, this.servicioServices.seleccionarUsuario.password);
+        this.authService.registerUser(this.servicioServices.seleccionarUsuario.nombreUsuario, this.servicioServices.seleccionarUsuario.password);
 
         this.servicioServices.insertUsuario(servicioUsuario.value)
         this.notificaciones.success('Exitosamente', 'Datos actualizados correctamente', {

@@ -17,7 +17,7 @@ import {MatFormFieldModule,
 
   import   {MomentDateModule, MomentDateAdapter} from '@angular/material-moment-adapter';
 
-//Norificaciones
+//Notificaciones
 import {SimpleNotificationsModule} from 'angular2-notifications'
 
 // Firebase
@@ -26,6 +26,8 @@ import { AngularFireModule } from '@angular/fire';
 import { environment } from 'src/environments/environment';
 import { AngularFireStorageModule} from 'angularfire2/storage'
 import { AngularFireAuthModule} from 'angularfire2/auth'
+
+import { AuthGuard } from '../app/guards/auth.guard'
 
 // Servicios
 import { ServiciosService } from './services/servicios.service';
@@ -96,12 +98,12 @@ export  const   MY_FORMATS   =   {
 
 //Crea variable donde estarán todas las rutas
 const misRutas: Routes = [
-  { path: 'Registro', component : AddBoletaComponent, pathMatch: 'full'},
-  { path: '', component : AddBoletaComponent },
-  { path: 'Multas', component : ListaMultasComponent},
-  { path: 'Administrador', component: AdministracionComponent},
-  { path: 'codigoInfracciones', component: CodigoInfraccionesComponent},
-  { path: 'logeo', component: AddLogueoComponent},
+  { path: 'registro', component : AddBoletaComponent, canActivate: [AuthGuard]},
+  { path: '', component : AddLogueoComponent },
+  { path: 'multas', component : ListaMultasComponent, canActivate: [AuthGuard]},
+  { path: 'administrador', component: AdministracionComponent, canActivate: [AuthGuard]},
+  { path: 'codigoInfracciones', component: CodigoInfraccionesComponent, canActivate: [AuthGuard]},
+  { path: 'logeo', component: AddLogueoComponent, pathMatch: 'full'},
   { path: '**', component: NotFoundComponent}
 ];
 
@@ -169,7 +171,7 @@ const misRutas: Routes = [
   ],
   providers: [
     AuthService,
-    ServiciosService,
+    ServiciosService, AuthGuard,
     {   provide :   MAT_DATE_LOCALE ,   useValue :   'es'   } ,   //you can change useValue 
     //  {   provide :   DateAdapter ,   useClass :   MomentDateAdapter ,   deps :   [ MAT_DATE_LOCALE ]   } , 
     //  {   provide :   MAT_DATE_FORMATS ,   useValue :   MY_FORMATS  }
