@@ -24,9 +24,13 @@ import * as firebase from 'firebase/app'
 import {
   GestionUsuario
 } from 'src/app/models/gestionarUsuarios/gestion-usuario';
-import { invalid } from '@angular/compiler/src/render3/view/util';
+import {
+  invalid
+} from '@angular/compiler/src/render3/view/util';
 
-import { AuthService } from '../../../../services/auth.service';
+import {
+  AuthService
+} from '../../../../services/auth.service';
 
 @Component({
   selector: 'app-add-gestion-usuario',
@@ -89,7 +93,7 @@ export class AddGestionUsuarioComponent implements OnInit {
 
     this.registro = this.formBuilder.group({
       $key: [],
-      nombreUsuario: ['', Validators.required],
+      // nombreUsuario: ['', Validators.required],
       correoUsuario: ['', [Validators.required, Validators.email]],
       cargoUsuario: ['', Validators.required],
       ciUsuario: [''],
@@ -112,52 +116,64 @@ export class AddGestionUsuarioComponent implements OnInit {
 
     var ref = firebase.database().ref('personalTransito');
 
-    if(ref.orderByChild('ciPersonal').equalTo(ciPersonal).on("child_added", snap => {
+    if (ref.orderByChild('ciPersonal').equalTo(ciPersonal).on("child_added", snap => {
 
 
-      this.isShow = !this.isShow;
-      // this.isDisabled = true
+        this.isShow = !this.isShow;
+        // this.isDisabled = true
 
-      let nombrePersonal = snap.val().nombrePersonal;
-      document.getElementById('nombrePersonal').innerHTML = nombrePersonal;
+        let nombrePersonal = snap.val().nombrePersonal;
+        document.getElementById('nombrePersonal').innerHTML = nombrePersonal;
 
-      let apPaternoPersonal = snap.val().apPaternoPersonal;
-      document.getElementById('apPaternoPersonal').innerHTML = apPaternoPersonal;
+        let apPaternoPersonal = snap.val().apPaternoPersonal;
+        document.getElementById('apPaternoPersonal').innerHTML = apPaternoPersonal;
 
-      let apMaternoPersonal = snap.val().apMaternoPersonal;
-      document.getElementById('apMaternoPersonal').innerHTML = apMaternoPersonal;
-      i=1;
-    })
-    ){
-      if(i==0){
+        let apMaternoPersonal = snap.val().apMaternoPersonal;
+        document.getElementById('apMaternoPersonal').innerHTML = apMaternoPersonal;
+        i = 1;
+      })) {
+      if (i == 0) {
         this.notificaciones.error('Error', 'Carnet de Identidad no existente', {
-            timeOut: 3000,
-            showProgressBar: true
-          })
+          timeOut: 3000,
+          showProgressBar: true
+        })
       }
     }
   }
 
   addUsuario(servicioUsuario: NgForm) {
-    
+
     if (servicioUsuario.valid) {
       if (servicioUsuario.value.$key == null) {
-        this.authService.registerUser(this.servicioServices.seleccionarUsuario.nombreUsuario, this.servicioServices.seleccionarUsuario.password);
+        
+        this.authService.registerUser(this.servicioServices.seleccionarUsuario.correoUsuario, this.servicioServices.seleccionarUsuario.password)
+          .then(success => {
+            this.servicioServices.insertUsuario(servicioUsuario.value)
+            this.notificaciones.success('Exitosamente', 'Datos actualizados correctamente', {
+              timeOut: 3000,
+              showProgressBar: true
+            })
+            this.resetForm(servicioUsuario)
 
-        this.servicioServices.insertUsuario(servicioUsuario.value)
-        this.notificaciones.success('Exitosamente', 'Datos actualizados correctamente', {
-          timeOut: 3000,
-          showProgressBar: true
-        })
+          }).catch(err => {
+            this.notificaciones.error('Error', 'Ya hay un usuario usando ese correo electrónico', {
+              timeOut: 3000,
+              showProgressBar: true
+            })
+
+          })
+
+
       } else {
         this.servicioServices.updateUsuario(servicioUsuario.value)
         this.notificaciones.success('Exitosamente', 'Datos actualizados correctamente', {
           timeOut: 3000,
           showProgressBar: true
         })
+        this.resetForm(servicioUsuario)
       }
-      
-      this.resetForm(servicioUsuario)
+
+      // this.resetForm(servicioUsuario)
       // this.isDisabled = true
     } else {
       this.notificaciones.error('Error', 'Datos no válidos', {

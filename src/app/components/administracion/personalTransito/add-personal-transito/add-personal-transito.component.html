@@ -118,15 +118,15 @@
 
     <div>
       <mat-form-field>
-        <input matInput #tamDireccion minlength="3" maxlength="200" placeholder="Direccion" name="direccionPersonal"
-          formControlName="direccionPersonal" [(ngModel)]="servicioServices.seleccionarPersonal.direccionPersonal" />
+        <input matInput #tamDireccion maxlength="200" placeholder="Direccion" name="direccionPersonal"
+          formControlName="direccionPersonal" [(ngModel)]="servicioServices.seleccionarPersonal.direccionPersonal"/>
         <mat-hint align="end">{{tamDireccion.value.length}}/200</mat-hint>
       </mat-form-field>
       <!-- <div class="text-danger"
         *ngIf="direccionPersonal.invalid && (direccionPersonal.dirty || direccionPersonal.touched)">
         <div class="" role="alert" *ngIf="direccionPersonal.errors.required">
           Dirección es requerido
-        </div>
+        </div> value=" "
       </div> -->
     </div>
 

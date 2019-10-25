@@ -52,60 +52,77 @@ export class AddCargoComponent implements OnInit {
 
 
   agregarCargo(cargo: NgForm) {
-    
     if (cargo.valid) {
-      if (cargo.value.$key == null) {
-        this.servicioServices.insertCargos(cargo.value)
-        this.notificaciones.success('Exitosamente', 'Cargo guardado correctamente', {
-          timeOut: 3000,
-          showProgressBar: true
-        })
-      } else {
+      
+      var ref = firebase.database().ref('cargosTransito')
+      var existe = false;
+      // Comprobando si existe o no el cargo
+        ref.orderByChild('cargo').equalTo(this.servicioServices.seleccionarCargo.cargo).on("child_added", snap => 
+        {
+          existe=true;
+        });
+
+        if(existe){
+          this.notificaciones.error('Error', 'El cargo ya existe', {
+              timeOut: 3000,
+              showProgressBar: true
+            })
+        }
+        else{
+          if (cargo.value.$key == null) {
+              this.servicioServices.insertCargos(cargo.value)
+              this.notificaciones.success('Exitosamente', 'Cargo guardado correctamente', {
+                timeOut: 3000,
+                showProgressBar: true
+              })
+            } else {
+              this.servicioServices.updateCargos(cargo.value)
+              this.notificaciones.error('Exitosamente', 'Cargo actualizado correctamente', {
+                timeOut: 3000,
+                showProgressBar: true
+              })
+            }
+            this.resetForm(cargo)
+        }
+
+      }else {
         this.servicioServices.updateCargos(cargo.value)
-        this.notificaciones.success('Exitosamente', 'Cargo actualizado correctamente', {
+        this.notificaciones.success('Error', 'Cargo es un campo obligatorio', {
           timeOut: 3000,
           showProgressBar: true
         })
       }
-      this.resetForm(cargo)
-    } else {
-      this.servicioServices.updateCargos(cargo.value)
-      this.notificaciones.success('Error', 'Cargo es un campo obligatorio', {
-        timeOut: 3000,
-        showProgressBar: true
-      })
     }
+
+
+    resetForm(cargo ? : NgForm) {
+      if (cargo != null) {
+        cargo.reset();
+        this.servicioServices.seleccionarCargo = new Cargos();
+      }
+    }
+
   }
 
 
-  resetForm(cargo ? : NgForm) {
-    if (cargo != null) {
-      cargo.reset();
-      this.servicioServices.seleccionarCargo = new Cargos();
-    }
-  }
-
-}
-
-
-// if (cargo.value.$key == null) {
-//   this.servicioServices.insertCargos(cargo.value)
-//   this.notificaciones.success('Exitosamente', 'Cargo guardado correctamente', {
-//     timeOut: 3000,
-//     showProgressBar: true
-//   })
-// } else {
-//   this.servicioServices.updateCargos(cargo.value)
-//   this.notificaciones.success('Exitosamente', 'Cargo actualizado correctamente', {
-//     timeOut: 3000,
-//     showProgressBar: true
-//   })
-// }
-// this.resetForm(cargo)
-// })
-// } else {
-// this.servicioServices.updateCargos(cargo.value)
-// this.notificaciones.success('Error', 'Cargo es un campo obligatorio', {
-// timeOut: 3000,
-// showProgressBar: true
-// }
+  // if (cargo.value.$key == null) {
+  //   this.servicioServices.insertCargos(cargo.value)
+  //   this.notificaciones.success('Exitosamente', 'Cargo guardado correctamente', {
+  //     timeOut: 3000,
+  //     showProgressBar: true
+  //   })
+  // } else {
+  //   this.servicioServices.updateCargos(cargo.value)
+  //   this.notificaciones.success('Exitosamente', 'Cargo actualizado correctamente', {
+  //     timeOut: 3000,
+  //     showProgressBar: true
+  //   })
+  // }
+  // this.resetForm(cargo)
+  // })
+  // } else {
+  // this.servicioServices.updateCargos(cargo.value)
+  // this.notificaciones.success('Error', 'Cargo es un campo obligatorio', {
+  // timeOut: 3000,
+  // showProgressBar: true
+  // }

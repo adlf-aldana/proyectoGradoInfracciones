@@ -17,6 +17,7 @@ import {
 import {
   NotificationsService
 } from 'angular2-notifications';
+import * as firebase from 'firebase/app'
 
 @Component({
   selector: 'app-add-tipo-vehiculo',
@@ -49,20 +50,34 @@ export class AddTipoVehiculoComponent implements OnInit {
 
   agregarTipoVehiculo(tipoVehicular: NgForm) {
     if (tipoVehicular.valid) {
-      if (tipoVehicular.value.$key == null) {
-        this.servicioServices.insertTipoVehiculo(tipoVehicular.value)
-        this.notificaciones.success('Exitosamente', 'Tipo de servicio agregado correctamente', {
+      var ref = firebase.database().ref('tipoVehiculos')
+      var existe = false;
+      // Comprobando si existe o no el cargo
+      ref.orderByChild('nombreTipoVehiculo').equalTo(this.servicioServices.seleccionarTipoVehiculo.nombreTipoVehiculo).on("child_added", snap => {
+        existe = true;
+      });
+
+      if (existe) {
+        this.notificaciones.error('Error', 'El tipo de vehiculo ya existe', {
           timeOut: 3000,
           showProgressBar: true
         })
       } else {
-        this.servicioServices.updateTipoVehiculo(tipoVehicular.value)
-        this.notificaciones.success('Exitosamente', 'Tipo de Servicio actualizado correctamente', {
-          timeOut: 3000,
-          showProgressBar: true
-        })
+        if (tipoVehicular.value.$key == null) {
+          this.servicioServices.insertTipoVehiculo(tipoVehicular.value)
+          this.notificaciones.success('Exitosamente', 'Tipo de servicio agregado correctamente', {
+            timeOut: 3000,
+            showProgressBar: true
+          })
+        } else {
+          this.servicioServices.updateTipoVehiculo(tipoVehicular.value)
+          this.notificaciones.success('Exitosamente', 'Tipo de Servicio actualizado correctamente', {
+            timeOut: 3000,
+            showProgressBar: true
+          })
+        }
+        this.resetForm(tipoVehicular)
       }
-      this.resetForm(tipoVehicular)
     }
   }
 

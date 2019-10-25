@@ -6,6 +6,7 @@ import 'rxjs/add/operator/map'
 
 @Injectable()
 export class AuthService {
+  correo: string;
 
   constructor(
     public afAuth: AngularFireAuth
@@ -20,6 +21,7 @@ export class AuthService {
   }
 
   loginEmail(email: string, password: string){
+    this.correo = email;
     return new Promise((resolve, reject)=>{
       this.afAuth.auth.signInWithEmailAndPassword(email, password)
       .then(userData => resolve(userData),

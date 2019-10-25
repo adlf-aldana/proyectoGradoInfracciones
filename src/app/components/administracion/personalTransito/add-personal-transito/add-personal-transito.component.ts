@@ -89,7 +89,7 @@ export class AddPersonalTransitoComponent implements OnInit {
       // celularPersonal: ['', [Validators.required, Validators.minLength(8), Validators.maxLength(8), Validators.pattern(this.num)]],
       celularPersonal: ['', [Validators.minLength(8), Validators.maxLength(8), Validators.pattern(this.num)]],
       fechaNacimientoPersonal: ['', Validators.required],
-      direccionPersonal: ['', ]
+      direccionPersonal: []
     })
 
     db.list('cargosTransito').snapshotChanges()
@@ -112,24 +112,37 @@ export class AddPersonalTransitoComponent implements OnInit {
 
   addPersonalTransito(servicioPersonalTransito: NgForm) {
     if (servicioPersonalTransito.valid) {
-      if (servicioPersonalTransito.value.$key == null) {
-        this.servicioServices.insertPersonal(servicioPersonalTransito.value)
-        this.notificaciones.success('Exitosamente', 'Datos guardados correctamente', {
+      var ref = firebase.database().ref('personalTransito')
+      var existe = false;
+      // Comprobando si existe o no el cargo
+      ref.orderByChild('ciPersonal').equalTo(this.servicioServices.seleccionarPersonal.ciPersonal).on("child_added", snap => {
+        existe = true;
+      });
+      if (existe) {
+        this.notificaciones.error('Error', 'Ya existe un personal con el C.I.', {
           timeOut: 3000,
           showProgressBar: true
         })
       } else {
-        this.servicioServices.updatePersonal(servicioPersonalTransito.value)
-        this.notificaciones.success('Exitosamente', 'Datos actualizados correctamente', {
-          timeOut: 3000,
-          showProgressBar: true
-        })
+        if (servicioPersonalTransito.value.$key == null) {
+          this.servicioServices.insertPersonal(servicioPersonalTransito.value)
+          this.notificaciones.success('Exitosamente', 'Datos guardados correctamente', {
+            timeOut: 3000,
+            showProgressBar: true
+          })
+        } else {
+          this.servicioServices.updatePersonal(servicioPersonalTransito.value)
+          this.notificaciones.success('Exitosamente', 'Datos actualizados correctamente', {
+            timeOut: 3000,
+            showProgressBar: true
+          })
+        }
+        this.resetForm(servicioPersonalTransito)
       }
-      this.resetForm(servicioPersonalTransito)
     } else {
       console.log('Error no valido');
-
     }
+
   }
 
   resetForm(servicioPersonalTransito ? : NgForm) {

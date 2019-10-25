@@ -55,7 +55,7 @@ export class ServiciosService {
   insertUsuario(datosUsuario: GestionUsuario) {        
     this.listUsuario.push({
       ciUsuario: datosUsuario.ciUsuario,
-      nombreUsuario: datosUsuario.nombreUsuario,
+      // nombreUsuario: datosUsuario.nombreUsuario,
       correoUsuario: datosUsuario.correoUsuario,
       cargoUsuario: datosUsuario.cargoUsuario,
       password: datosUsuario.password,
@@ -64,7 +64,8 @@ export class ServiciosService {
   updateUsuario(datosUsuario: GestionUsuario) {
     this.listUsuario.update(datosUsuario.$key, {
       ciUsuario: datosUsuario.ciUsuario,
-      nombreUsuario: datosUsuario.nombreUsuario,
+      // nombreUsuario: datosUsuario.nombreUsuario,
+      correoUsuario: datosUsuario.correoUsuario,
       cargoUsuario: datosUsuario.cargoUsuario,
       password: datosUsuario.password,
     })
@@ -210,8 +211,8 @@ export class ServiciosService {
       ciPersonal: personalTransito.ciPersonal,
       sexoPersonal: personalTransito.sexoPersonal,
       fechaNacimientoPersonal: personalTransito.fechaNacimientoPersonal,
-      celularPersonal: personalTransito.celularPersonal,
-      direccionPersonal: personalTransito.direccionPersonal
+      celularPersonal: personalTransito.celularPersonal || null,
+      direccionPersonal: personalTransito.direccionPersonal || null
     })
   }
   updatePersonal(personalTransito: Personal) {
@@ -299,11 +300,22 @@ export class ServiciosService {
         lng: datosInfracciones.lng,
         art: datosInfracciones.art,
         num: datosInfracciones.num,
-        foto1: datosInfracciones.foto1,
+        foto1: datosInfracciones.foto1 || null,
+        foto2: datosInfracciones.foto2 || null,
+        // foto3: datosInfracciones.foto3 || null,
+        // foto4: datosInfracciones.foto4 || null,
+        // foto5: datosInfracciones.foto5 || null,
+        descripcion: datosInfracciones.descripcion,
+
         nombreInfractor: datosInfracciones.nombreInfractor,
         apPaternoInfractor: datosInfracciones.apPaternoInfractor,
         apMaternoInfractor: datosInfracciones.apMaternoInfractor,
-        numLicenciaInfractor: datosInfracciones.numLicenciaInfractor
+        numLicenciaInfractor: datosInfracciones.numLicenciaInfractor,
+
+        nombrePersonal: datosInfracciones.nombrePersonal,
+        apPaternoPersonal: datosInfracciones.apPaternoPersonal,
+        apMaternoPersonal: datosInfracciones.apMaternoPersonal,
+        ciPersonal: datosInfracciones.ciPersonal
     })
   }
   updateInfraccion(datosInfracciones: Boleta) {

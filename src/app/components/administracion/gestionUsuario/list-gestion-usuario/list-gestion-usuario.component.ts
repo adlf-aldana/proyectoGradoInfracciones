@@ -28,7 +28,7 @@ export class ListGestionUsuarioComponent implements OnInit {
 
   displayedColumns: string[] = [
   'ciUsuario',
-  'nombreUsuario',
+  // 'nombreUsuario',
   'cargoUsuario',
   'correoUsuario',
   'evento'];

@@ -17,6 +17,7 @@ import {
 import {
   NotificationsService
 } from 'angular2-notifications';
+import * as firebase from 'firebase/app';
 
 @Component({
   selector: 'app-add-marca-vehiculo',
@@ -48,20 +49,35 @@ export class AddMarcaVehiculoComponent implements OnInit {
 
   agregarMarcaVehiculo(marcaVehicular: NgForm) {
     if (marcaVehicular.valid) {
-      if (marcaVehicular.value.$key == null) {
-        this.servicioServices.insertMarcaVehiculo(marcaVehicular.value)
-        this.notificaciones.success('Exitosamente', 'Marca guardado correctamente', {
+
+      var ref = firebase.database().ref('marcaVehiculos')
+      var existe = false;
+      // Comprobando si existe o no el cargo
+      ref.orderByChild('nombreMarcaVehiculos').equalTo(this.servicioServices.seleccionarMarcaVehiculo.nombreMarcaVehiculos).on("child_added", snap => {
+        existe = true;
+      });
+
+      if (existe) {
+        this.notificaciones.error('Error', 'La marca ya existe', {
           timeOut: 3000,
           showProgressBar: true
         })
       } else {
-        this.servicioServices.updateMarcaVehiculo(marcaVehicular.value)
-        this.notificaciones.success('Exitosamente', 'Marca actualizado correctamente', {
-          timeOut: 3000,
-          showProgressBar: true
-        })
+        if (marcaVehicular.value.$key == null) {
+          this.servicioServices.insertMarcaVehiculo(marcaVehicular.value)
+          this.notificaciones.success('Exitosamencargote', 'Marca guardado correctamente', {
+            timeOut: 3000,
+            showProgressBar: true
+          })
+        } else {
+          this.servicioServices.updateMarcaVehiculo(marcaVehicular.value)
+          this.notificaciones.success('Exitosamente', 'Marca actualizado correctamente', {
+            timeOut: 3000,
+            showProgressBar: true
+          })
+        }
+        this.resetForm(marcaVehicular)
       }
-      this.resetForm(marcaVehicular)
     }
   }
 

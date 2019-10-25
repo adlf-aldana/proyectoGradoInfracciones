@@ -45,7 +45,12 @@ import {
   AngularFireStorage
 } from 'angularfire2/storage';
 
-
+import {
+  AuthService
+} from '../../../services/auth.service'
+import {
+  IfStmt
+} from '@angular/compiler';
 
 
 @Component({
@@ -59,43 +64,32 @@ export class AddBoletaComponent implements OnInit {
 
   uploadPercent: Observable < number > ;
   date = new Date();
-  nombreFoto: any
+  nombreFoto1: any
+  nombreFoto2: any
+  // nombreFoto3: any
+  // nombreFoto4: any
+  // nombreFoto5: any
 
-
+  anio = this.date.getFullYear()
+  mes = this.date.getMonth()
+  dia = this.date.getDay()
+  hora = this.date.getHours()
+  minutos = this.date.getMinutes()
+  segundo = this.date.getSeconds()
 
   datosBoleta: FormGroup
 
   lat: number;
   lng: number;
 
-  //toggle webcam on/off
-  // public showWebcam = false;
-  // public allowCameraSwitch = true;
-  // public multipleWebcamsAvailable = false;
-  // public deviceId: string;
-  // public videoOptions: MediaTrackConstraints = {
-  //   width: {ideal : 1024},
-  //   height: {ideal: 576}
-  // }
-  // public errors: WebcamInitError[] = [];  
-
-  // latest snapshot
-  // public webcamImage: WebcamImage = null;
-
-  // webcam snapshot trigger
-  // private trigger: Subject<void> = new Subject<void>();
-
-  //switch to next / previous / specific webcam; true/false; forward/backwards, string: deviceId
-  // private nextWebcam: Subject<boolean|string> = new Subject<boolean|string>();
-
-
-
   constructor(
     public servicioServices: ServiciosService,
     public notificaciones: NotificationsService,
     public builder: FormBuilder,
     private firebase: AngularFireDatabase,
-    private storage: AngularFireStorage
+    private storage: AngularFireStorage,
+    public authService: AuthService
+
   ) {
     this.datosBoleta = this.builder.group({
       $key: [],
@@ -105,86 +99,94 @@ export class AddBoletaComponent implements OnInit {
       lat: [''],
       lng: [''],
       foto1: [],
-      nombreInfractor:['',Validators.required],
-      apPaternoInfractor:['', Validators.required],
-      apMaternoInfractor:['', Validators.required],
-      numLicenciaInfractor:['', Validators.required]
+      foto2: [],
+      foto3: [],
+      foto4: [],
+      foto5: [],
+      descripcion: ['', Validators.required],
+
+      nombreInfractor: ['', Validators.required],
+      apPaternoInfractor: ['', Validators.required],
+      apMaternoInfractor: ['', Validators.required],
+      numLicenciaInfractor: ['', Validators.required],
+      tipoVehiculo: [],
+      marcaVehiculo: [],
+      colorVehiculo: [],
+
+      nombrePersonal: ['', Validators.required],
+      apPaternoPersonal: ['', Validators.required],
+      apMaternoPersonal: ['', Validators.required],
+      ciPersonal: []
     });
   }
 
-  // :
-  //     if request.auth != null;
-
   file
   filePath
-  uploadFile(event) {
-    let anio = this.date.getFullYear()
-    let mes = this.date.getMonth()
-    let dia = this.date.getDay()
-    let hora = this.date.getHours()
-    let minutos =  this.date.getMinutes()
-    let segundo = this.date.getSeconds()
-
+  uploadFile1(event) {
     this.file = event.target.files[0];
-    //   const file = event.target.files[0];
-
-    //  const filePath = 'foto1'
-    // const task = this.storage.upload(filePath, file)
-
-    // this.uploadPercent = task.percentageChanges();
-    this.nombreFoto = anio+'!'+mes+'!'+dia+'!'+hora+'!'+minutos+'!'+segundo;
-    // console.log(this.nombreFoto);
-    
+    this.nombreFoto1 = this.anio + '!' + this.mes + '!' + this.dia + '!' + this.hora + '!' + this.minutos + '!' + this.segundo +'#1';
   }
+
+  uploadFile2(event) {
+    this.file = event.target.files[0];
+    this.nombreFoto2 = this.anio + '!' + this.mes + '!' + this.dia + '!' + this.hora + '!' + this.minutos + '!' + this.segundo +'#1';
+  }
+
+  // uploadFile3(event) {
+  //   this.file = event.target.files[0];
+  //   this.nombreFoto3 = this.anio + '!' + this.mes + '!' + this.dia + '!' + this.hora + '!' + this.minutos + '!' + this.segundo +'#1';
+  // }
+
+  // uploadFile4(event) {
+  //   this.file = event.target.files[0];
+  //   this.nombreFoto4 = this.anio + '!' + this.mes + '!' + this.dia + '!' + this.hora + '!' + this.minutos + '!' + this.segundo +'#1';
+  // }
+
+  // uploadFile5(event) {
+  //   this.file = event.target.files[0];
+  //   this.nombreFoto5 = this.anio + '!' + this.mes + '!' + this.dia + '!' + this.hora + '!' + this.minutos + '!' + this.segundo +'#1';
+  // }
 
 
   ngOnInit() {
-    // WebcamUtil.getAvailableVideoInputs().then((MediaDevices: MediaDeviceInfo[])=>{
-    //   this.multipleWebcamsAvailable = MediaDevices && MediaDevices.length>1;
-    // })
     this.getUserLocation()
     this.servicioServices.getInfracciones();
     this.resetForm()
+
+    var ref = firebase.database().ref('gestionUsuarios');
+    var datos = firebase.database().ref('personalTransito');
+    ref.orderByChild('correoUsuario').equalTo(this.authService.correo).on("child_added", snap => {
+      var ci = snap.val().ciUsuario;
+      let grado = snap.val().cargoUsuario;
+      document.getElementById('grado').innerHTML = grado
+
+      datos.orderByChild('ciPersonal').equalTo(ci).on("child_added", snap => {
+
+        let nombrePersonal = snap.val().nombrePersonal;
+        document.getElementById('nombrePersonal').innerHTML = nombrePersonal
+
+        let apPaternoPersonal = snap.val().apPaternoPersonal;
+        document.getElementById('apPaternoPersonal').innerHTML = apPaternoPersonal
+
+        let apMaternoPersonal = snap.val().apMaternoPersonal;
+        document.getElementById('apMaternoPersonal').innerHTML = apMaternoPersonal
+
+        let ciPersonal = snap.val().ciPersonal;
+        document.getElementById('cedulaIdentidad').innerHTML = ciPersonal
+
+        this.datosBoleta.patchValue({
+          nombrePersonal: nombrePersonal,
+          apPaternoPersonal: apPaternoPersonal,
+          apMaternoPersonal: apMaternoPersonal,
+          ciPersonal: ciPersonal
+        })
+
+      })
+    })
+
+
+
   }
-
-  // public triggerSnapshot(): void {
-  //   this.trigger.next();
-  // }
-
-  // public toggleWebcam(): void{
-  //   this.showWebcam = !this.showWebcam;
-  // }
-
-  // public handleInitError(error: WebcamInitError): void{
-  //   this.errors.push(error);
-  // }
-
-  // public showNextWebcam(directionOrDeviceId: boolean|string): void{
-  //   // true => move forward through devices
-  //   // false => move backwardsthrough devices
-  //   // string => move to device with given deviceId
-  //   this.nextWebcam.next(directionOrDeviceId)
-  // }
-
-  // public handleImage(webcamImage: WebcamImage): void{
-  //   console.info('active device: '+this.deviceId)
-  //   this.webcamImage = webcamImage;
-  // }
-
-  // public cameraWasSwitched(deviceId: string): void{
-  //   console.log('active device: '+deviceId);
-  //   this.deviceId = deviceId;
-  // }
-
-  // public get triggerObservable(): Observable<void>{
-  //   return this.trigger.asObservable();
-  // }
-
-  // public get nextWebcamObservable(): Observable<boolean|string>{
-  //   return this.nextWebcam.asObservable();
-  // }
-
-
 
   public getUserLocation() {
     if (navigator.geolocation) {
@@ -195,28 +197,48 @@ export class AddBoletaComponent implements OnInit {
     }
   }
 
-
-  
   addBoleta(datosBoleta: NgForm) {
-    
 
 
-    this.filePath = 'infracciones/'+this.nombreFoto
-    const task = this.storage.upload(this.filePath, this.file)
-    
-    this.datosBoleta.patchValue({
-      lat: this.lat,
-      lng: this.lng,
-      foto1: this.nombreFoto
-    })
-    
-    
+    if (this.nombreFoto1=== undefined && this.nombreFoto2 === undefined) {
+      this.datosBoleta.patchValue({
+        lat: this.lat,
+        lng: this.lng,
+      })
+    } else if(this.nombreFoto1 != undefined && this.nombreFoto2 === undefined){
+      const task = this.storage.upload(this.filePath, this.file)
+      this.datosBoleta.patchValue({
+        lat: this.lat,
+        lng: this.lng,
+        foto1: this.nombreFoto1
+      })
+    }
+    else if( this.nombreFoto1 === undefined && this.nombreFoto2 != undefined ){
+      const task = this.storage.upload(this.filePath, this.file)
+      this.datosBoleta.patchValue({
+        lat: this.lat,
+        lng: this.lng,
+        foto2: this.nombreFoto2
+      })
+    }
+    else {
+      this.filePath = 'infracciones/' + this.nombreFoto1
+      const task = this.storage.upload(this.filePath, this.file)
+      this.datosBoleta.patchValue({
+        lat: this.lat,
+        lng: this.lng,
+        foto1: this.nombreFoto1,
+        foto2: this.nombreFoto2
+      })
+    }
+
     if (datosBoleta.value.$key == null) {
-      this.servicioServices.insertInfracciones(datosBoleta.value)
+      //this.servicioServices.insertInfracciones(datosBoleta.value);
       this.notificaciones.success('Exitosamente', 'Item guardado correctamente', {
-        timeOut: 3000,
+        timeOut: 1000,
         showProgressBar: true
       })
+      console.log('noti');
     } else {
       this.servicioServices.updateInfraccion(datosBoleta.value)
       this.notificaciones.success('Exitosamente', 'Item actualizado correctamente', {
@@ -224,7 +246,7 @@ export class AddBoletaComponent implements OnInit {
         showProgressBar: true
       })
     }
-    this.resetForm(datosBoleta)
+    //this.resetForm(datosBoleta)
   }
 
   resetForm(serviciBoleta ? : NgForm) {
@@ -236,14 +258,11 @@ export class AddBoletaComponent implements OnInit {
 
   nuevoInfractor() {}
 
-
   generarPDF() {
 
     PdfMakeWrapper.setFonts(pdfFonts);
 
     const doc = new jsPDF('p', 'mm', [279, 120]) //('p','mm',[297, 210]);
-
-
 
     let placaVehiculo: string = (document.getElementById('placaVehiculo') as HTMLInputElement).value;
 
@@ -289,7 +308,6 @@ export class AddBoletaComponent implements OnInit {
       console.log(snap.val().descripcion);
 
     })
-
   }
 
   comprobarInfractor() {
@@ -324,7 +342,10 @@ export class AddBoletaComponent implements OnInit {
         nombreInfractor: nombreInfractor,
         apPaternoInfractor: apPaternoInfractor,
         apMaternoInfractor: apMaternoInfractor,
-        numLicenciaInfractor: numLicencia
+        numLicenciaInfractor: numLicencia,
+        tipoVehiculo: tipoVehiculo,
+        marcaVehiculo: marcaVehiculo,
+        colorVehiculo: colorVehiculo
       })
 
     })

@@ -17,6 +17,7 @@ import {
 import {
   NotificationsService
 } from 'angular2-notifications';
+import * as firebase from 'firebase/app';
 
 @Component({
   selector: 'app-add-color-vehiculo',
@@ -48,20 +49,36 @@ export class AddColorVehiculoComponent implements OnInit {
 
   agregaColorVehiculo(colorVehicular: NgForm) {
     if (colorVehicular.valid) {
-      if (colorVehicular.value.$key == null) {
-        this.servicioServices.insertColorVehiculo(colorVehicular.value)
-        this.notificaciones.success('Exitosamente', 'Color guardado correctamente', {
+
+      var ref = firebase.database().ref('colorVehiculos')
+      var existe = false;
+      // Comprobando si existe o no el cargo
+      ref.orderByChild('nombreColorVehiculo').equalTo(this.servicioServices.seleccionarColorVehiculo.nombreColorVehiculo).on("child_added", snap => {
+        existe = true;
+      });
+
+      if (existe) {
+        this.notificaciones.error('Error', 'El color ya existe', {
           timeOut: 3000,
           showProgressBar: true
         })
       } else {
-        this.servicioServices.updateColorVehiculo(colorVehicular.value)
-        this.notificaciones.success('Exitosamente', 'Color actualizado correctamente', {
-          timeOut: 3000,
-          showProgressBar: true
-        })
+
+        if (colorVehicular.value.$key == null) {
+          this.servicioServices.insertColorVehiculo(colorVehicular.value)
+          this.notificaciones.success('Exitosamente', 'Color guardado correctamente', {
+            timeOut: 3000,
+            showProgressBar: true
+          })
+        } else {
+          this.servicioServices.updateColorVehiculo(colorVehicular.value)
+          this.notificaciones.success('Exitosamente', 'Color actualizado correctamente', {
+            timeOut: 3000,
+            showProgressBar: true
+          })
+        }
+        this.resetForm(colorVehicular)
       }
-      this.resetForm(colorVehicular)
     }
   }
 
