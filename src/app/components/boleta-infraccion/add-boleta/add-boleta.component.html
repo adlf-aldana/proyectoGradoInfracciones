@@ -1,137 +1,275 @@
-  <div class="">
+<div class="">
+  <form [formGroup]="datosBoleta" (ngSubmit)="addBoleta(datosBoleta)">
+    <div class="card">
+      <p align="left" class="p-3">
+        <font size="2"><strong>(*) Datos obligatorios </strong></font>
+      </p>
+      <input type="hidden" name="" formControlName="$key" />
 
-    <form class="" [formGroup]="datosBoleta" (ngSubmit)="addBoleta(datosBoleta)">
-      <div class="card">
-          <p align="left" class="p-3">
-              <font size=2><strong>(*) Datos obligatorios </strong></font>
-            </p>
-        <input type="hidden" name="" formControlName=$key />
+      <div class="m-3 ">
+        <div class="text-center row">
+          <div class="text-center col">
+            <div class="card p-3">
+              <h4>INFRACTOR</h4>
+              <mat-form-field>
+                <input
+                  matInput
+                  #placaVehiculo
+                  id="placa"
+                  maxlength="10"
+                  placeholder="Placa del Vehiculo *"
+                  name="placa"
+                  formControlName="placa"
+                  [(ngModel)]="servicioServices.seleccionarInfraccion.placa"
+                />
+                <mat-hint align="">
+                  <p>Ejemplo: 1234ABCD</p>
+                </mat-hint>
+                <mat-hint align="end">
+                  {{ placaVehiculo.value.length }}/10
+                </mat-hint>
+              </mat-form-field>
 
-        <div class="m-3 ">
-
-          <div class="text-center row">
-
-            <div class="text-center col">
-              <div class="card p-3">
-                <h4>INFRACTOR</h4>
-                <mat-form-field>
-                  <input matInput #placaVehiculo id="placa" maxlength="10" placeholder="Placa del Vehiculo *" name="placa"
-                    formControlName="placa" [(ngModel)]="servicioServices.seleccionarInfraccion.placa" />
-                  <mat-hint align="">
-                    <p>Ejemplo: 1234ABCD</p>
-                  </mat-hint>
-                  <mat-hint align="end"> {{placaVehiculo.value.length}}/10 </mat-hint>
-                </mat-form-field>
-
-                <div class="">
-                  <input type="button" class="btn btn-primary m-3" (click)="comprobarInfractor()"
-                    value="Validar Infractor">
-                  <input type="button" data-toggle="modal" class="btn btn-primary" value="Nuevo infractor"
-                    href="#listDatosVehiculo">
-                  <app-lit-datos-vehiculo></app-lit-datos-vehiculo>
+              <div class="">
+                <input
+                  type="button"
+                  class="btn btn-success m-3"
+                  (click)="comprobarInfractor()"
+                  value="Validar Infractor"
+                />
+                <input
+                  type="button"
+                  data-toggle="modal"
+                  class="btn btn-primary"
+                  value="Nuevo infractor"
+                  href="#listDatosVehiculo"
+                />
+                <app-lit-datos-vehiculo></app-lit-datos-vehiculo>
+              </div>
+              <div>
+                <h5 class="pt-3">DATOS DEL INFRACTOR</h5>
+                <div class="text-left">
+                  <p>Nombre: <strong id="nombre"></strong></p>
+                  <p>Apellido Paterno: <strong id="apPaterno"></strong></p>
+                  <p>Apellido Materno: <strong id="apMaterno"></strong></p>
+                  <p>N° Licencia: <strong id="numLicencia"></strong></p>
                 </div>
-                <div>
-                  <h5 class="pt-3">DATOS DEL INFRACTOR</h5>
-                  <div class="text-left">
-                    <p>Nombre: <strong id="nombre"></strong></p>
-                    <p>Apellido Paterno: <strong id="apPaterno"></strong></p>
-                    <p>Apellido Materno: <strong id="apMaterno"></strong></p>
-                    <p>N° Licencia: <strong id="numLicencia"></strong></p>
-                  </div>
-                </div>
+              </div>
 
-                <div>
-                  <h5>DATOS DEL VEHICULO</h5>
-                  <div class="text-left">
-                    <p>Tipo: <strong id="tipoVehiculo"></strong></p>
-                    <p>Marca: <strong id="marcaVehiculo"></strong></p>
-                    <p>Color: <strong id="colorVehiculo"></strong></p>
-                  </div>
+              <div>
+                <h5>DATOS DEL VEHICULO</h5>
+                <div class="text-left">
+                  <p>Tipo: <strong id="tipoVehiculo"></strong></p>
+                  <p>Marca: <strong id="marcaVehiculo"></strong></p>
+                  <p>Color: <strong id="colorVehiculo"></strong></p>
+                  <p>
+                    Tipo de Servicio: <strong id="servicioVehiculo"></strong>
+                  </p>
                 </div>
-
               </div>
             </div>
-
-            <div class="mx-auto">
-              <div class="card col">
-                <h4 class="text-center pt-3">UBICACION</h4>
-                <input type="hidden" name="lat" id="lat" formControlName="lat"
-                  [(ngModel)]="servicioServices.seleccionarInfraccion.lat">
-                <input type="hidden" name="lng" id="lng" formControlName="lng"
-                  [(ngModel)]="servicioServices.seleccionarInfraccion.lng">
-                <div class="input-group m-3">
-                  <div class="text-left">
-                    <p>Latitud: <strong>{{lat}}</strong></p>
-                    <p>Longitud: <strong>{{lng}}</strong></p>
-                  </div>
-                </div>
-                <div>
-                  <agm-map [latitude]="lat" [longitude]="lng" [zoom]="18" [mapTypeControl]="mapControls">
-                    <agm-marker [latitude]="lat" [longitude]="lng">
-                    </agm-marker>
-                  </agm-map>
-                </div>
-                <app-add-mapa></app-add-mapa>
-              </div>
-            </div>
-
-
-
           </div>
 
+          <div class="text-center col">
+            <div class="card p-3">
+              <h4>TESTIGO</h4>
+              <mat-form-field>
+                <input
+                  matInput
+                  #ciTestigo
+                  id="cedulaIdentidadTestigo"
+                  maxlength="10"
+                  placeholder="Cedula Identidad del Testigo"
+                  name="cedulaIdentidadTestigo"
+                  formControlName="cedulaIdentidadTestigo"
+                  [(ngModel)]="servicioServices.seleccionarInfraccion.cedulaIdentidadTestigo"
+                />
+                <mat-hint align="">
+                  <p>Min: 7 caracteres</p>
+                </mat-hint>
+                <mat-hint align="end">
+                  {{ ciTestigo.value.length }}/10
+                </mat-hint>
+              </mat-form-field>
 
-          <div class="row">
+              <div class="">
+                <input
+                  type="button"
+                  class="btn btn-success m-3"
+                  (click)="comprobarTestigo()"
+                  value="Validar Testigo"
+                />
+                <input
+                  type="button"
+                  data-toggle="modal"
+                  class="btn btn-primary"
+                  value="Nuevo Testigo"
+                  href="#listTestigo"
+                />
+                <app-list-testigo></app-list-testigo>
+              </div>
+              <div>
+                <h5 class="pt-3">DATOS DEL TESTIGO</h5>
+                <div class="text-left">
+                  <p>Nombre: <strong id="nomTestigo"></strong></p>
+                  <p>Apellido Paterno: <strong id="apPatTestigo"></strong></p>
+                  <p>Apellido Materno: <strong id="apMatTestigo"></strong></p>
+                  <p>Cedula de Identidad: <strong id="ciTestigo"></strong></p>
+                  <p>Celular: <strong id="celularTestigo"></strong></p>
+                </div>
+              </div>
 
-            <div class="mt-3 col-md-4 text-center mx-auto">
-              <div class="card p-3">
-                <h4>INFRACCION</h4>
+              
+            </div>
+          </div>
+
+          <div class="mx-auto">
+            <div class="card col">
+              <h4 class="text-center pt-3">UBICACION</h4>
+              <input
+                type="hidden"
+                name="lat"
+                id="lat"
+                formControlName="lat"
+                [(ngModel)]="servicioServices.seleccionarInfraccion.lat"
+              />
+              <input
+                type="hidden"
+                name="lng"
+                id="lng"
+                formControlName="lng"
+                [(ngModel)]="servicioServices.seleccionarInfraccion.lng"
+              />
+              <div class="input-group m-3">
+                <div class="text-left">
+                  <p>
+                    Latitud: <strong>{{ lat }}</strong>
+                  </p>
+                  <p>
+                    Longitud: <strong>{{ lng }}</strong>
+                  </p>
+                </div>
+              </div>
+              <div>
+                <agm-map
+                  [latitude]="lat"
+                  [longitude]="lng"
+                  [zoom]="18"
+                  [mapTypeControl]="mapControls"
+                >
+                  <agm-marker [latitude]="lat" [longitude]="lng"> </agm-marker>
+                </agm-map>
+              </div>
+              <app-add-mapa></app-add-mapa>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="mt-3 col-md-4 text-center mx-auto">
+            <div class="card p-3">
+              <h4>INFRACCION</h4>
+              <div>
+                <mat-form-field class="m-2">
+                  <input
+                    matInput
+                    #tamArt
+                    id="art"
+                    maxlength="10"
+                    minlength="1"
+                    placeholder="Artículo *"
+                    name="art"
+                    formControlName="art"
+                    [(ngModel)]="servicioServices.seleccionarInfraccion.art"
+                  />
+                  <mat-hint align="">
+                    <p>Min: 1 número</p>
+                  </mat-hint>
+                  <mat-hint align="end">
+                    {{ tamArt.value.length }}/10
+                  </mat-hint>
+                </mat-form-field>
+
+                <mat-form-field>
+                  <input
+                    matInput
+                    #tamNum
+                    id="num"
+                    maxlength="10"
+                    placeholder="Num *"
+                    name="num"
+                    formControlName="num"
+                    [(ngModel)]="servicioServices.seleccionarInfraccion.num"
+                  />
+                  <mat-hint align="">
+                    <p>Min: 1 número</p>
+                  </mat-hint>
+                  <mat-hint align="end">
+                    {{ tamNum.value.length }}/10
+                  </mat-hint>
+                </mat-form-field>
+
                 <div>
-                  <mat-form-field class="m-2">
-                    <input matInput #ciInfractor id="art" maxlength="50" placeholder="Artículo *" name="art"
-                      formControlName="art"  [(ngModel)]="servicioServices.seleccionarInfraccion.art"/>
-                  </mat-form-field>
-
-                  <mat-form-field>
-                    <input matInput #ciInfractor id="num" maxlength="50" placeholder="Num *" name="num"
-                      formControlName="num" [(ngModel)]="servicioServices.seleccionarInfraccion.num"/>
-                  </mat-form-field>
-
-                  <div>
-                    <!-- <input type="button" value="Validar" class="btn btn-primary m-2"
+                  <!-- <input type="button" value="Validar" class="btn btn-primary m-2"
                       (click)="validarCodigoInfraccion()"> -->
 
-                    <input type="button" value="Buscar" href="#listCodigo" data-toggle="modal"
-                      class="btn btn-secondary">
-                    <app-codigo-infracciones></app-codigo-infracciones>
-
-                  </div>
+                  <input
+                    type="button"
+                    value="Buscar"
+                    href="#listCodigo"
+                    data-toggle="modal"
+                    class="btn btn-primary"
+                  />
+                  <app-codigo-infracciones></app-codigo-infracciones>
                 </div>
-                <!-- <textarea rows="7" cols="45" placeholder="Descripcion" disabled></textarea> -->
-                <mat-form-field class="m-3">
-                <textarea matInput  placeholder="Breve Descripcion *" #des maxlength="500" minlength="4" id="descripcion"
-                name="descripcion" formControlName="descripcion" [(ngModel)]="servicioServices.seleccionarInfraccion.descripcion"></textarea>
-                <mat-hint align="left"> min: 4 </mat-hint>
-                <mat-hint align="end"> {{des.value.length}}/500 </mat-hint>
-              </mat-form-field>
               </div>
+              <!-- <textarea rows="7" cols="45" placeholder="Descripcion" disabled></textarea> -->
+              <mat-form-field class="m-3">
+                <textarea
+                  matInput
+                  placeholder="Observaciones * (Breve descripción de lo observado)"
+                  #des
+                  maxlength="46"
+                  minlength="4"
+                  id="descripcion"
+                  name="descripcion"
+                  formControlName="descripcion"
+                  [(ngModel)]="
+                    servicioServices.seleccionarInfraccion.descripcion
+                  "
+                ></textarea>
+                <mat-hint align="left"> min: 4 </mat-hint>
+                <mat-hint align="end"> {{ des.value.length }}/46 </mat-hint>
+              </mat-form-field>
             </div>
+          </div>
 
-            <div class="col-md-4 mx-auto mt-3">
-              <div class="card">
-                <h4 class="text-center pt-3">FOTOGRAFIAS</h4>
-                <br>
+          <div class="col-md-4 mx-auto mt-3">
+            <div class="card">
+              <h4 class="text-center pt-3">FOTOGRAFIAS</h4>
+              <br />
 
-                <input type="file" (change)="uploadFile1($event)" class="p-3">
-                <div>{{updaloadPercent | async}}</div>
-                <input type="hidden" formControlName="foto1" id="foto1" name="foto1"
-                  [(ngModel)]="servicioServices.seleccionarInfraccion.foto1">
+              <input type="file" (change)="uploadFile1($event)" id="fotito1" name="fotito1" formControlName="fotito1" class="p-3" />
+              <div>{{ updaloadPercent | async }}</div>
+              <input
+                type="hidden"
+                formControlName="foto1"
+                id="foto1"
+                name="foto1"
+                [(ngModel)]="servicioServices.seleccionarInfraccion.foto1"
+              />
 
-                  <input type="file" (change)="uploadFile2($event)" class="p-3">
-                <div>{{updaloadPercent | async}}</div>
-                <input type="hidden" formControlName="foto2" id="foto2" name="foto2"
-                  [(ngModel)]="servicioServices.seleccionarInfraccion.foto2">
+              <input type="file" (change)="uploadFile2($event)" id="fotito2" name="fotito2" formControlName="fotito2" class="p-3" />
+              <div>{{ updaloadPercent | async }}</div>
+              <input
+                type="hidden"
+                formControlName="foto2"
+                id="foto2"
+                name="foto2"
+                [(ngModel)]="servicioServices.seleccionarInfraccion.foto2"
+              />
 
-                  <!-- <input type="file" (change)="uploadFile($event)" class="p-3">
+              <!-- <input type="file" (change)="uploadFile($event)" class="p-3">
                 <div>{{updaloadPercent | async}}</div>
                 <input type="hidden" formControlName="foto3" id="foto3" name="foto3"
                   [(ngModel)]="servicioServices.seleccionarInfraccion.foto3">
@@ -145,72 +283,201 @@
                 <div>{{updaloadPercent | async}}</div>
                 <input type="hidden" formControlName="foto5" id="foto5" name="foto5"
                   [(ngModel)]="servicioServices.seleccionarInfraccion.foto5"> -->
-
-                  
-
-              </div>
             </div>
-
-            <div class="card col-md-4 mx-auto mt-3">
-              <h4 class="text-center pt-3">DATOS POLICIA</h4>
-              <div class="text-left m-3">
-                <p>Grado: <strong id="grado"></strong></p>
-                <p>Nombre: <strong id="nombrePersonal"></strong></p>
-                <p>Apellido Paterno: <strong id="apPaternoPersonal"></strong></p>
-                <p>Apellido Materno: <strong id="apMaternoPersonal"></strong></p>
-                <p>Cedula Identidad: <strong id="cedulaIdentidad"></strong></p>
-              </div>
-            </div>
-
           </div>
 
-
-          <input type="hidden" id="nombreInfractor" name="nombreInfractor" formControlName="nombreInfractor"
-          [(ngModel)]="servicioServices.seleccionarInfraccion.nombreInfractor">
-
-        <input type="hidden" id="apPaternoInfractor" name="apPaternoInfractor" formControlName="apPaternoInfractor"
-          [(ngModel)]="servicioServices.seleccionarInfraccion.apPaternoInfractor">
-
-        <input type="hidden" id="apMaternoInfractor" name="apMaternoInfractor" formControlName="apMaternoInfractor"
-          [(ngModel)]="servicioServices.seleccionarInfraccion.apMaternoInfractor">
-
-        <input type="hidden" id="numLicenciaInfractor" name="numLicenciaInfractor" formControlName="numLicenciaInfractor"
-          [(ngModel)]="servicioServices.seleccionarInfraccion.numLicenciaInfractor">
-
-        <input type="hidden" id="tipoVehiculo" name="tipoVehiculo" formControlName="tipoVehiculo"
-          [(ngModel)]="servicioServices.seleccionarInfraccion.tipoVehiculo">
-
-        <input type="hidden" id="marcaVehiculo" name="marcaVehiculo" formControlName="marcaVehiculo"
-          [(ngModel)]="servicioServices.seleccionarInfraccion.marcaVehiculo">
-
-        <input type="hidden" id="colorVehiculo" name="colorVehiculo" formControlName="colorVehiculo"
-          [(ngModel)]="servicioServices.seleccionarInfraccion.colorVehiculo">
-
-
-        <input type="hidden" id="nombrePersonal" name="nombrePersonal" formControlName="nombrePersonal"
-          [(ngModel)]="servicioServices.seleccionarInfraccion.nombrePersonal">
-
-        <input type="hidden" id="apPaternoPersonal" name="apPaternoPersonal" formControlName="apPaternoPersonal"
-          [(ngModel)]="servicioServices.seleccionarInfraccion.apPaternoPersonal">
-
-        <input type="hidden" id="apMaternoPersonal" name="apMaternoPersonal" formControlName="apMaternoPersonal"
-          [(ngModel)]="servicioServices.seleccionarInfraccion.apMaternoPersonal">
-
-        <input type="hidden" id="ciPersonal" name="ciPersonal" formControlName="ciPersonal"
-          [(ngModel)]="servicioServices.seleccionarInfraccion.ciPersonal">
-
-
-
+          <div class="card col-md-4 mx-auto mt-3">
+            <h4 class="text-center pt-3">DATOS POLICIA</h4>
+            <div class="text-left m-3">
+              <p>Grado: <strong id="grado"></strong></p>
+              <p>Nombre: <strong id="nomPersonal"></strong></p>
+              <p>Apellido Paterno: <strong id="apPatPersonal"></strong></p>
+              <p>Apellido Materno: <strong id="apMatPersonal"></strong></p>
+              <p>Cedula Identidad: <strong id="cedulaIdentidad"></strong></p>
+            </div>
+          </div>
         </div>
 
+        
+        <input 
+        type="hidden"
+        id="fechaInfraccion"
+        name="fechaInfraccion"
+        formControlName="fechaInfraccion" 
+        [(ngModel)]="servicioServices.seleccionarInfraccion.fechaInfraccion"
+        />
+
+
+        <input
+          type="hidden"
+          id="nombreInfractor"
+          name="nombreInfractor"
+          formControlName="nombreInfractor"
+          [(ngModel)]="servicioServices.seleccionarInfraccion.nombreInfractor"
+        />
+
+        <input
+          type="hidden"
+          id="apPaternoInfractor"
+          name="apPaternoInfractor"
+          formControlName="apPaternoInfractor"
+          [(ngModel)]="
+            servicioServices.seleccionarInfraccion.apPaternoInfractor
+          "
+        />
+
+        <input
+          type="hidden"
+          id="apMaternoInfractor"
+          name="apMaternoInfractor"
+          formControlName="apMaternoInfractor"
+          [(ngModel)]="
+            servicioServices.seleccionarInfraccion.apMaternoInfractor
+          "
+        />
+
+        <input
+          type="hidden"
+          id="numLicenciaInfractor"
+          name="numLicenciaInfractor"
+          formControlName="numLicenciaInfractor"
+          [(ngModel)]="
+            servicioServices.seleccionarInfraccion.numLicenciaInfractor
+          "
+        />
+
+        <input
+          type="hidden"
+          id="tipoVehiculo"
+          name="tipoVehiculo"
+          formControlName="tipoVehiculo"
+          [(ngModel)]="servicioServices.seleccionarInfraccion.tipoVehiculo"
+        />
+
+        <input
+          type="hidden"
+          id="marcaVehiculo"
+          name="marcaVehiculo"
+          formControlName="marcaVehiculo"
+          [(ngModel)]="servicioServices.seleccionarInfraccion.marcaVehiculo"
+        />
+
+        <input
+          type="hidden"
+          id="colorVehiculo"
+          name="colorVehiculo"
+          formControlName="colorVehiculo"
+          [(ngModel)]="servicioServices.seleccionarInfraccion.colorVehiculo"
+        />
+
+        <input
+          type="hidden"
+          id="servicioVehiculo"
+          name="servicioVehiculo"
+          formControlName="servicioVehiculo"
+          [(ngModel)]="servicioServices.seleccionarInfraccion.servicioVehiculo"
+        />
+
+        <input
+          type="hidden"
+          id="nombrePersonal"
+          name="nombrePersonal"
+          formControlName="nombrePersonal"
+          [(ngModel)]="servicioServices.seleccionarInfraccion.nombrePersonal"
+        />
+
+        <input
+          type="hidden"
+          id="apPaternoPersonal"
+          name="apPaternoPersonal"
+          formControlName="apPaternoPersonal"
+          [(ngModel)]="servicioServices.seleccionarInfraccion.apPaternoPersonal"
+        />
+
+        <input
+          type="hidden"
+          id="apMaternoPersonal"
+          name="apMaternoPersonal"
+          formControlName="apMaternoPersonal"
+          [(ngModel)]="servicioServices.seleccionarInfraccion.apMaternoPersonal"
+        />
+
+        <input
+          type="hidden"
+          id="ciPersonal"
+          name="ciPersonal"
+          formControlName="ciPersonal"
+          [(ngModel)]="servicioServices.seleccionarInfraccion.ciPersonal"
+        />
+
+        <input
+          type="hidden"
+          id="nombreTestigo"
+          name="nombreTestigo"
+          formControlName="nombreTestigo"
+          [(ngModel)]="servicioServices.seleccionarTestigo.nombreTestigo"
+        />
+
+        <input
+          type="hidden"
+          id="apPaternoTestigo"
+          name="apPaternoTestigo"
+          formControlName="apPaternoTestigo"
+          [(ngModel)]="servicioServices.seleccionarTestigo.apPaternoTestigo"
+        />
+
+        <input
+          type="hidden"
+          id="apMaternoTestigo"
+          name="apMaternoTestigo"
+          formControlName="apMaternoTestigo"
+          [(ngModel)]="servicioServices.seleccionarTestigo.apMaternoTestigo"
+        />
+
+        <input
+          type="hidden"
+          id="cedulaIdentidadTestigo"
+          name="cedulaIdentidadTestigo"
+          formControlName="cedulaIdentidadTestigo"
+          [(ngModel)]="servicioServices.seleccionarTestigo.cedulaIdentidadTestigo"
+        />
+
+        <input
+          type="hidden"
+          id="celularTestigo"
+          name="celularTestigo"
+          formControlName="celularTestigo"
+          [(ngModel)]="servicioServices.seleccionarTestigo.celularTestigo"
+        />
+
+        
+
+
+      </div>
+
+      <div class="text-right">
         <div class="text-right">
-          <div class="text-right">
-
-            <input [disabled]="datosBoleta.invalid" class="btn btn-success m-1" type="submit" value="Guardar" />
-            <input class="btn btn-secondary m-1" type="button" value="Limpiar" (click)="resetForm(datosBoleta)" />
-            <input class="btn btn-primary" type="button" value="Generar" (click)="generarPDF()">
-          </div>
-          </div>
+          <input
+          [disabled]="datosBoleta.invalid"
+            class="btn btn-success m-1"
+            type="submit"
+            value="Guardar"
+          />
+          <input
+            class="btn btn-secondary m-1"
+            type="button"
+            value="Limpiar"
+            (click)="resetForm(datosBoleta)"
+          />
+          <!-- <input
+            class="btn btn-primary"
+            type="button"
+            value="Generar"
+            (click)="generarPDF()"
+          /> -->
         </div>
-    </form>
-  </div>
+      </div>
+    </div>
+    <simple-notifications ></simple-notifications>
+  </form>
+</div>

@@ -4,6 +4,7 @@ export class DatosVehiculo {
     tipo: string
     marca: string
     color: string
+    tipoServicio: string
 
     nombreInfractor: string
     apPaternoInfractor: string

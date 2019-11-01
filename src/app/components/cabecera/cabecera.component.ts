@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from 'src/app/services/auth.service';
 
+import * as firebase from 'firebase/app'
+
 @Component({
   selector: 'app-cabecera',
   templateUrl: './cabecera.component.html',
@@ -8,9 +10,10 @@ import { AuthService } from 'src/app/services/auth.service';
 })
 export class CabeceraComponent implements OnInit {
 
-  public isLogin: boolean;
+  public isLogin: any = null;
   public nombreUsuario: string;
   public emailUsuario: string;
+  public isAdmin: any = null
 
   constructor(
     public authService: AuthService
@@ -20,10 +23,25 @@ export class CabeceraComponent implements OnInit {
     this.authService.getAuth().subscribe(auth =>{
       if(auth){
         this.isLogin=true;
-        this.nombreUsuario=auth.displayName;
+        // this.nombreUsuario=auth.displayName;
         this.emailUsuario=auth.email;
-      }
-    })
+
+        var ref = firebase.database().ref('gestionUsuarios');
+        // ref.orderByChild('correoUsuario').equalTo(this.authService.correo).on("child_added", snap => {
+        ref.orderByChild('correoUsuario').equalTo(this.emailUsuario).on("child_added", snap => {
+          // console.log(snap.val().cargoUsuario);
+          
+          if (snap.val().cargoUsuario === 'Administrador') {
+            // console.log('es administrador');
+            this.isAdmin = true
+          }
+          else {
+            // console.log('no es administrador');
+            this.isAdmin = false}
+          })
+        }
+      })
+    
   }
 
   onClickLogout(){

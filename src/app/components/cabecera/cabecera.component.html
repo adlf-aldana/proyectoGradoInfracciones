@@ -24,13 +24,13 @@
           <ul class="navbar-nav " *ngIf="isLogin">
 
             <li class="nav-item">
-              <a class="nav-link" href="#" routerLink="registro">Registro</a>
+              <a class="nav-link" *ngIf="!isAdmin" href="#" routerLink="registro">Registro</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#" routerLink="multas">Multas Registradas</a>
+              <a class="nav-link" *ngIf="isAdmin" href="#" routerLink="multas">Multas Registradas</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#" routerLink="administrador">Administracion</a>
+              <a class="nav-link" *ngIf="isAdmin" href="#" routerLink="administrador">Administracion</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="#" (click)="onClickLogout()">Salir</a>

@@ -15,10 +15,11 @@ export class LitDatosVehiculoComponent implements OnInit {
 
   displayedColumns: string[] = [
     'placa',
-  'nombreInfractor',
-'apPaternoInfractor',
-'apMaternoInfractor',
-'numLicencia',];
+    'nombreInfractor',
+    'apPaternoInfractor',
+    'apMaternoInfractor',
+    'numLicencia',
+    'evento'];
 
   // placa: string
   //   tipo: string
@@ -34,46 +35,45 @@ export class LitDatosVehiculoComponent implements OnInit {
   //   celularInfractor: string
   //   direccionInfractor: string
 
-  @ViewChild(MatPaginator, {static:true}) paginator: MatPaginator;
+  @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
 
   constructor(
-    public servicioServices:ServiciosService, 
-    public notificaciones:NotificationsService
+    public servicioServices: ServiciosService,
+    public notificaciones: NotificationsService
   ) { }
 
   dataSource = new MatTableDataSource(this.listaDatos)
 
   ngOnInit() {
     this.servicioServices.getDatosVehiculo()
-    .snapshotChanges()
-    .subscribe(item=>{
-      this.listaDatos=[];
-      item.forEach(element=>{
-        let x = element.payload.toJSON();
-        x["$key"]=element.key;
-        this.listaDatos.push(x as DatosVehiculo);
-        this.dataSource = new MatTableDataSource(this.listaDatos)
-        this.dataSource.paginator = this.paginator;
+      .snapshotChanges()
+      .subscribe(item => {
+        this.listaDatos = [];
+        item.forEach(element => {
+          let x = element.payload.toJSON();
+          x["$key"] = element.key;
+          this.listaDatos.push(x as DatosVehiculo);
+          this.dataSource = new MatTableDataSource(this.listaDatos)
+          this.dataSource.paginator = this.paginator;
+        })
       })
-    })
   }
 
-  applyFilter(filterValue: string){
+  applyFilter(filterValue: string) {
     this.dataSource.filter = filterValue.trim().toLocaleLowerCase();
   }
 
-  onEdit(sv: DatosVehiculo){
-    this.servicioServices.seleccionarDatosVehiculo = Object.assign({},sv)
+  onEdit(sv: DatosVehiculo) {
+    this.servicioServices.seleccionarDatosVehiculo = Object.assign({}, sv)
   }
 
-  onDelete($key: string)
-  {
-    if(confirm('¿Esta seguro de querer eliminarlo?')){
-    this.servicioServices.deleteDatosVehiculo($key);
-    this.notificaciones.success('Exitosamente','Marca eliminado correctamente',
+  onDelete($key: string) {
+    if (confirm('¿Esta seguro de querer eliminarlo?')) {
+      this.servicioServices.deleteDatosVehiculo($key);
+      this.notificaciones.success('Exitosamente', 'Marca eliminado correctamente',
         {
           timeOut: 3000,
-          showProgressBar:true
+          showProgressBar: true
         })
     }
   }

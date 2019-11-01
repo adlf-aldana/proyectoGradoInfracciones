@@ -69,7 +69,6 @@ import { AddGestionUsuarioComponent } from './components/administracion/gestionU
 import { ListGestionUsuarioComponent } from './components/administracion/gestionUsuario/list-gestion-usuario/list-gestion-usuario.component';
 import { ScrollingModule } from '@angular/cdk/scrolling';
 import { AddBoletaComponent } from './components/boleta-infraccion/add-boleta/add-boleta.component';
-import { ListBoletaComponent } from './components/boleta-infraccion/list-boleta/list-boleta.component';
 import { AddInfractorComponent } from './components/administracion/datosInfractor/add-infractor/add-infractor.component';
 import { ListInfractorComponent } from './components/administracion/datosInfractor/list-infractor/list-infractor.component';
 import { LitDatosVehiculoComponent } from './components/administracion/datosVehiculoInfractor/lit-datos-vehiculo/lit-datos-vehiculo.component';
@@ -80,7 +79,11 @@ import { ListMapaComponent } from './components/boleta-infraccion/mapa/list-mapa
 // CAMARA
 import {WebcamModule} from 'ngx-webcam';
 import { AddLogueoComponent } from './components/login/addLogueo/add-logueo/add-logueo.component';
-import { NotFoundComponent } from './components/not-found/not-found/not-found.component'
+import { NotFoundComponent } from './components/not-found/not-found/not-found.component';
+import { AddTestigoComponent } from './components/boleta-infraccion/Testigo/add-testigo/add-testigo.component';
+import { ListTestigoComponent } from './components/boleta-infraccion/Testigo/list-testigo/list-testigo.component';
+import { ViewImagesComponent } from './components/multasRegistradas/lista-multas/view-images/view-images.component'
+import { RoleGuardGuard } from './guards/role-guard.guard';
 
 
 //create our cost var with the information about the format that we want 
@@ -102,8 +105,8 @@ const misRutas: Routes = [
   { path: 'registro', component : AddBoletaComponent},
   { path: '', component : AddLogueoComponent },
   { path: 'multas', component : ListaMultasComponent},
-  { path: 'administrador', component: AdministracionComponent},
-  { path: 'codigoInfracciones', component: CodigoInfraccionesComponent},
+  { path: 'administrador', component: AdministracionComponent },
+  // { path: 'codigoInfracciones', component: CodigoInfraccionesComponent,canActivate: [AuthGuard]},
   { path: 'logeo', component: AddLogueoComponent, pathMatch: 'full'},
   { path: '**', component: NotFoundComponent}
 ];
@@ -135,7 +138,6 @@ const misRutas: Routes = [
     AddGestionUsuarioComponent,
     ListGestionUsuarioComponent,
     AddBoletaComponent,
-    ListBoletaComponent,
     AddInfractorComponent,
     ListInfractorComponent,
     LitDatosVehiculoComponent,
@@ -143,7 +145,10 @@ const misRutas: Routes = [
     AddMapaComponent,
     ListMapaComponent,
     AddLogueoComponent,
-    NotFoundComponent
+    NotFoundComponent,
+    AddTestigoComponent,
+    ListTestigoComponent,
+    ViewImagesComponent
   ],
   imports: [
     AngularFireDatabaseModule,

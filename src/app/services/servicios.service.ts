@@ -15,6 +15,7 @@ import { GestionUsuario } from '../models/gestionarUsuarios/gestion-usuario';
 import {
   NotificationsService
 } from 'angular2-notifications';
+import { Testigo } from '../models/Testigos/testigo';
 
 
 @Injectable({
@@ -29,30 +30,57 @@ export class ServiciosService {
   seleccionarPersonal: Personal = new Personal();
   seleccionarTipoVehiculo: TipoVehiculo = new TipoVehiculo();
   seleccionarMarcaVehiculo: MarcaVehiculos = new MarcaVehiculos();
-  seleccionarColorVehiculo: ColorVehiculos= new ColorVehiculos();
+  seleccionarColorVehiculo: ColorVehiculos = new ColorVehiculos();
   seleccionarInfractor: Infractor = new Infractor();
   seleccionarDatosVehiculo: DatosVehiculo = new DatosVehiculo();
   seleccionarUsuario: GestionUsuario = new GestionUsuario();
+  seleccionarTestigo: Testigo = new Testigo();
 
-  listaInfracciones: AngularFireList < any > ;
-  listaServiciosVehiculares: AngularFireList < any > ;
-  listaCodigoTransito: AngularFireList < any > ;
-  listaCargos: AngularFireList < any > ;
-  listaPersonal: AngularFireList <any>;
+  listaInfracciones: AngularFireList<any>;
+  listaServiciosVehiculares: AngularFireList<any>;
+  listaCodigoTransito: AngularFireList<any>;
+  listaCargos: AngularFireList<any>;
+  listaPersonal: AngularFireList<any>;
   listaTipoVehiculo: AngularFireList<any>;
   listaMarcaVehiculo: AngularFireList<any>;
   listaColorVehiculo: AngularFireList<any>;
   listaInfractor: AngularFireList<any>;
   listDatosVehiculo: AngularFireList<any>;
   listUsuario: AngularFireList<any>;
+  listTestigo: AngularFireList<any>;
 
 
   constructor(private firebase: AngularFireDatabase, private notificaciones: NotificationsService) { }
 
+  getTestigo() {
+    return this.listTestigo = this.firebase.list('testigos');
+  }
+  insertTestigo(datosTestigo: Testigo) {
+    this.listTestigo.push({
+      nombreTestigo: datosTestigo.nombreTestigo,
+      apPaternoTestigo: datosTestigo.apPaternoTestigo,
+      apMaternoTestigo: datosTestigo.apMaternoTestigo,
+      cedulaIdentidadTestigo: datosTestigo.cedulaIdentidadTestigo,
+      celularTestigo: datosTestigo.celularTestigo || null
+    })
+  }
+  updateTestigo(datosTestigo: Testigo) {
+    this.listTestigo.update(datosTestigo.$key, {
+      nombreTestigo: datosTestigo.nombreTestigo,
+      apPaternoTestigo: datosTestigo.apPaternoTestigo,
+      apMaternoTestigo: datosTestigo.apMaternoTestigo,
+      cedulaIdentidadTestigo: datosTestigo.cedulaIdentidadTestigo,
+      celularTestigo: datosTestigo.celularTestigo || null
+    })
+  }
+  deleteTestigo($key: string) {
+    this.listTestigo.remove($key);
+  }
+
   getUsuario() {
     return this.listUsuario = this.firebase.list('gestionUsuarios');
   }
-  insertUsuario(datosUsuario: GestionUsuario) {        
+  insertUsuario(datosUsuario: GestionUsuario) {
     this.listUsuario.push({
       ciUsuario: datosUsuario.ciUsuario,
       // nombreUsuario: datosUsuario.nombreUsuario,
@@ -83,15 +111,16 @@ export class ServiciosService {
       marcaVehiculo: datosVehiculo.marca,
       colorVehiculo: datosVehiculo.color,
       placa: datosVehiculo.placa,
+      tipoServicio: datosVehiculo.tipoServicio,
 
-      nombreInfractor: datosVehiculo.nombreInfractor,
-      apPaternoInfractor: datosVehiculo.apPaternoInfractor,
-      apMaternoInfractor: datosVehiculo.apMaternoInfractor,
-      numLicencia: datosVehiculo.numLicencia,
-      sexoInfractor: datosVehiculo.sexoInfractor,
-      fechaNacimientoInfractor: datosVehiculo.fechaNacimientoInfractor,
-      celularInfractor: datosVehiculo.celularInfractor,
-      direccionInfractor: datosVehiculo.direccionInfractor
+      nombreInfractor: datosVehiculo.nombreInfractor || null,
+      apPaternoInfractor: datosVehiculo.apPaternoInfractor || null,
+      apMaternoInfractor: datosVehiculo.apMaternoInfractor || null,
+      numLicencia: datosVehiculo.numLicencia || null,
+      sexoInfractor: datosVehiculo.sexoInfractor || null,
+      fechaNacimientoInfractor: datosVehiculo.fechaNacimientoInfractor || null,
+      celularInfractor: datosVehiculo.celularInfractor || null,
+      direccionInfractor: datosVehiculo.direccionInfractor || null
     })
   }
   updateDatosVehiculo(datosVehiculo: DatosVehiculo) {
@@ -100,6 +129,7 @@ export class ServiciosService {
       tipoVehiculo: datosVehiculo.tipo,
       marcaVehiculo: datosVehiculo.marca,
       colorVehiculo: datosVehiculo.color,
+      tipoServicio: datosVehiculo.tipoServicio,
 
       nombreInfractor: datosVehiculo.nombreInfractor,
       apPaternoInfractor: datosVehiculo.apPaternoInfractor,
@@ -107,8 +137,8 @@ export class ServiciosService {
       numLicencia: datosVehiculo.numLicencia,
       sexoInfractor: datosVehiculo.sexoInfractor,
       fechaNacimientoInfractor: datosVehiculo.fechaNacimientoInfractor,
-      celularInfractor: datosVehiculo.celularInfractor,
-      direccionInfractor: datosVehiculo.direccionInfractor
+      celularInfractor: datosVehiculo.celularInfractor || null,
+      direccionInfractor: datosVehiculo.direccionInfractor || null
     })
   }
   deleteDatosVehiculo($key: string) {
@@ -167,7 +197,7 @@ export class ServiciosService {
     return this.listaMarcaVehiculo = this.firebase.list('marcaVehiculos');
   }
   insertMarcaVehiculo(marcaVehiculo: MarcaVehiculos) {
-    
+
     this.listaMarcaVehiculo.push({
       nombreMarcaVehiculos: marcaVehiculo.nombreMarcaVehiculos
     })
@@ -295,27 +325,34 @@ export class ServiciosService {
   }
   insertInfracciones(datosInfracciones: Boleta) {
     this.listaInfracciones.push({
-        placa: datosInfracciones.placa,
-        lat: datosInfracciones.lat,
-        lng: datosInfracciones.lng,
-        art: datosInfracciones.art,
-        num: datosInfracciones.num,
-        foto1: datosInfracciones.foto1 || null,
-        foto2: datosInfracciones.foto2 || null,
-        // foto3: datosInfracciones.foto3 || null,
-        // foto4: datosInfracciones.foto4 || null,
-        // foto5: datosInfracciones.foto5 || null,
-        descripcion: datosInfracciones.descripcion,
+      fechaInfraccion: datosInfracciones.fechaInfraccion,
+      placa: datosInfracciones.placa,
+      lat: datosInfracciones.lat,
+      lng: datosInfracciones.lng,
+      art: datosInfracciones.art,
+      num: datosInfracciones.num,
+      foto1: datosInfracciones.foto1 || null,
+      foto2: datosInfracciones.foto2 || null,
+      // foto3: datosInfracciones.foto3 || null,
+      // foto4: datosInfracciones.foto4 || null,
+      // foto5: datosInfracciones.foto5 || null,
+      descripcion: datosInfracciones.descripcion,
 
-        nombreInfractor: datosInfracciones.nombreInfractor,
-        apPaternoInfractor: datosInfracciones.apPaternoInfractor,
-        apMaternoInfractor: datosInfracciones.apMaternoInfractor,
-        numLicenciaInfractor: datosInfracciones.numLicenciaInfractor,
+      nombreInfractor: datosInfracciones.nombreInfractor,
+      apPaternoInfractor: datosInfracciones.apPaternoInfractor,
+      apMaternoInfractor: datosInfracciones.apMaternoInfractor,
+      numLicenciaInfractor: datosInfracciones.numLicenciaInfractor,
 
-        nombrePersonal: datosInfracciones.nombrePersonal,
-        apPaternoPersonal: datosInfracciones.apPaternoPersonal,
-        apMaternoPersonal: datosInfracciones.apMaternoPersonal,
-        ciPersonal: datosInfracciones.ciPersonal
+      cedulaIdentidadTestigo: datosInfracciones.cedulaIdentidadTestigo || null,
+      nombreTestigo: datosInfracciones.nombreTestigo || null,
+      apPaternoTestigo: datosInfracciones.apPaternoTestigo || null,
+      apMaternoTestigo: datosInfracciones.apMaternoTestigo || null,
+      celularTestigo: datosInfracciones.celularTestigo || null,
+
+      nombrePersonal: datosInfracciones.nombrePersonal,
+      apPaternoPersonal: datosInfracciones.apPaternoPersonal,
+      apMaternoPersonal: datosInfracciones.apMaternoPersonal,
+      ciPersonal: datosInfracciones.ciPersonal
     })
   }
   updateInfraccion(datosInfracciones: Boleta) {
@@ -331,24 +368,24 @@ export class ServiciosService {
     this.listaInfracciones.remove($key);
   }
 
-  formatDate(date: Date): string{
+  formatDate(date: Date): string {
     const day = date.getDate();
     var dia;
-    if(day<9)
-      dia = ("0"+day).toString();
+    if (day < 9)
+      dia = ("0" + day).toString();
     else
       dia = day
-    
-    var month = date.getMonth()+1;
+
+    var month = date.getMonth() + 1;
     var mes;
-    if(month<=9)
-      mes = ("0"+month).toString();
+    if (month <= 9)
+      mes = ("0" + month).toString();
     else
       mes = month
 
-    
+
     const year = date.getFullYear();
-    return (mes+"-"+dia+"-"+year);
+    return (mes + "-" + dia + "-" + year);
   }
 
 }

@@ -1,0 +1,171 @@
+<div class="mt-3 ml-auto">
+  <form
+    class="form-group w-100"
+    [formGroup]="validando"
+    (ngSubmit)="agregarTestigo(validando)"
+    >
+    <p align="left">
+      <font size="2"><strong>(*) Datos obligatorios </strong></font>
+    </p>
+
+    <input
+      type="hidden"
+      name="$key"
+      formControlName="$key"
+      [(ngModel)]="servicioServices.seleccionarTestigo.$key"
+    />
+    <div class="row">
+      <div class="col">
+        <mat-form-field class="w-100">
+          <input
+            matInput
+            #tamNombreTestigo
+            maxlength="50"
+            minlength="3"
+            placeholder="Nombre Testigo *"
+            name="nombreTestigo"
+            formControlName="nombreTestigo"
+            [(ngModel)]="servicioServices.seleccionarTestigo.nombreTestigo"
+          />
+          <mat-hint align="end"
+            >{{ tamNombreTestigo.value.length }} / 20</mat-hint
+          >
+        </mat-form-field>
+        <div
+          class="text-danger"
+          *ngIf="nombreTestigo.invalid && (nombreTestigo.dirty || nombreTestigo.touched)"
+        >
+        <mat-hint align="">Min: 3 caracteres</mat-hint>
+          <div class="" role="" *ngIf="nombreTestigo.errors.required">
+            Campo Nombre Testigo es obligatorio
+          </div>
+        </div>
+      </div>
+
+      <div class="col">
+        <mat-form-field class="w-100">
+          <input
+            matInput
+            #tamApPaternoTestigo
+            maxlength="50"
+            minlength="3"
+            placeholder="Apellido Paterno Testigo *"
+            name="apPaternoTestigo"
+            formControlName="apPaternoTestigo"
+            [(ngModel)]="servicioServices.seleccionarTestigo.apPaternoTestigo"
+          />
+          <mat-hint align="">Min: 3 caracteres</mat-hint>
+          <mat-hint align="end"
+            >{{ tamApPaternoTestigo.value.length }} / 20</mat-hint
+          >
+        </mat-form-field>
+        <div
+          class="text-danger"
+          *ngIf="apPaternoTestigo.invalid && (apPaternoTestigo.dirty || apPaternoTestigo.touched)"
+        >
+        <mat-hint align="">Min: 3 caracteres</mat-hint>
+          <div class="" role="" *ngIf="apPaternoTestigo.errors.required">
+            Campo Apellido Paterno es obligatorio
+          </div>
+        </div>
+      </div>
+
+      <div class="col">
+        <mat-form-field class="w-100">
+          <input
+            matInput
+            #tamApMaternoTestigo
+            maxlength="50"
+            minlength="3"
+            placeholder="Apellido Materno Testigo *"
+            name="apMaternoTestigo"
+            formControlName="apMaternoTestigo"
+            [(ngModel)]="servicioServices.seleccionarTestigo.apMaternoTestigo"
+          />
+          <mat-hint align="">Min: 3 caracteres</mat-hint>
+          <mat-hint align="end"
+            >{{ tamApMaternoTestigo.value.length }} / 20</mat-hint
+          >
+        </mat-form-field>
+        <div
+          class="text-danger"
+          *ngIf="apMaternoTestigo.invalid && (apMaternoTestigo.dirty || apMaternoTestigo.touched)"
+        >
+          <div class="" role="" *ngIf="apMaternoTestigo.errors.required">
+            Campo Apellido Materno es obligatorio
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col">
+        <mat-form-field>
+          <input
+            matInput
+            #tamCiTestigo
+            maxlength="10"
+            minlength="7"
+            placeholder="N° Cedula de Identidad Testigo *"
+            name="cedulaIdentidadTestigo"
+            formControlName="cedulaIdentidadTestigo"
+            [(ngModel)]="servicioServices.seleccionarTestigo.cedulaIdentidadTestigo"
+          />
+          <mat-hint align="">Min: 7 caracteres</mat-hint>
+          <mat-hint align="end">{{ tamCiTestigo.value.length }} / 10</mat-hint>
+        </mat-form-field>
+        <div
+          class="text-danger"
+          *ngIf="cedulaIdentidadTestigo.invalid && (cedulaIdentidadTestigo.dirty || cedulaIdentidadTestigo.touched)"
+        >
+          <div class="" role="" *ngIf="cedulaIdentidadTestigo.errors.required">
+            Campo C.I. Testigo es obligatorio
+          </div>
+        </div>
+      </div>
+
+      <div class="col">
+        <mat-form-field>
+          <input
+            matInput
+            #tamCelularTestigo
+            maxlength="8"
+            minlength="8"
+            placeholder="N° celular del testigo"
+            name="celularTestigo"
+            formControlName="celularTestigo"
+            [(ngModel)]="servicioServices.seleccionarTestigo.celularTestigo"
+          />
+          <mat-hint align=""
+            >Min: 8 caracteres</mat-hint
+          >
+          <mat-hint align="end"
+            >{{ tamCelularTestigo.value.length }} / 8</mat-hint
+          >
+        </mat-form-field>
+        <!-- <div
+          class="text-danger"
+          *ngIf="cargo.invalid && (cargo.dirty || cargo.touched)"
+        >
+          <div class="" role="" *ngIf="cargo.errors.required">
+            Campo cargo es obligatorio
+          </div>
+        </div> -->
+      </div>
+    </div>
+    <div>
+        <input
+        [disabled]="validando.invalid"
+        class="btn btn-success m-2"
+        type="submit"
+        value="Guardar"
+      />
+      <input
+        class="btn btn-secondary"
+        type="button"
+        value="Limpiar"
+        (click)="resetForm(validando)"
+        />
+    </div>
+  </form>
+</div>
