@@ -56,7 +56,6 @@ import { ListaServiciosComponent } from './components/administracion/servicios/l
 import { BoletaInfraccionComponent } from './components/boleta-infraccion/boleta-infraccion.component';
 import { CabeceraComponent } from './components/cabecera/cabecera.component';
 import { CodigoInfraccionesComponent } from './components/codigo-infracciones/codigo-infracciones.component';
-import { MultasRegistradasComponent } from './components/multas-registradas/multas-registradas.component';
 import { ListaMultasComponent } from './components/multasRegistradas/lista-multas/lista-multas.component';
 import { AdministracionComponent } from './components/administracion/administracion.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -132,7 +131,6 @@ const misRutas: Routes = [
     BoletaInfraccionComponent,
     CabeceraComponent,
     CodigoInfraccionesComponent,
-    MultasRegistradasComponent,
     ListaMultasComponent,
     AdministracionComponent,
     AddGestionUsuarioComponent,

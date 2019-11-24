@@ -11,9 +11,10 @@ import * as firebase from 'firebase/app'
 export class CabeceraComponent implements OnInit {
 
   public isLogin: any = null;
+  public isAdmin: any = null;
+
   public nombreUsuario: string;
   public emailUsuario: string;
-  public isAdmin: any = null
 
   constructor(
     public authService: AuthService
@@ -21,6 +22,8 @@ export class CabeceraComponent implements OnInit {
 
   ngOnInit() {
     this.authService.getAuth().subscribe(auth =>{
+      console.log(auth);
+      
       if(auth){
         this.isLogin=true;
         // this.nombreUsuario=auth.displayName;

@@ -305,7 +305,7 @@ export class ServiciosService {
     return this.listaServiciosVehiculares = this.firebase.list('serviciosVehiculares');
   }
   insertTipoServicioVehicular(tsv: Tipo) {
-    console.log(this.listaServiciosVehiculares);
+    // console.log(this.listaServiciosVehiculares);
     this.listaServiciosVehiculares.push({
       nombreTipoServicio: tsv.nombreTipoServicio
     })
