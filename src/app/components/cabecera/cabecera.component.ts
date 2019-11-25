@@ -10,7 +10,7 @@ import * as firebase from 'firebase/app'
 })
 export class CabeceraComponent implements OnInit {
 
-  public isLogin: any = null;
+  public isLogin: boolean = false;
   public isAdmin: any = null;
 
   public nombreUsuario: string;
@@ -21,11 +21,12 @@ export class CabeceraComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.authService.getAuth().subscribe(auth =>{
-      console.log(auth);
-      
+    this.onCheckUser()
+    this.authService.getAuth().subscribe(auth =>{      
+   
       if(auth){
         this.isLogin=true;
+        
         // this.nombreUsuario=auth.displayName;
         this.emailUsuario=auth.email;
 
@@ -40,13 +41,22 @@ export class CabeceraComponent implements OnInit {
           }
           else {
             // console.log('no es administrador');
-            this.isAdmin = false}
+            this.isAdmin = false
+          }
           })
         }
       })
+      
     
   }
 
+  onCheckUser(): void{
+    if(this.authService.getAuth()==null){
+      this.isLogin == false
+    }else{
+      this.isLogin == true
+    }
+  }
   onClickLogout(){
     this.authService.logOut();
   }

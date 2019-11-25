@@ -1,0 +1,8 @@
+{
+  "appId": "com.proyecto.grado",
+  "appName": "Infracciones de Tránsito",
+  "bundledWebRuntime": false,
+  "npmClient": "npm",
+  "webDir": "dist/ProyectoGradoInfracciones",
+  "cordova": {}
+}

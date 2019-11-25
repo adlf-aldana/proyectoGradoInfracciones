@@ -77,7 +77,7 @@ export class AddCargoComponent implements OnInit {
               })
             } else {
               this.servicioServices.updateCargos(cargo.value)
-              this.notificaciones.error('Exitosamente', 'Cargo actualizado correctamente', {
+              this.notificaciones.success('Exitosamente', 'Cargo actualizado correctamente', {
                 timeOut: 3000,
                 showProgressBar: true
               })
