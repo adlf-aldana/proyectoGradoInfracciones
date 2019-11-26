@@ -12,6 +12,7 @@ export class CabeceraComponent implements OnInit {
 
   public isLogin: boolean = false;
   public isAdmin: any = null;
+  public isPolicia: any = null;
 
   public nombreUsuario: string;
   public emailUsuario: string;
@@ -41,7 +42,7 @@ export class CabeceraComponent implements OnInit {
           }
           else {
             // console.log('no es administrador');
-            this.isAdmin = false
+            this.isPolicia = true
           }
           })
         }

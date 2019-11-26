@@ -101,10 +101,10 @@ export  const   MY_FORMATS   =   {
 //Crea variable donde estarán todas las rutas
 //canActivate: [AuthGuard]
 const misRutas: Routes = [
-  { path: 'registro', component : AddBoletaComponent},
+  { path: 'registro', component : AddBoletaComponent,canActivate: [AuthGuard]},
   { path: '', component : AddLogueoComponent },
-  { path: 'multas', component : ListaMultasComponent},
-  { path: 'administrador', component: AdministracionComponent },
+  { path: 'multas', component : ListaMultasComponent,canActivate: [AuthGuard]},
+  { path: 'administrador', component: AdministracionComponent ,canActivate: [AuthGuard]},
   // { path: 'codigoInfracciones', component: CodigoInfraccionesComponent,canActivate: [AuthGuard]},
   { path: 'logeo', component: AddLogueoComponent, pathMatch: 'full'},
   { path: '**', component: NotFoundComponent}
