@@ -83,6 +83,8 @@ import { AddTestigoComponent } from './components/boleta-infraccion/Testigo/add-
 import { ListTestigoComponent } from './components/boleta-infraccion/Testigo/list-testigo/list-testigo.component';
 import { ViewImagesComponent } from './components/multasRegistradas/lista-multas/view-images/view-images.component'
 import { RoleGuardGuard } from './guards/role-guard.guard';
+import { RegistroVehiculosInfraccionadosComponent } from './components/reportes/registro-vehiculos-infraccionados/registro-vehiculos-infraccionados.component';
+import { RegistrosPorPoliciaComponent } from './components/reportes/registros-por-policia/registros-por-policia.component';
 
 
 //create our cost var with the information about the format that we want 
@@ -146,7 +148,9 @@ const misRutas: Routes = [
     NotFoundComponent,
     AddTestigoComponent,
     ListTestigoComponent,
-    ViewImagesComponent
+    ViewImagesComponent,
+    RegistroVehiculosInfraccionadosComponent,
+    RegistrosPorPoliciaComponent
   ],
   imports: [
     AngularFireDatabaseModule,

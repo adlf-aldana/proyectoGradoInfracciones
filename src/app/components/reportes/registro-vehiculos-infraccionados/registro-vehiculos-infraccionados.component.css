@@ -1,6 +1,6 @@
-table {
-    width: 100%;
-  }
+table{
+    width: 100%
+}
   
 .example-container {
   overflow-x: scroll;
@@ -17,6 +17,22 @@ table{
 
 tr:hover{
     background-color: #b7f899;
+}
+
+.mat-column-grado{
+  width: 130px;
+}
+.mat-column-nombrePersonal{
+  width: 150px;
+}
+.mat-column-descripcion{
+  width: 300px;
+}
+.mat-column-nombreInfractor{
+  width: 150px;
+}
+.mat-column-placa{
+  width: 180px;
 }
 
 /* tr td:last-child{

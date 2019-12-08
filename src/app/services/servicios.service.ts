@@ -331,8 +331,11 @@ export class ServiciosService {
       lng: datosInfracciones.lng,
       art: datosInfracciones.art,
       num: datosInfracciones.num,
-      foto1: datosInfracciones.foto1 || null,
-      foto2: datosInfracciones.foto2 || null,
+
+      // foto1: datosInfracciones.foto1 || null,
+      // foto2: datosInfracciones.foto2 || null,
+      base64Srt: datosInfracciones.base64Srt || null,
+
       // foto3: datosInfracciones.foto3 || null,
       // foto4: datosInfracciones.foto4 || null,
       // foto5: datosInfracciones.foto5 || null,

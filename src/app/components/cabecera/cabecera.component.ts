@@ -10,8 +10,8 @@ import * as firebase from 'firebase/app'
 })
 export class CabeceraComponent implements OnInit {
 
-  public isLogin: boolean = false;
-  public isAdmin: any = null;
+  public isLogin: boolean;
+  public isAdmin: boolean;
   public isPolicia: any = null;
 
   public nombreUsuario: string;

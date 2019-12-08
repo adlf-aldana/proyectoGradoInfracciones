@@ -1,0 +1,39 @@
+.mat-form-field{
+    width: 80%
+}
+
+table{
+    width: 100%
+}
+
+.example-container {
+    overflow-x: scroll;
+  }
+  th{
+      background-color: #4CAF50;
+      color: white;
+      margin: 0 15px 0;
+  }
+  table{
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  tr:hover{
+      background-color: #b7f899;
+  }
+.mat-column-articulo{
+    width: 95px;
+}
+
+.mat-column-evento{
+    width: 150px;
+}
+  /* tr td:last-child{
+    width:1%;
+    white-space:nowrap;
+} */
+
+  /* td{
+    border:1px solid #000;
+  } */

@@ -1,3 +1,4 @@
+import { async } from '@angular/core/testing';
 import { Component, OnInit, Input } from '@angular/core';
 import * as firebase from 'firebase/app'
 import { Boleta } from 'src/app/models/boletaInfraccion/boleta';
@@ -10,30 +11,28 @@ import { Boleta } from 'src/app/models/boletaInfraccion/boleta';
 export class ViewImagesComponent implements OnInit {
   myimg1
   myimg2
-  @Input() verNombreFoto1view
-  @Input() verNombreFoto2view
+  @Input() verNombreFoto: string;
+  // @Input() verNombreFoto2view
 
   constructor() { 
+  
+  }
+  
+  ngOnInit() {
+    // console.log(this.verNombreFoto);
+    console.log(this.myimg2);
     
-
-    // let verNombreFoto1 = multas.foto1
-    // let verNombreFoto2 = multas.foto2
-
-    // let link;
-
-    // var storage = firebase.storage();
-    // var pathReference = storage.ref();  
-
-    // pathReference.child('infracciones/'+verNombreFoto1).getDownloadURL().then( url=> this.myimg1 = url);
-    // pathReference.child('infracciones/'+verNombreFoto2).getDownloadURL().then( url=> this.myimg2 = url);
+this.cargandoImg()
+    
+  
   }
 
-  ngOnInit() {
-
+  async cargandoImg()
+  {
     var storage = firebase.storage();
-    var pathReference = storage.ref(); 
-    pathReference.child('infracciones/'+this.verNombreFoto1view).getDownloadURL().then( url=> this.myimg1 = url);
-    pathReference.child('infracciones/'+this.verNombreFoto2view).getDownloadURL().then( url=> this.myimg2 = url);
+    var pathReference = storage.ref();
+
+    await pathReference.child('fotoMultas/'+this.verNombreFoto).getDownloadURL().then( url=> this.myimg2 = url);
   }
 
 }

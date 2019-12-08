@@ -1,0 +1,82 @@
+    <!-- <div id="content" #content> -->
+<div class="modal fade" id="registroVehiculosInfraccionados">
+  <div class="modal-dialog modal-xl">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">REGISTRO DE VEHICULOS INFRACCIONADOS</h5>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-hidden="true"
+        >
+          &times;
+        </button>
+      </div>
+
+      
+      <div class="modal-body">
+        <div>
+          
+            
+
+                <div class="mat-elevation-z8">
+                        <div id=tabla>
+
+                        <table mat-table [dataSource]="dataSource">
+
+                      
+                          <!-- Columna CODIGO -->
+                      <ng-container matColumnDef="placa">
+                            <th mat-header-cell *matHeaderCellDef class="text-center"> Placa </th>
+                            <td mat-cell *matCellDef="let element"> {{element.placa}} </td>
+                          </ng-container>
+    
+                          <!-- Columna CODIGO -->
+                          <ng-container matColumnDef="fechaInfraccion">
+                              <th mat-header-cell *matHeaderCellDef class="text-center"> Fecha </th>
+                              <td mat-cell *matCellDef="let element"> {{element.fechaInfraccion}} </td>
+                            </ng-container>
+    
+                          <!-- Columna DESCRIPCION -->
+                          <ng-container matColumnDef="nombreInfractor">
+                              <th mat-header-cell *matHeaderCellDef class="text-center"> Infractor </th>
+                              <td mat-cell *matCellDef="let element"> {{element.nombreInfractor}} </td>
+                            </ng-container>
+
+                            <ng-container matColumnDef="descripcion">
+                                <th mat-header-cell *matHeaderCellDef class="text-center"> Infraccionado Por </th>
+                                <td mat-cell *matCellDef="let element"> {{element.descripcion}} </td>
+                              </ng-container>
+
+                            <ng-container matColumnDef="nombrePersonal">
+                                    <th mat-header-cell *matHeaderCellDef class="text-center"> Policia </th>
+                                    <td mat-cell *matCellDef="let element"> {{element.nombrePersonal}} </td>
+                                  </ng-container>
+
+                                  <ng-container matColumnDef="grado">
+                                    <th mat-header-cell *matHeaderCellDef class="text-center"> Grado </th>
+                                    <td mat-cell *matCellDef="let element"> {{element.grado}} </td>
+                                  </ng-container>
+                      
+                          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                        </table>
+                    </div>
+                      
+                        <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+
+
+
+
+    </div>
+        <div>
+          <button class="btn btn-success" (click)="convertHtmlPdf()">Generar</button>
+
+          <!-- <button (click)="convertHtmlPdf()">Imprimir Tabla</button> -->
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- </div> -->

@@ -6,8 +6,8 @@
 
       <!-- Columna TIPO VEHICULO -->
       <ng-container matColumnDef="tipo">
-        <th mat-header-cell *matHeaderCellDef class="text-center"> TIPO DE VEHICULO </th>
-        <td mat-cell *matCellDef="let element"> {{element.nombreTipoVehiculo}} </td>
+        <th mat-header-cell *matHeaderCellDef class="text-center align-middle"> TIPO DE VEHICULO </th>
+        <td mat-cell *matCellDef="let element" class="align-middle"> {{element.nombreTipoVehiculo}} </td>
       </ng-container>
 
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
@@ -15,8 +15,8 @@
 
       <!-- COLUMNA EVENTOS -->
       <ng-container matColumnDef="evento">
-        <th mat-header-cell *matHeaderCellDef class="text-center"> EVENTO </th>
-        <td mat-cell *matCellDef="let element">
+        <th mat-header-cell *matHeaderCellDef class="text-center align-middle"> EVENTO </th>
+        <td mat-cell *matCellDef="let element" class="align-middle">
           <a class="btn btn-primary text-white mr-1" (click)="onEdit(element)">
             <i class="far fa-edit"></i>
           </a>

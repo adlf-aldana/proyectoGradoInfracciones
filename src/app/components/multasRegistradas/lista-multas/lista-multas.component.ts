@@ -1,12 +1,13 @@
 import { Component, OnInit, ViewChild, Input } from '@angular/core';
 import { Boleta } from 'src/app/models/boletaInfraccion/boleta';
-import { MatPaginator, MatTableDataSource } from '@angular/material';
+import { MatPaginator, MatTableDataSource, MatDatepickerInputEvent } from '@angular/material';
 import { ServiciosService } from 'src/app/services/servicios.service';
 import { NotificationsService } from 'angular2-notifications';
 import * as firebase from 'firebase/app'
 import { FirebaseStorage } from '@angular/fire';
 import { AngularFireStorage } from 'angularfire2/storage';
 import { Observable } from 'rxjs';
+import { FormControl } from '@angular/forms';
 
 
 @Component({
@@ -18,7 +19,6 @@ export class ListaMultasComponent implements OnInit {
 
   listaMultas: Boleta[]
 
-  // displayedColumns: string[] = ['placa','nombreInfractor','apPaterno', 'apMaterno','numLicencia','art','num','evento'];
   displayedColumns: string[] = ['fecha','placa', 'nombreInfractor', 'apPaterno', 'apMaterno', 'numLicencia', 'art', 'num', 'fotos'];
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
 
@@ -26,7 +26,7 @@ export class ListaMultasComponent implements OnInit {
     public servicioServices: ServiciosService,
     public notificaciones: NotificationsService,
     public storageRef: AngularFireStorage
-  ) { 
+  ) {
   }
 
   dataSource = new MatTableDataSource(this.listaMultas)
@@ -40,11 +40,20 @@ export class ListaMultasComponent implements OnInit {
           let x = element.payload.toJSON();
           x["$key"] = element.key;
           this.listaMultas.push(x as Boleta);
+          // console.log(x.base64Srt);
           this.dataSource = new MatTableDataSource(this.listaMultas)
           this.dataSource.paginator = this.paginator;
 
+          // this.verNombreFoto1 = x.base64Srt
         })
       })
+
+
+    //   var ref = firebase.database().ref('boletaInfraccion');
+    // // ref.orderByChild('correoUsuario').equalTo(this.authService.correo).on("child_added", snap => {
+    // ref.orderByChild('correoUsuario').equalTo('adolfo@gmail.com').on("child_added", snap => {
+
+    // })
   }
 
   applyFilter(filterValue: string) {
@@ -72,23 +81,41 @@ export class ListaMultasComponent implements OnInit {
   verNombreFoto1
   verNombreFoto2
   
+
   verFotos(multas : Boleta)
   {
     this.expression=true
-    this.verNombreFoto1 = multas.foto1
-    this.verNombreFoto2 = multas.foto2
+    this.verNombreFoto1 = multas.base64Srt
+    console.log(multas.base64Srt);
 
-    // let verNombreFoto1 = multas.foto1
-    // let verNombreFoto2 = multas.foto2
-
-    // let link;
+    // // let verNombreFoto2 = multas.base64Srt
 
     // var storage = firebase.storage();
-    // var pathReference = storage.ref();  
+    // var pathReference = storage.ref();
 
-    // pathReference.child('infracciones/'+verNombreFoto1).getDownloadURL().then( url=> this.myimg1 = url);
-    // pathReference.child('infracciones/'+verNombreFoto2).getDownloadURL().then( url=> this.myimg2 = url);
+    // pathReference.child('fotoMultas/'+multas.base64Srt).getDownloadURL().then( url=> this.myimg2 = url);
+  }
 
+  // events: string[] = [];
+
+  // addEvent(type: string, event: MatDatepickerInputEvent<Date>) {
+  //   console.log(event.value);
+
+  //   this.events.push(`${type}: ${event.value}`);
+  // }
+
+  fecha1 = new FormControl(new Date());
+  fecha2
+  picket2
+  filtrarFechas(){
+    console.log(this.fecha1);
+    console.log(this.fecha2);
+
+    console.log(this.picket2);
+  }
+
+  onChange(event: any, newDate: any): void{
+    console.log(event.target.value);
   }
 
 }

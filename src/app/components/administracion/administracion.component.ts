@@ -12,4 +12,9 @@ export class AdministracionComponent implements OnInit {
   ngOnInit() {
   }
 
+  reporteInfracciones()
+  {
+    
+  }
+
 }

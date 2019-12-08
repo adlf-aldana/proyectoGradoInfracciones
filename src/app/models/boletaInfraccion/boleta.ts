@@ -6,8 +6,11 @@ export class Boleta {
     lng: string
     art: string
     num:string 
-    foto1: string
-    foto2: string
+
+    base64Srt: String
+    // foto1: string
+    // foto2: string
+    
     // foto3: string
     // foto4: string
     // foto5: string

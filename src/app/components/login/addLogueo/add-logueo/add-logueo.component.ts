@@ -38,8 +38,9 @@ export class AddLogueoComponent implements OnInit {
             this.router.navigate(['/administrador']);
           }
           else {
+            alert('Los agentes policiales solo puede ingresar por la aplicación movil')
             // console.log('no es administrador');
-            this.router.navigate(['/registro']);
+            // this.router.navigate(['/registro']);
           }
 
 
