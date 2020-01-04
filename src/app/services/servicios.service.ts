@@ -11,11 +11,13 @@ import { ColorVehiculos } from '../models/colorVehiculos/color-vehiculos';
 import { Infractor } from '../models/Infractor/infractor';
 import { DatosVehiculo } from '../models/datosVehiculo/datos-vehiculo';
 import { GestionUsuario } from '../models/gestionarUsuarios/gestion-usuario';
+import * as crypto from 'crypto-js';
 
 import {
   NotificationsService
 } from 'angular2-notifications';
 import { Testigo } from '../models/Testigos/testigo';
+import { Bitacora } from '../models/bitacora/bitacora';
 
 
 @Injectable({
@@ -35,6 +37,7 @@ export class ServiciosService {
   seleccionarDatosVehiculo: DatosVehiculo = new DatosVehiculo();
   seleccionarUsuario: GestionUsuario = new GestionUsuario();
   seleccionarTestigo: Testigo = new Testigo();
+  seleccionarBitacora: Bitacora = new Bitacora();
 
   listaInfracciones: AngularFireList<any>;
   listaServiciosVehiculares: AngularFireList<any>;
@@ -48,9 +51,37 @@ export class ServiciosService {
   listDatosVehiculo: AngularFireList<any>;
   listUsuario: AngularFireList<any>;
   listTestigo: AngularFireList<any>;
+  listBitacora: AngularFireList<any>;
 
 
   constructor(private firebase: AngularFireDatabase, private notificaciones: NotificationsService) { }
+
+  getBitacora() {
+    return this.listBitacora = this.firebase.list('bitacora');
+  }
+  insertBitacora(nombre: string, apPaterno: string, apMaterno: string,cedula: string, fechaHora:string, evento: string) {
+    this.listBitacora.push({
+      nombre: nombre,
+      apPaterno: apPaterno,
+      apMaterno: apMaterno,
+      cedula: cedula,
+      fechaHora: fechaHora,
+      evento: evento
+    })
+  }
+  // updateBitacora(datosTestigo: Testigo) {
+  //   this.listTestigo.update(datosTestigo.$key, {
+  //     nombreTestigo: datosTestigo.nombreTestigo,
+  //     apPaternoTestigo: datosTestigo.apPaternoTestigo,
+  //     apMaternoTestigo: datosTestigo.apMaternoTestigo,
+  //     cedulaIdentidadTestigo: datosTestigo.cedulaIdentidadTestigo,
+  //     celularTestigo: datosTestigo.celularTestigo || null
+  //   })
+  // }
+  // deleteBitacora($key: string) {
+  //   this.listTestigo.remove($key);
+  // }
+
 
   getTestigo() {
     return this.listTestigo = this.firebase.list('testigos');
@@ -90,6 +121,7 @@ export class ServiciosService {
     })
   }
   updateUsuario(datosUsuario: GestionUsuario) {
+       
     this.listUsuario.update(datosUsuario.$key, {
       ciUsuario: datosUsuario.ciUsuario,
       // nombreUsuario: datosUsuario.nombreUsuario,
@@ -260,18 +292,27 @@ export class ServiciosService {
   deletePersonal($key: string) {
     this.listaPersonal.remove($key);
   }
+  
+  keySecret = "proyectoGradoUsfxTransito"
 
   getCargo() {
     return this.listaCargos = this.firebase.list('cargosTransito');
   }
   insertCargos(cargoTransito: Cargos) {
+
+    var encrip = crypto.AES.encrypt(cargoTransito.cargo, this.keySecret.trim()).toString();
+    // console.log(encrip);
     this.listaCargos.push({
-      cargo: cargoTransito.cargo
+      cargo: encrip
     })
   }
   updateCargos(cargoTransito: Cargos) {
+    var encrip = crypto.AES.encrypt(cargoTransito.cargo, this.keySecret.trim()).toString();
+
+    // console.log(cargoTransito.$key);
     this.listaCargos.update(cargoTransito.$key, {
-      cargo: cargoTransito.cargo
+      // cargo: cargoTransito.cargo
+      cargo: encrip
     })
   }
   deleteCargos($key: string) {

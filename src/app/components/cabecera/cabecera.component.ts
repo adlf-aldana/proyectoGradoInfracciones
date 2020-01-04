@@ -11,7 +11,7 @@ import * as firebase from 'firebase/app'
 export class CabeceraComponent implements OnInit {
 
   public isLogin: boolean;
-  public isAdmin: boolean;
+  public isAdmin: any = null;
   public isPolicia: any = null;
 
   public nombreUsuario: string;
@@ -26,7 +26,7 @@ export class CabeceraComponent implements OnInit {
     this.authService.getAuth().subscribe(auth =>{      
    
       if(auth){
-        this.isLogin=true;
+        // this.isLogin=true;
         
         // this.nombreUsuario=auth.displayName;
         this.emailUsuario=auth.email;

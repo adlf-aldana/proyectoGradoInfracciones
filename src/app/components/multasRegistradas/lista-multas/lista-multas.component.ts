@@ -19,7 +19,7 @@ export class ListaMultasComponent implements OnInit {
 
   listaMultas: Boleta[]
 
-  displayedColumns: string[] = ['fecha','placa', 'nombreInfractor', 'apPaterno', 'apMaterno', 'numLicencia', 'art', 'num', 'fotos'];
+  displayedColumns: string[] = ['fecha','placa', 'nombreInfractor', 'apPaterno', 'apMaterno', 'numLicencia', 'art', 'num', 'fotos','evento'];
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
 
   constructor(

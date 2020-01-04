@@ -85,6 +85,8 @@ import { ViewImagesComponent } from './components/multasRegistradas/lista-multas
 import { RoleGuardGuard } from './guards/role-guard.guard';
 import { RegistroVehiculosInfraccionadosComponent } from './components/reportes/registro-vehiculos-infraccionados/registro-vehiculos-infraccionados.component';
 import { RegistrosPorPoliciaComponent } from './components/reportes/registros-por-policia/registros-por-policia.component';
+import { ListBitacoraComponent } from './components/administracion/bitacora/list-bitacora/list-bitacora.component';
+import { AddBitacoraComponent } from './components/administracion/bitacora/add-bitacora/add-bitacora.component';
 
 
 //create our cost var with the information about the format that we want 
@@ -108,7 +110,7 @@ const misRutas: Routes = [
   { path: 'multas', component : ListaMultasComponent,canActivate: [AuthGuard]},
   { path: 'administrador', component: AdministracionComponent ,canActivate: [AuthGuard]},
   // { path: 'codigoInfracciones', component: CodigoInfraccionesComponent,canActivate: [AuthGuard]},
-  { path: 'logeo', component: AddLogueoComponent, pathMatch: 'full'},
+  { path: 'autentificacion', component: AddLogueoComponent, pathMatch: 'full'},
   { path: '**', component: NotFoundComponent}
 ];
 
@@ -150,7 +152,9 @@ const misRutas: Routes = [
     ListTestigoComponent,
     ViewImagesComponent,
     RegistroVehiculosInfraccionadosComponent,
-    RegistrosPorPoliciaComponent
+    RegistrosPorPoliciaComponent,
+    ListBitacoraComponent,
+    AddBitacoraComponent
   ],
   imports: [
     AngularFireDatabaseModule,

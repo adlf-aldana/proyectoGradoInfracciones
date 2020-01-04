@@ -207,6 +207,7 @@ export class AddBoletaComponent implements OnInit {
   // }
 
   ngOnInit() {
+    let correo = this.authService.correo
     this.getUserLocation()
     this.servicioServices.getInfracciones();
     this.resetForm()
@@ -214,7 +215,8 @@ export class AddBoletaComponent implements OnInit {
     var ref = firebase.database().ref('gestionUsuarios');
     var datos = firebase.database().ref('personalTransito');
     // ref.orderByChild('correoUsuario').equalTo(this.authService.correo).on("child_added", snap => {
-    ref.orderByChild('correoUsuario').equalTo('adolfo@gmail.com').on("child_added", snap => {
+    // ref.orderByChild('correoUsuario').equalTo('a<dolfo@gmail.com').on("child_added", snap => {
+    ref.orderByChild('correoUsuario').equalTo(correo).on("child_added", snap => {
       var ci = snap.val().ciUsuario;
       let grado = snap.val().cargoUsuario;
       document.getElementById('grado').innerHTML = grado

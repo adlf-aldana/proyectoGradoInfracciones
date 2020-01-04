@@ -31,6 +31,7 @@
     "@types/googlemaps": "^3.37.7",
     "angular2-notifications": "^2.0.0",
     "angularfire2": "^5.2.1",
+    "crypto-js": "^3.1.9-1",
     "firebase": "^7.2.0",
     "firebase-tools": "^7.6.2",
     "jspdf": "^1.5.3",

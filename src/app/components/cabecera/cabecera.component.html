@@ -27,8 +27,8 @@
           <span class="navbar-toggler-icon"></span>
         </button>
 
-        <div class="collapse navbar-collapse" id="navbarToggler">
-          <ul class="navbar-nav mx-auto" *ngIf="isAdmin">
+        <div *ngIf="isAdmin" class="collapse navbar-collapse" id="navbarToggler">
+          <ul class="navbar-nav mx-auto" >
 
             <!-- <li class="nav-item">
               <a class="nav-link" *ngIf="isPolicia"  href="#" routerLink="registro">Registro</a>
