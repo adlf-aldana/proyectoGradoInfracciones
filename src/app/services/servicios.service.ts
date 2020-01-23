@@ -60,13 +60,15 @@ export class ServiciosService {
     return this.listBitacora = this.firebase.list('bitacora');
   }
   insertBitacora(nombre: string, apPaterno: string, apMaterno: string,cedula: string, fechaHora:string, evento: string) {
+    this.getBitacora()
+    let event = crypto.AES.encrypt(evento, this.keySecret.trim()).toString()
     this.listBitacora.push({
       nombre: nombre,
       apPaterno: apPaterno,
       apMaterno: apMaterno,
       cedula: cedula,
       fechaHora: fechaHora,
-      evento: evento
+      evento: event
     })
   }
   // updateBitacora(datosTestigo: Testigo) {
@@ -112,22 +114,29 @@ export class ServiciosService {
     return this.listUsuario = this.firebase.list('gestionUsuarios');
   }
   insertUsuario(datosUsuario: GestionUsuario) {
+    let ciUsuario = crypto.AES.encrypt(datosUsuario.ciUsuario, this.keySecret.trim()).toString()
+    let correoUsuario = crypto.AES.encrypt(datosUsuario.correoUsuario, this.keySecret.trim()).toString()
+    let cargoUsuario = crypto.AES.encrypt(datosUsuario.cargoUsuario, this.keySecret.trim()).toString()
+    let password = crypto.AES.encrypt(datosUsuario.password, this.keySecret.trim()).toString()
     this.listUsuario.push({
-      ciUsuario: datosUsuario.ciUsuario,
+      ciUsuario: ciUsuario,
       // nombreUsuario: datosUsuario.nombreUsuario,
-      correoUsuario: datosUsuario.correoUsuario,
-      cargoUsuario: datosUsuario.cargoUsuario,
-      password: datosUsuario.password,
+      correoUsuario: correoUsuario,
+      cargoUsuario: cargoUsuario,
+      password: password,
     })
   }
   updateUsuario(datosUsuario: GestionUsuario) {
-       
+    let ciUsuario = crypto.AES.encrypt(datosUsuario.ciUsuario, this.keySecret.trim()).toString()
+    let correoUsuario = crypto.AES.encrypt(datosUsuario.correoUsuario, this.keySecret.trim()).toString()
+    let cargoUsuario = crypto.AES.encrypt(datosUsuario.cargoUsuario, this.keySecret.trim()).toString()
+    let password = crypto.AES.encrypt(datosUsuario.password, this.keySecret.trim()).toString()       
     this.listUsuario.update(datosUsuario.$key, {
-      ciUsuario: datosUsuario.ciUsuario,
+      ciUsuario: ciUsuario,
       // nombreUsuario: datosUsuario.nombreUsuario,
-      correoUsuario: datosUsuario.correoUsuario,
-      cargoUsuario: datosUsuario.cargoUsuario,
-      password: datosUsuario.password,
+      correoUsuario: correoUsuario,
+      cargoUsuario: cargoUsuario,
+      password: password,
     })
   }
   deleteUsuario($key: string) {
@@ -212,13 +221,15 @@ export class ServiciosService {
     return this.listaColorVehiculo = this.firebase.list('colorVehiculos');
   }
   insertColorVehiculo(colorVehiculo: ColorVehiculos) {
+    let nombreColorVehiculo = crypto.AES.encrypt(colorVehiculo.nombreColorVehiculo, this.keySecret.trim()).toString()
     this.listaColorVehiculo.push({
-      nombreColorVehiculo: colorVehiculo.nombreColorVehiculo
+      nombreColorVehiculo: nombreColorVehiculo
     })
   }
   updateColorVehiculo(colorVehiculo: ColorVehiculos) {
+    let nombreColorVehiculo = crypto.AES.encrypt(colorVehiculo.nombreColorVehiculo, this.keySecret.trim()).toString()
     this.listaColorVehiculo.update(colorVehiculo.$key, {
-      nombreColorVehiculo: colorVehiculo.nombreColorVehiculo
+      nombreColorVehiculo: nombreColorVehiculo
     })
   }
   deleteColorVehiculo($key: string) {
@@ -229,14 +240,15 @@ export class ServiciosService {
     return this.listaMarcaVehiculo = this.firebase.list('marcaVehiculos');
   }
   insertMarcaVehiculo(marcaVehiculo: MarcaVehiculos) {
-
+    let nombreMarcaVehiculos = crypto.AES.encrypt(marcaVehiculo.nombreMarcaVehiculos, this.keySecret.trim()).toString()
     this.listaMarcaVehiculo.push({
-      nombreMarcaVehiculos: marcaVehiculo.nombreMarcaVehiculos
+      nombreMarcaVehiculos: nombreMarcaVehiculos
     })
   }
   updateMarcaVehiculo(marcaVehiculo: MarcaVehiculos) {
+    let nombreMarcaVehiculos = crypto.AES.encrypt(marcaVehiculo.nombreMarcaVehiculos, this.keySecret.trim()).toString()
     this.listaMarcaVehiculo.update(marcaVehiculo.$key, {
-      nombreMarcaVehiculos: marcaVehiculo.nombreMarcaVehiculos
+      nombreMarcaVehiculos: nombreMarcaVehiculos
     })
   }
   deleteMarcaVehiculo($key: string) {
@@ -248,13 +260,15 @@ export class ServiciosService {
     return this.listaTipoVehiculo = this.firebase.list('tipoVehiculos');
   }
   insertTipoVehiculo(tipoVehiculo: TipoVehiculo) {
+    let nombreTipoVehiculo = crypto.AES.encrypt(tipoVehiculo.nombreTipoVehiculo, this.keySecret.trim()).toString()
     this.listaTipoVehiculo.push({
-      nombreTipoVehiculo: tipoVehiculo.nombreTipoVehiculo
+      nombreTipoVehiculo: nombreTipoVehiculo
     })
   }
   updateTipoVehiculo(tipoVehiculo: TipoVehiculo) {
+    let nombreTipoVehiculo = crypto.AES.encrypt(tipoVehiculo.nombreTipoVehiculo, this.keySecret.trim()).toString()
     this.listaTipoVehiculo.update(tipoVehiculo.$key, {
-      nombreTipoVehiculo: tipoVehiculo.nombreTipoVehiculo
+      nombreTipoVehiculo: nombreTipoVehiculo
     })
   }
   deleteTipoVehiculo($key: string) {
@@ -266,27 +280,45 @@ export class ServiciosService {
     return this.listaPersonal = this.firebase.list('personalTransito');
   }
   insertPersonal(personalTransito: Personal) {
+    var nombrePersonal = crypto.AES.encrypt(personalTransito.nombrePersonal, this.keySecret.trim()).toString();
+    var apPaternoPersonal = crypto.AES.encrypt(personalTransito.apPaternoPersonal, this.keySecret.trim()).toString();
+    var apMaternoPersonal = crypto.AES.encrypt(personalTransito.apMaternoPersonal, this.keySecret.trim()).toString();
+    var ciPersonal = crypto.AES.encrypt(personalTransito.ciPersonal, this.keySecret.trim()).toString();
+    var sexoPersonal = crypto.AES.encrypt(personalTransito.sexoPersonal, this.keySecret.trim()).toString();
+    var fechaNacimientoPersonal = crypto.AES.encrypt(personalTransito.fechaNacimientoPersonal, this.keySecret.trim()).toString();
+    var celularPersonal = crypto.AES.encrypt(personalTransito.celularPersonal, this.keySecret.trim()).toString();
+    var direccionPersonal = crypto.AES.encrypt(personalTransito.direccionPersonal, this.keySecret.trim()).toString();
+
     this.listaPersonal.push({
-      nombrePersonal: personalTransito.nombrePersonal,
-      apPaternoPersonal: personalTransito.apPaternoPersonal,
-      apMaternoPersonal: personalTransito.apMaternoPersonal,
-      ciPersonal: personalTransito.ciPersonal,
-      sexoPersonal: personalTransito.sexoPersonal,
-      fechaNacimientoPersonal: personalTransito.fechaNacimientoPersonal,
-      celularPersonal: personalTransito.celularPersonal || null,
-      direccionPersonal: personalTransito.direccionPersonal || null
+      nombrePersonal: nombrePersonal,
+      apPaternoPersonal: apPaternoPersonal,
+      apMaternoPersonal: apMaternoPersonal,
+      ciPersonal: ciPersonal,
+      sexoPersonal: sexoPersonal,
+      fechaNacimientoPersonal: fechaNacimientoPersonal,
+      celularPersonal: celularPersonal,
+      direccionPersonal: direccionPersonal
     })
   }
   updatePersonal(personalTransito: Personal) {
+    var nombrePersonal = crypto.AES.encrypt(personalTransito.nombrePersonal, this.keySecret.trim()).toString();
+    var apPaternoPersonal = crypto.AES.encrypt(personalTransito.apPaternoPersonal, this.keySecret.trim()).toString();
+    var apMaternoPersonal = crypto.AES.encrypt(personalTransito.apMaternoPersonal, this.keySecret.trim()).toString();
+    var ciPersonal = crypto.AES.encrypt(personalTransito.ciPersonal, this.keySecret.trim()).toString();
+    var sexoPersonal = crypto.AES.encrypt(personalTransito.sexoPersonal, this.keySecret.trim()).toString();
+    var fechaNacimientoPersonal = crypto.AES.encrypt(personalTransito.fechaNacimientoPersonal, this.keySecret.trim()).toString();
+    var celularPersonal = crypto.AES.encrypt(personalTransito.celularPersonal, this.keySecret.trim()).toString();
+    var direccionPersonal = crypto.AES.encrypt(personalTransito.direccionPersonal, this.keySecret.trim()).toString();
+    
     this.listaPersonal.update(personalTransito.$key, {
-      nombrePersonal: personalTransito.nombrePersonal,
-      apPaternoPersonal: personalTransito.apPaternoPersonal,
-      apMaternoPersonal: personalTransito.apMaternoPersonal,
-      ciPersonal: personalTransito.ciPersonal,
-      sexoPersonal: personalTransito.sexoPersonal,
-      fechaNacimientoPersonal: personalTransito.fechaNacimientoPersonal,
-      celularPersonal: personalTransito.celularPersonal,
-      direccionPersonal: personalTransito.direccionPersonal
+      nombrePersonal: nombrePersonal,
+      apPaternoPersonal: apPaternoPersonal,
+      apMaternoPersonal: apMaternoPersonal,
+      ciPersonal: ciPersonal,
+      sexoPersonal: sexoPersonal,
+      fechaNacimientoPersonal: fechaNacimientoPersonal,
+      celularPersonal: celularPersonal,
+      direccionPersonal: direccionPersonal
     })
   }
   deletePersonal($key: string) {
@@ -324,17 +356,23 @@ export class ServiciosService {
     return this.listaCodigoTransito = this.firebase.list('codigosTransito');
   }
   insertCodigosTransito(codigoTransito: CodigoTransito) {
+    let articulo = crypto.AES.encrypt(codigoTransito.articulo, this.keySecret.trim()).toString()
+    let numero = crypto.AES.encrypt(codigoTransito.numero, this.keySecret.trim()).toString()
+    let descripcion = crypto.AES.encrypt(codigoTransito.descripcion, this.keySecret.trim()).toString()
     this.listaCodigoTransito.push({
-      articulo: codigoTransito.articulo,
-      numero: codigoTransito.numero,
-      descripcion: codigoTransito.descripcion
+      articulo: articulo,
+      numero: numero,
+      descripcion: descripcion
     })
   }
   updateCodigosTransito(codigoTransito: CodigoTransito) {
+    let articulo = crypto.AES.encrypt(codigoTransito.articulo, this.keySecret.trim()).toString()
+    let numero = crypto.AES.encrypt(codigoTransito.numero, this.keySecret.trim()).toString()
+    let descripcion = crypto.AES.encrypt(codigoTransito.descripcion, this.keySecret.trim()).toString()
     this.listaCodigoTransito.update(codigoTransito.$key, {
-      articulo: codigoTransito.articulo,
-      numero: codigoTransito.numero,
-      descripcion: codigoTransito.descripcion
+      articulo: articulo,
+      numero: numero,
+      descripcion: descripcion
     })
   }
   deleteCodigoTransito($key: string) {
@@ -346,14 +384,16 @@ export class ServiciosService {
     return this.listaServiciosVehiculares = this.firebase.list('serviciosVehiculares');
   }
   insertTipoServicioVehicular(tsv: Tipo) {
+    var nombreTipoServicio = crypto.AES.encrypt(tsv.nombreTipoServicio, this.keySecret.trim()).toString();
     // console.log(this.listaServiciosVehiculares);
     this.listaServiciosVehiculares.push({
-      nombreTipoServicio: tsv.nombreTipoServicio
+      nombreTipoServicio: nombreTipoServicio
     })
   }
   updateTipoServicioVehicular(tsv: Tipo) {
+    var nombreTipoServicio = crypto.AES.encrypt(tsv.nombreTipoServicio, this.keySecret.trim()).toString();
     this.listaServiciosVehiculares.update(tsv.$key, {
-      nombreTipoServicio: tsv.nombreTipoServicio
+      nombreTipoServicio: nombreTipoServicio
     })
   }
   deleteTipoServicioVehicular($key: string) {
