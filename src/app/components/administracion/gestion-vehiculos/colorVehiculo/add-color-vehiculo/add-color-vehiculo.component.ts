@@ -77,7 +77,18 @@ export class AddColorVehiculoComponent implements OnInit {
             showProgressBar: true
           })
         } else {
-          this.obteniendoDatosPersonal(1, colorVehicular.value.nombreColorVehiculo)
+          // this.obteniendoDatosPersonal(1, colorVehicular.value.nombreColorVehiculo)
+          var ref = firebase.database().ref("colorVehiculos");
+          ref
+            .orderByKey()
+            .equalTo(colorVehicular.value.$key)
+            .on("child_added", snap => {
+              let servicio = snap.val().nombreColorVehiculo;
+
+              this.obteniendoDatosPersonal(1,
+                crypto.AES.decrypt(servicio, this.keySecret.trim()).toString(crypto.enc.Utf8)
+                );
+            });
           this.servicioServices.updateColorVehiculo(colorVehicular.value)
           this.notificaciones.success('Exitosamente', 'Color actualizado correctamente', {
             timeOut: 3000,

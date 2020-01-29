@@ -160,8 +160,6 @@ export class AddGestionUsuarioComponent implements OnInit {
 
   addUsuario(servicioUsuario: NgForm) {
     if (servicioUsuario.valid) {
-      console.log(servicioUsuario.value.$key);
-      
       if (servicioUsuario.value.$key == null) {
         this.authService
           .registerUser(
@@ -170,9 +168,7 @@ export class AddGestionUsuarioComponent implements OnInit {
           )
           .then(success => {
             this.obteniendoDatosPersonal(
-              0,
-              servicioUsuario.value.correoUsuario,
-              servicioUsuario.value.ciUsuario
+              0
             );
             this.servicioServices.insertUsuario(servicioUsuario.value);
             this.notificaciones.success(
@@ -196,11 +192,27 @@ export class AddGestionUsuarioComponent implements OnInit {
             );
           });
       } else {
-        this.obteniendoDatosPersonal(
-          1,
-          servicioUsuario.value.correoUsuario,
-          servicioUsuario.value.ciUsuario
-        );
+        // this.obteniendoDatosPersonal(
+        //   1,
+        //   servicioUsuario.value.correoUsuario,
+        //   servicioUsuario.value.ciUsuario,
+        //   servicioUsuario.value.cargoUsuario
+        // );
+        var ref = firebase.database().ref("gestionUsuario");
+          ref
+            .orderByKey()
+            .equalTo(servicioUsuario.value.$key)
+            .on("child_added", snap => {
+              let ciUsuario = snap.val().ciUsuario;
+              let cargoUsuario = snap.val().cargoUsuario;
+              let correoUsuario = snap.val().correoUsuario;
+
+              this.obteniendoDatosPersonal(1,
+                crypto.AES.decrypt(ciUsuario, this.keySecret.trim()).toString(crypto.enc.Utf8),
+                crypto.AES.decrypt(cargoUsuario, this.keySecret.trim()).toString(crypto.enc.Utf8),
+                crypto.AES.decrypt(correoUsuario, this.keySecret.trim()).toString(crypto.enc.Utf8)
+                );
+            });
         this.servicioServices.updateUsuario(servicioUsuario.value);
         this.notificaciones.success(
           "Exitosamente",
@@ -243,11 +255,12 @@ export class AddGestionUsuarioComponent implements OnInit {
   keySecret = "proyectoGradoUsfxTransito";
   public obteniendoDatosPersonal(
     i: number,
-    correoUsuario?: string,
-    ciUsuario?: string
+    ciUsuario?: string,
+    cargoUsuario?: string,
+    correoUsuario?: string
   ) {
-    let correo = this.authService.correo;
 
+    let correo = this.authService.correo;
     var ref = firebase.database().ref("gestionUsuarios");
     var ref2 = firebase.database().ref("personalTransito");
 
@@ -324,13 +337,17 @@ export class AddGestionUsuarioComponent implements OnInit {
                       this.datosPersonal.cedula,
                       fechaInfraccion,
                       idu +
-                        ciUsuario +
-                        " y correo " +
-                        correoUsuario +
-                        " por C.I." +
-                        this.servicioServices.seleccionarUsuario.ciUsuario +
-                        " y correo " +
-                        this.servicioServices.seleccionarUsuario.correoUsuario
+                      ciUsuario +
+                      ", correo " +
+                      correoUsuario +
+                      ' y cargo ' +
+                      cargoUsuario +
+                      " por C.I." +
+                      this.servicioServices.seleccionarUsuario.ciUsuario +
+                      ", correo " +
+                      this.servicioServices.seleccionarUsuario.correoUsuario +
+                      ' y cargo ' +
+                      this.servicioServices.seleccionarUsuario.cargoUsuario
                     );
                   } else {
                     this.servicioServices.insertBitacora(
@@ -339,7 +356,13 @@ export class AddGestionUsuarioComponent implements OnInit {
                       this.datosPersonal.apMaterno,
                       this.datosPersonal.cedula,
                       fechaInfraccion,
-                      idu + ciUsuario + " y correo " + correoUsuario
+                      // idu + ciUsuario + ", correo " + correoUsuario + cargoUsuario
+                      idu +
+                      this.servicioServices.seleccionarUsuario.ciUsuario +
+                      ", correo " +
+                      this.servicioServices.seleccionarUsuario.correoUsuario +
+                      ' y cargo ' +
+                      this.servicioServices.seleccionarUsuario.cargoUsuario
                     );
                   }
                 } catch (e) {

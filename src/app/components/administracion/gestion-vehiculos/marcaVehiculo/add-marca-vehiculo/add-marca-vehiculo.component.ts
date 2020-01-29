@@ -76,7 +76,18 @@ export class AddMarcaVehiculoComponent implements OnInit {
             showProgressBar: true
           })
         } else {
-          this.obteniendoDatosPersonal(1, marcaVehicular.value.nombreMarcaVehiculos)
+          // this.obteniendoDatosPersonal(1, marcaVehicular.value.nombreMarcaVehiculos)
+          var ref = firebase.database().ref("marcaVehiculos");
+          ref
+            .orderByKey()
+            .equalTo(marcaVehicular.value.$key)
+            .on("child_added", snap => {
+              let servicio = snap.val().nombreMarcaVehiculos;
+
+              this.obteniendoDatosPersonal(1,
+                crypto.AES.decrypt(servicio, this.keySecret.trim()).toString(crypto.enc.Utf8)
+                );
+            });
           this.servicioServices.updateMarcaVehiculo(marcaVehicular.value)
           this.notificaciones.success('Exitosamente', 'Marca actualizado correctamente', {
             timeOut: 3000,

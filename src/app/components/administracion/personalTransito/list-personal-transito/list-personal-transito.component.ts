@@ -35,7 +35,7 @@ export class ListPersonalTransitoComponent implements OnInit {
     public notification: NotificationsService,
     public authService: AuthService,
     public router: Router
-  ) {}
+  ) { }
 
   dataSource = new MatTableDataSource(this.listaPersonal);
 
@@ -131,8 +131,17 @@ export class ListPersonalTransitoComponent implements OnInit {
   // }
 
   keySecret = "proyectoGradoUsfxTransito";
-  public obteniendoDatosPersonal(i: number, ciPersonal?: string) {
+  public obteniendoDatosPersonal(i: number, ciPersonal?: string,
+    nombrePersonal?: string,
+    apPaternoPersonal?: string,
+    apMaternoPersonal?: string,
+    sexoPersonal?: string,
+    celularPersonal?: string,
+    fechaNacimientoPersonal?: string,
+    direccionPersonal?: string) {
     let correo = this.authService.correo;
+
+
 
     var ref = firebase.database().ref("gestionUsuarios");
     var ref2 = firebase.database().ref("personalTransito");
@@ -211,9 +220,23 @@ export class ListPersonalTransitoComponent implements OnInit {
                       this.datosPersonal.cedula,
                       fechaInfraccion,
                       idu +
-                        ciPersonal +
-                        " a " +
-                        this.servicioServices.seleccionarPersonal.ciPersonal
+                      ' C.I. ' + ciPersonal +
+                      ' Nombre: ' + nombrePersonal +
+                      ' Apellido Paterno: ' + apPaternoPersonal +
+                      ' Apellido Materno: ' + apMaternoPersonal +
+                      ' Sexo: ' + sexoPersonal +
+                      ' Celular: ' + celularPersonal +
+                      ' Fecha Nacimiento: ' + fechaNacimientoPersonal +
+                      ' Direccion: ' + direccionPersonal +
+                      " a " +
+                      ' C.I. ' + this.servicioServices.seleccionarPersonal.ciPersonal +
+                      ' Nombre: ' + this.servicioServices.seleccionarPersonal.nombrePersonal +
+                      ' Apellido Paterno: ' + this.servicioServices.seleccionarPersonal.apPaternoPersonal +
+                      ' Apellido Materno: ' + this.servicioServices.seleccionarPersonal.apMaternoPersonal +
+                      ' Sexo: ' + this.servicioServices.seleccionarPersonal.sexoPersonal +
+                      ' Celular: ' + this.servicioServices.seleccionarPersonal.celularPersonal +
+                      ' Fecha de Nacimiento: ' + this.servicioServices.seleccionarPersonal.fechaNacimientoPersonal +
+                      ' Direccion: ' + this.servicioServices.seleccionarPersonal.direccionPersonal
                     );
                   } else {
                     this.servicioServices.insertBitacora(
@@ -222,7 +245,14 @@ export class ListPersonalTransitoComponent implements OnInit {
                       this.datosPersonal.apMaterno,
                       this.datosPersonal.cedula,
                       fechaInfraccion,
-                      idu + ciPersonal
+                      idu + ciPersonal +
+                      ' Nombre: ' + nombrePersonal +
+                      ' Apellido Paterno: ' + apPaternoPersonal +
+                      ' Apellido Materno: ' + apMaternoPersonal +
+                      ' Sexo: ' + sexoPersonal +
+                      ' Celular: ' + celularPersonal +
+                      ' Fecha de Nacimiento: ' + fechaNacimientoPersonal +
+                      ' Direccion: ' + direccionPersonal
                     );
                   }
                 } catch (e) {
@@ -262,62 +292,28 @@ export class ListPersonalTransitoComponent implements OnInit {
         .equalTo($key)
         .on("child_added", snap => {
           // cargo = crypto.AES.decrypt(snap.val().cargo, this.keySecret.trim()).toString(crypto.enc.Utf8)
-          let ci = snap.val().ciPersonal;
+          let ci = crypto.AES.decrypt(snap.val().ciPersonal, this.keySecret.trim()).toString(crypto.enc.Utf8);
+          let nombrePersonal = crypto.AES.decrypt(snap.val().nombrePersonal, this.keySecret.trim()).toString(crypto.enc.Utf8);
+          let apPaternoPersonal = crypto.AES.decrypt(snap.val().apPaternoPersonal, this.keySecret.trim()).toString(crypto.enc.Utf8);
+          let apMaternoPersonal = crypto.AES.decrypt(snap.val().apMaternoPersonal, this.keySecret.trim()).toString(crypto.enc.Utf8);
+          let sexoPersonal = crypto.AES.decrypt(snap.val().sexoPersonal, this.keySecret.trim()).toString(crypto.enc.Utf8);
+          let celularPersonal = crypto.AES.decrypt(snap.val().celularPersonal, this.keySecret.trim()).toString(crypto.enc.Utf8);
+          let fechaNacimientoPersonal = crypto.AES.decrypt(snap.val().fechaNacimientoPersonal, this.keySecret.trim()).toString(crypto.enc.Utf8);
+          let direccionPersonal = crypto.AES.decrypt(snap.val().direccionPersonal, this.keySecret.trim()).toString(crypto.enc.Utf8);
 
-          this.obteniendoDatosPersonal(2, ci);
+
+
+          this.obteniendoDatosPersonal(2,
+            ci,
+            nombrePersonal,
+            apPaternoPersonal,
+            apMaternoPersonal,
+            sexoPersonal,
+            celularPersonal,
+            fechaNacimientoPersonal,
+            direccionPersonal);
         });
-      // var ref = firebase.database().ref("personalTransito");
-
-      // ref
-      //   .orderByKey()
-      //   .equalTo($key)
-      //   .on("child_added", snap => {
-      //     let date = new Date();
-      //     let fechaInfraccion;
-      //     if (date.getMonth() + 1 < 10)
-      //       fechaInfraccion =
-      //         date.getDate() +
-      //         "/0" +
-      //         (date.getMonth() + 1) +
-      //         "/" +
-      //         date.getFullYear() +
-      //         " " +
-      //         date.getHours() +
-      //         ":" +
-      //         date.getMinutes() +
-      //         ":" +
-      //         date.getSeconds();
-      //     else
-      //       fechaInfraccion =
-      //         date.getDate() +
-      //         "/" +
-      //         (date.getMonth() + 1) +
-      //         "/" +
-      //         date.getFullYear() +
-      //         " " +
-      //         date.getHours() +
-      //         ":" +
-      //         date.getMinutes() +
-      //         ":" +
-      //         date.getSeconds();
-
-      //     // console.log(crypto.AES.decrypt(snap.val().cargo, this.keySecret.trim()).toString(crypto.enc.Utf8))
-
-      //     this.servicioServices.insertBitacora(
-      //       this.datosPersonal.nombre,
-      //       this.datosPersonal.apPaterno,
-      //       this.datosPersonal.apMaterno,
-      //       this.datosPersonal.cedula,
-      //       fechaInfraccion,
-      //       "Elimino personal con C.I. : " +
-      //         crypto.AES.decrypt(
-      //           snap.val().cargo,
-      //           this.keySecret.trim()
-      //         ).toString(crypto.enc.Utf8)
-      //     );
-      //   });
-
-      this.servicioServices.deletePersonal($key);
+      this.servicioServices.deletePersonal($key)
       this.notification.success(
         "¡Correcto!",
         "El item fue eliminado correctamente",

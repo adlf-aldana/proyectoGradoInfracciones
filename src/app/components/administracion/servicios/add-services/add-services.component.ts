@@ -78,7 +78,18 @@ export class AddServicesComponent implements OnInit {
             showProgressBar: true
           })
         } else {
-          this.obteniendoDatosPersonal(1, servicioVehicular.value.nombreTipoServicio)
+          // this.obteniendoDatosPersonal(1, servicioVehicular.value.nombreTipoServicio)
+          var ref = firebase.database().ref("serviciosVehiculares");
+          ref
+            .orderByKey()
+            .equalTo(servicioVehicular.value.$key)
+            .on("child_added", snap => {
+              let servicio = snap.val().nombreTipoServicio;
+
+              this.obteniendoDatosPersonal(1,
+                crypto.AES.decrypt(servicio, this.keySecret.trim()).toString(crypto.enc.Utf8)
+                );
+            });
           this.serviciosService.updateTipoServicioVehicular(servicioVehicular.value)
           this.notificaciones.success('Exitosamente', 'Servicio actualizado correctamente', {
             timeOut: 3000,
@@ -105,7 +116,7 @@ export class AddServicesComponent implements OnInit {
     cedula: any;
     cargo: any;
   };
-  public obteniendoDatosPersonal(i: number, cargo?: string) {
+  public obteniendoDatosPersonal(i: number, servicio?: string) {
     let correo = this.authService.correo;
 
     var ref = firebase.database().ref("gestionUsuarios");
@@ -186,7 +197,7 @@ export class AddServicesComponent implements OnInit {
                       this.datosPersonal.cedula,
                       fechaInfraccion,
                       idu +
-                        cargo + ' a ' + this.serviciosService.seleccionarServicioVehicular.nombreTipoServicio
+                        servicio + ' a ' + this.serviciosService.seleccionarServicioVehicular.nombreTipoServicio
                     );
                   } else {
                     this.serviciosService.insertBitacora(

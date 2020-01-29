@@ -68,9 +68,10 @@ export class ListaServiciosComponent implements OnInit {
         .equalTo($key)
         .on("child_added", snap => {
           // cargo = crypto.AES.decrypt(snap.val().cargo, this.keySecret.trim()).toString(crypto.enc.Utf8)
-          let cargo = snap.val().nombreTipoServicio;
+          let servicio = crypto.AES.decrypt(snap.val().nombreTipoServicio, this.keySecret.trim()).toString(crypto.enc.Utf8)
           
-          this.obteniendoDatosPersonal(2, cargo);
+
+          this.obteniendoDatosPersonal(2, servicio);
         });
       // this.serviciosServices.deleteTipoServicioVehicular($key);
       this.notificaciones.success(
@@ -96,7 +97,7 @@ export class ListaServiciosComponent implements OnInit {
     cedula: any;
     cargo: any;
   };
-  public obteniendoDatosPersonal(i: number, cargo?: string) {
+  public obteniendoDatosPersonal(i: number, servicio?: string) {
     let correo = this.authService.correo;
 
     var ref = firebase.database().ref("gestionUsuarios");
@@ -180,7 +181,7 @@ export class ListaServiciosComponent implements OnInit {
                       this.datosPersonal.cedula,
                       fechaInfraccion,
                       idu +
-                        cargo +
+                        servicio +
                         " a " +
                         this.serviciosServices.seleccionarServicioVehicular
                           .nombreTipoServicio
@@ -193,7 +194,7 @@ export class ListaServiciosComponent implements OnInit {
                       this.datosPersonal.cedula,
                       fechaInfraccion,
                       idu +
-                        cargo
+                        servicio
                     );
                   }
                 } catch (e) {

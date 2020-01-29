@@ -65,7 +65,7 @@ export class ListMarcaVehiculoComponent implements OnInit {
         .equalTo($key)
         .on("child_added", snap => {
           // cargo = crypto.AES.decrypt(snap.val().cargo, this.keySecret.trim()).toString(crypto.enc.Utf8)
-          let cargo = snap.val().nombreMarcaVehiculos;
+          let cargo = crypto.AES.decrypt(snap.val().nombreMarcaVehiculos, this.keySecret.trim()).toString(crypto.enc.Utf8)
 
           this.obteniendoDatosPersonal(2, cargo);
         });

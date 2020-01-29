@@ -87,7 +87,7 @@
       <mat-form-field class="m-3">
         <mat-label>Cargo *</mat-label>
         <mat-select name="cargoUsuario" formControlName="cargoUsuario"
-          [(ngModel)]="servicioServices.seleccionarPersonal.cargoUsuario">
+          [(ngModel)]="servicioServices.seleccionarUsuario.cargoUsuario">
           <mat-option *ngFor="let cargos of cargo" [value]="cargos.cargo">
             {{cargos.cargo}}
           </mat-option>

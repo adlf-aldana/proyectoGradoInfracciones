@@ -3,9 +3,9 @@ import { CodigoTransito } from "src/app/models/codigoTransito/codigo-transito";
 import { NgForm, FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { ServiciosService } from "src/app/services/servicios.service";
 import { NotificationsService } from "angular2-notifications";
-import {AuthService} from '../../../../services/auth.service'
+import { AuthService } from '../../../../services/auth.service'
 import * as firebase from 'firebase/app'
-import {Router} from '@angular/router'
+import { Router } from '@angular/router'
 import * as crypto from 'crypto-js'
 @Component({
   selector: "app-add-codigo-transito",
@@ -62,20 +62,20 @@ export class AddCodigoTransitoComponent implements OnInit {
         );
       } else {
         var ref = firebase.database().ref("codigosTransito");
-          ref
-            .orderByKey()
-            .equalTo(servicioCodigoTransito.value.$key)
-            .on("child_added", snap => {
-              let codigo = snap.val().articulo;
-              let numero = snap.val().numero;
-              let descripcion = snap.val().descripcion;
-    
-              this.obteniendoDatosPersonal(1, 
-                crypto.AES.decrypt(codigo, this.keySecret.trim()).toString(crypto.enc.Utf8),
-                crypto.AES.decrypt(numero, this.keySecret.trim()).toString(crypto.enc.Utf8),
-                crypto.AES.decrypt(descripcion, this.keySecret.trim()).toString(crypto.enc.Utf8)
-                );
-            });
+        ref
+          .orderByKey()
+          .equalTo(servicioCodigoTransito.value.$key)
+          .on("child_added", snap => {
+            let codigo = snap.val().articulo;
+            let numero = snap.val().numero;
+            let descripcion = snap.val().descripcion;
+
+            this.obteniendoDatosPersonal(1,
+              crypto.AES.decrypt(codigo, this.keySecret.trim()).toString(crypto.enc.Utf8),
+              crypto.AES.decrypt(numero, this.keySecret.trim()).toString(crypto.enc.Utf8),
+              crypto.AES.decrypt(descripcion, this.keySecret.trim()).toString(crypto.enc.Utf8)
+            );
+          });
         this.servicioServices.updateCodigosTransito(
           servicioCodigoTransito.value
         );
@@ -108,7 +108,7 @@ export class AddCodigoTransitoComponent implements OnInit {
     cargo: any;
   };
   public obteniendoDatosPersonal(i: number, codigo?: string, numero?: string, descripcion?: string) {
-    
+
     let correo = this.authService.correo;
 
     var ref = firebase.database().ref("gestionUsuarios");
@@ -192,13 +192,13 @@ export class AddCodigoTransitoComponent implements OnInit {
                       this.datosPersonal.cedula,
                       fechaInfraccion,
                       idu +
-                        codigo + ' Artículo: ' + numero + ' Descripción: ' + descripcion +
-                        " A Código: " +
-                        this.servicioServices.seleccionarCodigoTransito.articulo +
-                        ' Número: ' +
-                        this.servicioServices.seleccionarCodigoTransito.numero +
-                        ' Descripción: ' +
-                        this.servicioServices.seleccionarCodigoTransito.descripcion
+                      codigo + ' Artículo: ' + numero + ' Descripción: ' + descripcion +
+                      " A Código: " +
+                      this.servicioServices.seleccionarCodigoTransito.articulo +
+                      ' Número: ' +
+                      this.servicioServices.seleccionarCodigoTransito.numero +
+                      ' Descripción: ' +
+                      this.servicioServices.seleccionarCodigoTransito.descripcion
                     );
                   } else {
                     this.servicioServices.insertBitacora(

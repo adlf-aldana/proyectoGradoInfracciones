@@ -109,7 +109,15 @@ export class AddPersonalTransitoComponent implements OnInit {
   };
 
   keySecret = "proyectoGradoUsfxTransito";
-  public obteniendoDatosPersonal(i: number, ciPersonal?: string) {
+  public obteniendoDatosPersonal(i: number,
+    ciPersonal?: string,
+    nombrePersonal?: string,
+    apPaternoPersonal?: string,
+    apMaternoPersonal?: string,
+    sexoPersonal?: string,
+    celularPersonal?: string,
+    fechaNacimientoPersonal?: string,
+    direccionPersonal?: string) {
     let correo = this.authService.correo;
 
     var ref = firebase.database().ref("gestionUsuarios");
@@ -129,6 +137,7 @@ export class AddPersonalTransitoComponent implements OnInit {
               this.keySecret.trim()
             ).toString(crypto.enc.Utf8) === correo
           ) {
+
             // console.log(snap.val().ciUsuario);
             ref2.orderByChild("ciPersonal").on("child_added", snap2 => {
               // console.log(crypto.AES.decrypt(snap2.val().ciPersonal, this.keySecret.trim()).toString(crypto.enc.Utf8));
@@ -138,6 +147,7 @@ export class AddPersonalTransitoComponent implements OnInit {
                   this.keySecret.trim()
                 ).toString(crypto.enc.Utf8) === crypto.AES.decrypt(snap.val().ciUsuario, this.keySecret.trim()).toString(crypto.enc.Utf8)
               ) {
+                console.log('lol');
                 this.datosPersonal = {
                   cedula: snap2.val().ciPersonal,
                   nombre: snap2.val().nombrePersonal,
@@ -189,9 +199,23 @@ export class AddPersonalTransitoComponent implements OnInit {
                       this.datosPersonal.cedula,
                       fechaInfraccion,
                       idu +
-                        ciPersonal +
-                        " a " +
-                        this.servicioServices.seleccionarPersonal.ciPersonal
+                      ' C.I. ' + ciPersonal +
+                      ' Nombre: ' + nombrePersonal +
+                      ' Apellido Paterno: ' + apPaternoPersonal +
+                      ' Apellido Materno: ' + apMaternoPersonal +
+                      ' Sexo: ' + sexoPersonal +
+                      ' Celular: ' + celularPersonal +
+                      ' Fecha Nacimiento: ' + fechaNacimientoPersonal +
+                      ' Direccion: ' + direccionPersonal +
+                      " A " +
+                      ' C.I. ' + this.servicioServices.seleccionarPersonal.ciPersonal +
+                      ' Nombre: ' + this.servicioServices.seleccionarPersonal.nombrePersonal +
+                      ' Apellido Paterno: ' + this.servicioServices.seleccionarPersonal.apPaternoPersonal +
+                      ' Apellido Materno: ' + this.servicioServices.seleccionarPersonal.apMaternoPersonal +
+                      ' Sexo: ' + this.servicioServices.seleccionarPersonal.sexoPersonal +
+                      ' Celular: ' + this.servicioServices.seleccionarPersonal.celularPersonal +
+                      ' Fecha de Nacimiento: ' + this.servicioServices.seleccionarPersonal.fechaNacimientoPersonal +
+                      ' Direccion: ' + this.servicioServices.seleccionarPersonal.direccionPersonal
                     );
                   } else {
                     this.servicioServices.insertBitacora(
@@ -200,7 +224,14 @@ export class AddPersonalTransitoComponent implements OnInit {
                       this.datosPersonal.apMaterno,
                       this.datosPersonal.cedula,
                       fechaInfraccion,
-                      idu + this.servicioServices.seleccionarPersonal.ciPersonal
+                      idu + this.servicioServices.seleccionarPersonal.ciPersonal +
+                      ' Nombre: ' + this.servicioServices.seleccionarPersonal.nombrePersonal +
+                      ' Apellido Paterno: ' + this.servicioServices.seleccionarPersonal.apPaternoPersonal +
+                      ' Apellido Materno: ' + this.servicioServices.seleccionarPersonal.apMaternoPersonal +
+                      ' Sexo: ' + this.servicioServices.seleccionarPersonal.sexoPersonal +
+                      ' Celular: ' + this.servicioServices.seleccionarPersonal.celularPersonal +
+                      ' Fecha de Nacimiento: ' + this.servicioServices.seleccionarPersonal.fechaNacimientoPersonal +
+                      ' Direccion: ' + this.servicioServices.seleccionarPersonal.direccionPersonal
                     );
                   }
                 } catch (e) {
@@ -240,6 +271,7 @@ export class AddPersonalTransitoComponent implements OnInit {
         );
       } else {
         if (servicioPersonalTransito.value.$key == null) {
+          this.obteniendoDatosPersonal(0);
           this.servicioServices.insertPersonal(servicioPersonalTransito.value);
           this.notificaciones.success(
             "Exitosamente",
@@ -249,7 +281,6 @@ export class AddPersonalTransitoComponent implements OnInit {
               showProgressBar: true
             }
           );
-          this.obteniendoDatosPersonal(0);
         } else {
           var ref = firebase.database().ref("personalTransito");
           ref
@@ -264,7 +295,15 @@ export class AddPersonalTransitoComponent implements OnInit {
               let celularPersonal = crypto.AES.decrypt(snap.val().celularPersonal, this.keySecret.trim()).toString(crypto.enc.Utf8);
               let fechaNacimientoPersonal = crypto.AES.decrypt(snap.val().fechaNacimientoPersonal, this.keySecret.trim()).toString(crypto.enc.Utf8);
               let direccionPersonal = crypto.AES.decrypt(snap.val().direccionPersonal, this.keySecret.trim()).toString(crypto.enc.Utf8);
-              this.obteniendoDatosPersonal(1, ci);
+              this.obteniendoDatosPersonal(1,
+                ci,
+                nombrePersonal,
+                apPaternoPersonal,
+                apMaternoPersonal,
+                sexoPersonal,
+                celularPersonal,
+                fechaNacimientoPersonal,
+                direccionPersonal);
             });
           this.servicioServices.updatePersonal(servicioPersonalTransito.value);
           this.notificaciones.success(

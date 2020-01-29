@@ -76,7 +76,18 @@ export class AddTipoVehiculoComponent implements OnInit {
             showProgressBar: true
           })
         } else {
-          this.obteniendoDatosPersonal(1, tipoVehicular.value.nombreTipoVehiculo)
+          // this.obteniendoDatosPersonal(1, tipoVehicular.value.nombreTipoVehiculo)
+          var ref = firebase.database().ref("tipoVehiculos");
+          ref
+            .orderByKey()
+            .equalTo(tipoVehicular.value.$key)
+            .on("child_added", snap => {
+              let servicio = snap.val().nombreTipoVehiculo;
+
+              this.obteniendoDatosPersonal(1,
+                crypto.AES.decrypt(servicio, this.keySecret.trim()).toString(crypto.enc.Utf8)
+                );
+            });
           this.servicioServices.updateTipoVehiculo(tipoVehicular.value)
           this.notificaciones.success('Exitosamente', 'Tipo de Servicio actualizado correctamente', {
             timeOut: 3000,
@@ -197,7 +208,7 @@ export class AddTipoVehiculoComponent implements OnInit {
                       this.datosPersonal.apMaterno,
                       this.datosPersonal.cedula,
                       fechaInfraccion,
-                      idu + cargo
+                      idu + this.servicioServices.seleccionarTipoVehiculo.nombreTipoVehiculo
                     );
                   }
                 } catch (e) {
